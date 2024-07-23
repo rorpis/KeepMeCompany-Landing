@@ -1,0 +1,33 @@
+.future {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: var(--standard-spacing);
+    background-color: black;
+    color: white;
+    text-align: center;
+  }
+  
+  .mainText {
+    font-size: 4rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    max-width: 100%;
+  }
+  
+  .subText {
+    font-size: 2rem;
+    max-width: 100%;
+  }
+  
+  @media (max-width: 768px) {
+    .mainText {
+      font-size: 3rem;
+    }
+  
+    .subText {
+      font-size: 1.5rem;
+    }
+  }

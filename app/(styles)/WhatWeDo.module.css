@@ -1,0 +1,15 @@
+.whatWeDo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: black;
+}
+
+.message {
+  font-size: 3rem;
+  color: white;
+  max-width: 80%;
+  text-align: center;
+  font-weight: bold;
+}
