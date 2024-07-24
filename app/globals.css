@@ -5,6 +5,10 @@
 :root {
   --standard-spacing: 4rem;
   --section-spacing: 6rem; /* Added new variable for consistent section spacing */
+    --gray-text: rgba(197, 197, 197, 0.7);
+    --white-text: #ffffff;
+    --hover-bg: rgba(255, 255, 255, 0.1);
+    --transition-speed: 0.3s;
 }
 
 body {

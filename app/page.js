@@ -1,9 +1,10 @@
 // app/page.js
 'use client';
 
-import { useRef, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import styles from './(styles)/ScrollSnap.module.css';
 import useFullPageScroll from './(hooks)/useFullPageScroll';
+import useVisibilityDetection from './(hooks)/useVisibilityDetection';
 import Hero from './(components)/Hero';
 import WhatWeDo from './(components)/WhatWeDo';
 import Features from './(components)/Features';
@@ -12,18 +13,30 @@ import Demo from './(components)/Demo';
 import FAQs from './(components)/FAQs';
 
 export default function Home() {
-  // Create refs for each section
-  const heroRef = useRef(null);
-  const whatWeDoRef = useRef(null);
-  const featuresRef = useRef(null);
-  const futureRef = useRef(null);
-  const demoRef = useRef(null);
-  const faqsRef = useRef(null);
+  // Use visibility detection for each section
+  const [heroRef, heroVisible] = useVisibilityDetection();
+  const [whatWeDoRef, whatWeDoVisible] = useVisibilityDetection();
+  const [featuresRef, featuresVisible] = useVisibilityDetection();
+  const [futureRef, futureVisible] = useVisibilityDetection();
+  const [demoRef, demoVisible] = useVisibilityDetection();
+  const [faqsRef, faqsVisible] = useVisibilityDetection();
 
   const sectionRefs = [heroRef, whatWeDoRef, featuresRef, futureRef, demoRef, faqsRef];
+  const visibilityStates = [heroVisible, whatWeDoVisible, featuresVisible, futureVisible, demoVisible, faqsVisible];
 
-  // Use the custom hook
-  const { currentSection, scrollToSection } = useFullPageScroll(sectionRefs);
+  // State to track the current visible section
+  const [currentVisibleSection, setCurrentVisibleSection] = useState(0);
+
+  // Effect to update currentVisibleSection based on visibility
+  useEffect(() => {
+    const visibleIndex = visibilityStates.findIndex(isVisible => isVisible);
+    if (visibleIndex !== -1) {
+      setCurrentVisibleSection(visibleIndex);
+    }
+  }, visibilityStates);
+
+  // Use the custom hook with updated parameters
+  const { scrollToSection } = useFullPageScroll(sectionRefs, currentVisibleSection);
 
   // Navigation component
   const Navigation = useCallback(() => (
@@ -38,7 +51,7 @@ export default function Home() {
             height: '10px',
             borderRadius: '50%',
             margin: '10px 0',
-            backgroundColor: currentSection === index ? 'white' : 'gray',
+            backgroundColor: currentVisibleSection === index ? 'white' : 'gray',
             border: 'none',
             padding: 0,
             cursor: 'pointer'
@@ -46,7 +59,7 @@ export default function Home() {
         />
       ))}
     </nav>
-  ), [currentSection, scrollToSection]);
+  ), [currentVisibleSection, scrollToSection]);
 
   return (
     <div className={styles.container}>

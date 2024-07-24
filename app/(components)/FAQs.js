@@ -10,7 +10,7 @@ const faqData = [
     answer: "Tell them this is something interesting you saw on the internet, that you want them to try for a few weeks. They can learn and talk about anything.",
   },
   {
-    question: "Won't my parents feel I'm going to abandon them?",
+    question: "Won't my parents feel like I'm abandoning them?",
     answer: "We are a family supporter, a watchful ally, not a replacement for family interactions. After giving us the privilege of helping your family, we believe you will actually spend more time with your parent.",
   },
   {

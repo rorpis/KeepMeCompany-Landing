@@ -1,64 +1,64 @@
+/* Demo.module.css */
+
 .demoContainer {
   display: flex;
-  justify-content: center; /* Centers the child components horizontally */
+  flex-direction: column;
   align-items: center;
   padding: var(--standard-spacing);
-  margin: 0 auto; /* Centers the container itself */
-  gap: 2rem; /* Adds space between the child components */
+  margin: 0 auto;
+  gap: 2rem;
 }
-  
-  .textContent {
-    flex: 0 1 40%;
-    padding-right: 2.5rem;
-  }
-  
-  .title {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-    font-weight: 600;
-  }
-  
-  .subtitle {
-    font-size: 1.2rem;
-    margin-bottom: 2rem;
-  }
-  
-  .ctaButton {
-    padding: 0.75rem 1.5rem;
-    font-size: 1rem;
-    color: black;
-    background-color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .ctaButton:hover {
-    background-color: #e0e0e0;
-  }
-  
-  .videoContainer {
-    flex: 0 1 60%;
-  }
-  
+
+.contentWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem; /* Adjusted gap between title and video */
+}
+
+.title {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem; /* Adjusted margin for closer alignment */
+  font-weight: 600;
+  text-align: center;
+}
+
+.videoContainer {
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.videoContainer iframe {
+  width: 100%;
+  height: 50vh; /* Set height in viewport units for responsiveness */
+  aspect-ratio: 16 / 9;
+  border: 0.4px solid #d3d3d3; /* Added gray border */
+  border-radius: 5px; /* Optional: Adds rounded corners */
+}
+
+.ctaButton {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  color: black;
+  background-color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+.ctaButton.visible {
+  opacity: 1;
+}
+
+.ctaButton:hover {
+  background-color: #e0e0e0;
+}
+
+@media (max-width: 768px) {
   .videoContainer iframe {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+    height: auto; /* Maintain aspect ratio for responsive design */
   }
-  
-  @media (max-width: 768px) {
-    .demoContainer {
-      flex-direction: column;
-    }
-  
-    .textContent, .videoContainer {
-      flex: 0 1 100%;
-      margin-bottom: 2rem;
-    }
-  
-    .videoContainer iframe {
-      height: 300px; /* Adjusted for better mobile viewing */
-    }
-  }
+}

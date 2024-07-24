@@ -23,7 +23,7 @@ const Hero = () => {
         });
         setIsVisible(true);
       }, 500);
-    }, 5000);
+    }, 3000);
   
     return () => clearInterval(intervalId);
   }, []);

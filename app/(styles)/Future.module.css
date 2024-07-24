@@ -21,13 +21,3 @@
     font-size: 2rem;
     max-width: 100%;
   }
-  
-  @media (max-width: 768px) {
-    .mainText {
-      font-size: 3rem;
-    }
-  
-    .subText {
-      font-size: 1.5rem;
-    }
-  }
