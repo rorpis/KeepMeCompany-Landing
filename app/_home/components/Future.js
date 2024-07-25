@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import styles from '../(styles)/Future.module.css';
-import useVisibilityDetection from '../(hooks)/useVisibilityDetection';
+import styles from '../styles/Future.module.css';
+import useVisibilityDetection from '../hooks/useVisibilityDetection';
 
 const Future = () => {
   const [futureRef, isVisible] = useVisibilityDetection(0.5);

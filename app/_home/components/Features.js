@@ -1,10 +1,9 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
-import styles from '../(styles)/Features.module.css';
+import styles from '../styles/Features.module.css';
 
 
-// Simplified Feature component
 const Feature = ({ icon, title, description }) => {
   const [isHovered, setIsHovered] = React.useState(false);
 
@@ -28,7 +27,6 @@ const Feature = ({ icon, title, description }) => {
   );
 };
 
-// Simplified SVG icons with all elements always visible
 const DailyCallsIcon = () => (
   <svg viewBox="0 0 64 64" width="64" height="64">
     <rect x="8" y="12" width="48" height="44" rx="2" fill="none" stroke="white" strokeWidth="2" />
@@ -65,7 +63,7 @@ const AssistanceIcon = () => (
     <path d="M32 14v18l9 9" stroke="white" strokeWidth="2" strokeLinecap="round" />
   </svg>
 );
-// Custom hook for visibility detection
+
 const useVisibilityDetection = (threshold = 0.1) => {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef(null);
@@ -92,7 +90,6 @@ const useVisibilityDetection = (threshold = 0.1) => {
   return [ref, isVisible];
 };
 
-// Updated Features component
 const Features = () => {
   const [ref, isVisible] = useVisibilityDetection(0.1);
   const [showPricing, setShowPricing] = useState(false);

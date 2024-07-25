@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
-import styles from '../(styles)/Demo.module.css';
-import useVisibilityDetection from '../(hooks)/useVisibilityDetection';
+import styles from '../styles/Demo.module.css';
+import useVisibilityDetection from '../hooks/useVisibilityDetection';
 
 const Demo = () => {
   const [demoRef, isVisible] = useVisibilityDetection(0.1);

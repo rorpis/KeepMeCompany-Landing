@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import styles from '../(styles)/Hero.module.css';
+import styles from '../styles/Hero.module.css';
 
 const words = ["Companionship", "Care", "Entertainment"];
 

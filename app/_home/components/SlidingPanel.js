@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import useDelayedAppearance from '../(hooks)/useDelayedAppearance';
-import styles from '../(styles)/SlidingPanel.module.css';
+import useDelayedAppearance from '../hooks/useDelayedAppearance';
+import styles from '../styles/SlidingPanel.module.css';
 
 const SlidingPanel = () => {
   const isVisible = useDelayedAppearance(2000);

@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState } from 'react';
-import styles from '../(styles)/FAQs.module.css';
-import '../globals.css'; // Added import for global styles
+import styles from '../styles/FAQs.module.css';
+import '../../globals.css';
 
 const faqData = [
   {

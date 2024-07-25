@@ -1,5 +1,5 @@
 import SignupForm from '../(components)/SignupForm';
-import SlidingPanel from '../(components)/SlidingPanel';
+import SlidingPanel from '../_home/components/SlidingPanel';
 
 export default function SignupPage() {
   return (

@@ -2,8 +2,8 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import styles from '../(styles)/WhatWeDo.module.css';
-import useVisibilityDetection from '../(hooks)/useVisibilityDetection';
+import styles from '../styles/WhatWeDo.module.css';
+import useVisibilityDetection from '../hooks/useVisibilityDetection';
 
 const WhatWeDo = () => {
   const [whatWeDoRef, isVisible] = useVisibilityDetection(0.5);
