@@ -6,7 +6,7 @@ import styles from '../(styles)/Future.module.css';
 import useVisibilityDetection from '../(hooks)/useVisibilityDetection';
 
 const Future = () => {
-  const [ref, isVisible] = useVisibilityDetection(0.5);
+  const [futureRef, isVisible] = useVisibilityDetection(0.5);
   const [showSecondPart, setShowSecondPart] = useState(false);
 
   const secondText = "and your parent gets to be a part of it too.";
@@ -50,7 +50,7 @@ const Future = () => {
   };
 
   return (
-    <div className={styles.future} ref={ref}>
+    <div className={styles.future} ref={futureRef}>
       <div className={styles.textWrapper}>
         <motion.p 
           className={styles.mainText}

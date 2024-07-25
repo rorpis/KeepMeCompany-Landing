@@ -1,7 +1,5 @@
 'use client';
 
-// app/(components)/header.js
-
 import React, { useState } from 'react';
 import Link from 'next/link';
 import styles from '../(styles)/Header.module.css';

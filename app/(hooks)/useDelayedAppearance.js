@@ -1,5 +1,3 @@
-// app/(hooks)/useDelayedAppearance.js
-
 import { useState, useEffect } from 'react';
 
 const useDelayedAppearance = (delay = 2000) => {

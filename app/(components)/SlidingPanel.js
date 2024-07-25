@@ -1,5 +1,3 @@
-// app/(components)/SlidingPanel.js
-
 'use client';
 
 import React from 'react';
@@ -10,7 +8,6 @@ const SlidingPanel = () => {
   const isVisible = useDelayedAppearance(2000);
 
   const handleWhatsAppClick = () => {
-    // Replace with your WhatsApp number and message
     const phoneNumber = '33780106258';
     const message = encodeURIComponent('Hi, I\ would like to talk about KeepMeCompany.');
     window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');

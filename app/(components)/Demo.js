@@ -1,13 +1,11 @@
-// Demo.js
-
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
 import styles from '../(styles)/Demo.module.css';
-import useVisibilityDetection from '../(hooks)/useVisibilityDetection'; // Import the custom hook
+import useVisibilityDetection from '../(hooks)/useVisibilityDetection';
 
 const Demo = () => {
-  const [ref, isVisible] = useVisibilityDetection(0.1);
+  const [demoRef, isVisible] = useVisibilityDetection(0.1);
   const [showCTA, setShowCTA] = useState(false);
 
   useEffect(() => {
@@ -23,7 +21,7 @@ const Demo = () => {
   const videoId = "H14bBuluwB8"; // Example video ID
 
   return (
-    <div className={styles.demoSection} ref={ref}>
+    <div className={styles.demoSection} ref={demoRef}>
       <div className={styles.demoContainer}>
         <div className={styles.contentWrapper}>
           <h2 className={styles.title}>See it for Yourself</h2>

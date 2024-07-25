@@ -1,7 +1,5 @@
 'use client';
 
-// app/(components)/SignupForm.js
-
 import React from 'react';
 import useForm from '../(hooks)/useForm';
 import styles from '../(styles)/SignupForm.module.css';

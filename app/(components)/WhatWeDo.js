@@ -6,7 +6,7 @@ import styles from '../(styles)/WhatWeDo.module.css';
 import useVisibilityDetection from '../(hooks)/useVisibilityDetection';
 
 const WhatWeDo = () => {
-  const [ref, isVisible] = useVisibilityDetection(0.5);
+  const [whatWeDoRef, isVisible] = useVisibilityDetection(0.5);
 
   const text = "We help families take better care of their parents.";
   const words = text.split(" ");
@@ -41,7 +41,7 @@ const WhatWeDo = () => {
   };
 
   return (
-    <div className={styles.whatWeDo} ref={ref}>
+    <div className={styles.whatWeDo} ref={whatWeDoRef}>
       <motion.p
         className={styles.message}
         initial="hidden"

@@ -1,5 +1,3 @@
-/* Demo.module.css */
-
 .demoContainer {
   display: flex;
   flex-direction: column;
@@ -13,12 +11,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem; /* Adjusted gap between title and video */
+  gap: 1rem; /* Gap between title and video */
 }
 
 .title {
   font-size: 2.5rem;
-  margin-bottom: 0.5rem; /* Adjusted margin for closer alignment */
+  margin-bottom: 0.5rem; /* Margin for closer alignment */
   font-weight: 600;
   text-align: center;
 }
@@ -33,7 +31,7 @@
   width: 100%;
   height: 50vh; /* Set height in viewport units for responsiveness */
   aspect-ratio: 16 / 9;
-  border: 0.4px solid #d3d3d3; /* Added gray border */
+  border: 0.4px solid #d3d3d3; /* Gray border */
   border-radius: 5px; /* Optional: Adds rounded corners */
 }
 

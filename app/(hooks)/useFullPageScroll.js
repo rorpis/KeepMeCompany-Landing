@@ -1,4 +1,3 @@
-// app/hooks/useFullPageScroll.js
 import { useState, useEffect, useCallback } from 'react';
 
 const useFullPageScroll = (sectionRefs) => {

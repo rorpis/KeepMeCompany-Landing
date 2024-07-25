@@ -1,8 +1,8 @@
-// app/(hooks)/useForm.js
-
 import { useState, useCallback } from 'react';
 
 const useForm = (initialState, validate) => {
+  // used to declare functions used in signup form
+
   const [values, setValues] = useState(initialState);
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
