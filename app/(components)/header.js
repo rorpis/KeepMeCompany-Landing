@@ -3,6 +3,7 @@
 // app/(components)/header.js
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import styles from '../(styles)/Header.module.css';
 
 const Header = () => {
@@ -22,10 +23,10 @@ const Header = () => {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <div className={styles.logo}>KeepMeCompany</div>
+      <Link href="/" className={styles.logo}>KeepMeCompany</Link>
       <nav className={styles.nav}>
         <a href="#contact">Contact</a>
-        <a href="#get-started">Get Started</a>
+        <Link href="/signup" className={styles.navLink}>Get Started</Link>
       </nav>
       <button className={styles.loginButton}>Log In</button>
     </header>
