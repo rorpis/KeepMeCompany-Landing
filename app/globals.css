@@ -2,6 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --standard-spacing: 4rem;
+  --section-spacing: 6rem; /* Added new variable for consistent section spacing */
+    --gray-text: rgba(197, 197, 197, 0.7);
+    --white-text: #ffffff;
+    --hover-bg: rgba(255, 255, 255, 0.1);
+    --transition-speed: 0.3s;
+}
+
 body {
-  font-family: Arial, sans-serif;
+  font-family: "Open Sans", sans-serif;
+  background-color: black;
+  color: white;
+  margin: 0;
+  padding: 0;
+}
+
+.mb-standard {
+  margin-bottom: var(--standard-spacing);
 }

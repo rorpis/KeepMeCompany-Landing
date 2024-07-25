@@ -1,0 +1,19 @@
+.container {
+    scroll-snap-type: y mandatory; /* Enable scroll snapping */
+    height: 100vh; /* Ensure the container takes up the full viewport height */
+    overflow-y: scroll; /* Allow vertical scrolling */
+    scrollbar-width: none; /* Hide scrollbar for cleaner look (optional) */
+    -ms-overflow-style: none; /* Internet Explorer and Edge */
+  }
+  
+  .container::-webkit-scrollbar {
+    display: none; /* Hide scrollbar for Chrome, Safari and Opera */
+  }
+  
+  .section {
+    height: 100vh; /* Ensure each section takes up the full height of the viewport */
+    scroll-snap-align: start; /* Enable snapping for this element */
+    display: flex;  /* Center content within the section */
+    justify-content: center;
+    align-items: center;
+  }
