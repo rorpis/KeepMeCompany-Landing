@@ -8,7 +8,7 @@ const useFullPageScroll = (sectionRefs) => {
     setCurrentSection(index);
   }, [sectionRefs]);
 
-  const handleScroll = useCallback(() => {
+  const handleScroll = useCallback((sectionRefs) => {
     const scrollPosition = window.scrollY;
     const viewportHeight = window.innerHeight;
 
