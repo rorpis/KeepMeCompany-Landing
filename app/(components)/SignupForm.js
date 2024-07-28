@@ -124,7 +124,7 @@ const SignupForm = () => {
           value={values.phone}
           onChange={handleChange}
           error={errors.phone}
-          joke="The number your parent calls when 'the internet is broken'"
+          joke="The number your parent calls when &apos;the internet is broken&apos;"
         />
 
         <SelectField
@@ -153,7 +153,7 @@ const SignupForm = () => {
 
         {isSubmitting && Object.keys(errors).length === 0 && (
           <div className={styles.successMessage}>
-            Thank you for signing up! We'll contact you via your preferred method soon.
+            Thank you for signing up! We&apos;ll contact you via your preferred method soon.
           </div>
         )}
       </form>
