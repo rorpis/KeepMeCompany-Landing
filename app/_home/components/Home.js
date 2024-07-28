@@ -27,7 +27,7 @@ export default function HomeComponent() {
   const [currentVisibleSection, setCurrentVisibleSection] = useState(0);
 
   // Effect to update currentVisibleSection based on visibility
-  useEffect((visibilityStates) => {
+  useEffect(() => {
     const visibleIndex = visibilityStates.findIndex(isVisible => isVisible);
     if (visibleIndex !== -1) {
       setCurrentVisibleSection(visibleIndex);
