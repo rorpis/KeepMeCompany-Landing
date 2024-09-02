@@ -18,7 +18,7 @@ const Demo = () => {
     return () => clearTimeout(timer);
   }, [isVisible]);
 
-  const videoId = "YoBRtvTpPbM";
+  const videoId = "x6B93iwSWEo";
   
   return (
     <div className={styles.demoSection} ref={demoRef}>
