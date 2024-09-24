@@ -1,14 +1,8 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import useForm from '../(hooks)/useForm';
 import styles from '../(styles)/SignupForm.module.css';
-
-const reasons = [
-  "I'm worried about my parent's well-being",
-  "I need help with day-to-day coordination",
-  "I want my parent to be more entertained"
-];
 
 const validate = (values) => {
   let errors = {};
@@ -19,12 +13,13 @@ const validate = (values) => {
     errors.email = "Email address is invalid";
   }
   if (!values.phone) errors.phone = "Phone number is required";
-  if (!values.reason) errors.reason = "Please select a reason";
-  if (!values.call && !values.whatsapp) errors.contactMethod = "Please select at least one contact method";
+  if (!values.call && !values.whatsapp && !values.emailContact) {
+    errors.contactMethod = "Please select at least one contact method";
+  }
   return errors;
 };
 
-const InputField = ({ label, name, type, value, onChange, error, joke }) => (
+const InputField = ({ label, name, type, value, onChange, error }) => (
   <div className={styles.formGroup}>
     <label htmlFor={name}>{label}</label>
     <input
@@ -35,26 +30,6 @@ const InputField = ({ label, name, type, value, onChange, error, joke }) => (
       onChange={onChange}
       className={styles.input}
     />
-    {error && <span className={styles.error}>{error}</span>}
-    <small className={styles.joke}>{joke}</small>
-  </div>
-);
-
-const SelectField = ({ label, name, value, onChange, options, error }) => (
-  <div className={styles.formGroup}>
-    <label htmlFor={name}>{label}</label>
-    <select
-      id={name}
-      name={name}
-      value={value}
-      onChange={onChange}
-      className={styles.select}
-    >
-      <option value="">Select an option</option>
-      {options.map((option, index) => (
-        <option key={index} value={option}>{option}</option>
-      ))}
-    </select>
     {error && <span className={styles.error}>{error}</span>}
   </div>
 );
@@ -80,23 +55,39 @@ const CheckboxGroup = ({ label, options, values, onChange, error }) => (
 );
 
 const SignupForm = () => {
-  const { values, errors, isSubmitting, handleChange, handleSubmit } = useForm({
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+
+  const initialState = {
     fullName: '',
     email: '',
     phone: '',
-    reason: '',
     call: false,
-    whatsapp: false
-  }, validate);
+    whatsapp: false,
+    emailContact: false
+  };
 
-  const handleCheckboxChange = (e) => {
+  const onSubmitSuccess = useCallback(() => {
+    setShowSuccessMessage(true);
+    setTimeout(() => setShowSuccessMessage(false), 5000);
+  }, []);
+
+  const { values, errors, isSubmitting, handleChange, handleSubmit, setValues } = useForm(initialState, validate, onSubmitSuccess);
+
+  const handleCheckboxChange = useCallback((e) => {
     const { name, checked } = e.target;
     handleChange({ target: { name, value: checked } });
-  };
+  }, [handleChange]);
+
+  const onSubmit = useCallback((e) => {
+    handleSubmit(e);
+    if (Object.keys(errors).length === 0) {
+      setValues(initialState);
+    }
+  }, [handleSubmit, errors, setValues, initialState]);
 
   return (
     <div className={styles.formContainer}>
-      <form onSubmit={handleSubmit} className={styles.form}>
+      <form onSubmit={onSubmit} className={styles.form}>
         <InputField
           label="Full Name"
           name="fullName"
@@ -104,7 +95,6 @@ const SignupForm = () => {
           value={values.fullName}
           onChange={handleChange}
           error={errors.fullName}
-          joke="How your parent called you when you got in trouble as a kid"
         />
 
         <InputField
@@ -114,7 +104,6 @@ const SignupForm = () => {
           value={values.email}
           onChange={handleChange}
           error={errors.email}
-          joke="Where your parent sends you chain emails"
         />
 
         <InputField
@@ -124,36 +113,31 @@ const SignupForm = () => {
           value={values.phone}
           onChange={handleChange}
           error={errors.phone}
-          joke="The number your parent calls when &apos;the internet is broken&apos;"
-        />
-
-        <SelectField
-          label="What do you need our help with?"
-          name="reason"
-          value={values.reason}
-          onChange={handleChange}
-          options={reasons}
-          error={errors.reason}
         />
 
         <CheckboxGroup
           label="How would you like us to reach you?"
           options={[
             { value: 'call', label: 'Phone Call' },
-            { value: 'whatsapp', label: 'WhatsApp' }
+            { value: 'whatsapp', label: 'WhatsApp' },
+            { value: 'emailContact', label: 'Email' }
           ]}
-          values={{ call: values.call, whatsapp: values.whatsapp }}
+          values={{ 
+            call: values.call, 
+            whatsapp: values.whatsapp,
+            emailContact: values.emailContact
+          }}
           onChange={handleCheckboxChange}
           error={errors.contactMethod}
         />
 
         <button type="submit" className={styles.submitButton} disabled={isSubmitting}>
-          Sign Up
+          Send
         </button>
 
-        {isSubmitting && Object.keys(errors).length === 0 && (
+        {showSuccessMessage && (
           <div className={styles.successMessage}>
-            Thank you for signing up! We&apos;ll contact you via your preferred method soon.
+            Thank you for signing up! We'll contact you very soon.
           </div>
         )}
       </form>
