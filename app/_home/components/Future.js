@@ -121,6 +121,7 @@ const Future = () => {
           // Sequential animations without additional delays
           await controls1.start('visible'); // "Take"
           await controls2.start('visible'); // "real time"
+          await sleep(600);
           await controls3.start('visible'); // "to hear your patients"
           await controls4.start('visible'); // "without sacrificing efficiency"
         }
@@ -145,7 +146,7 @@ const Future = () => {
         <TextSegment
           text="real time"
           controls={controls2}
-          staggerDelay={0.50} // 0.30-second stagger delay for slightly slower letters
+          staggerDelay={0.40} // 0.30-second stagger delay for slightly slower letters
           className={styles.highlight} // Apply highlight class for color
         />
         {' '}
@@ -153,7 +154,7 @@ const Future = () => {
         <TextSegment
           text="to hear your patients"
           controls={controls3}
-          staggerDelay={0.05} // 0.05-second stagger delay for faster letters
+          staggerDelay={0.03} // 0.05-second stagger delay for faster letters
         />
       </motion.p>
 
