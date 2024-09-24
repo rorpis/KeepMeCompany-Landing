@@ -9,6 +9,7 @@ import WhatWeDo from './WhatWeDo';
 import Features from './Features';
 import Future from './Future';
 import Demo from './Demo';
+import DataPrivacy from './DataPrivacy';
 // import FAQs from './FAQs';
 
 export default function HomeComponent() {
@@ -18,10 +19,11 @@ export default function HomeComponent() {
   const [featuresRef, featuresVisible] = useVisibilityDetection();
   const [futureRef, futureVisible] = useVisibilityDetection();
   const [demoRef, demoVisible] = useVisibilityDetection();
+  const [dataPrivacyRef, dataPrivacyVisible] = useVisibilityDetection();
   // const [faqsRef, faqsVisible] = useVisibilityDetection();
 
-  const sectionRefs = [heroRef, whatWeDoRef, featuresRef, futureRef, demoRef/*, faqsRef*/];
-  const visibilityStates = [heroVisible, whatWeDoVisible, featuresVisible, futureVisible, demoVisible/*, faqsVisible*/];
+  const sectionRefs = [heroRef, whatWeDoRef, featuresRef, futureRef, demoRef, dataPrivacyRef/*, faqsRef*/];
+  const visibilityStates = [heroVisible, whatWeDoVisible, featuresVisible, futureVisible, demoVisible, dataPrivacyVisible/*, faqsVisible*/];
 
   // State to track the current visible section
   const [currentVisibleSection, setCurrentVisibleSection] = useState(0);
@@ -77,6 +79,9 @@ export default function HomeComponent() {
       </section>
       <section ref={demoRef} className={styles.section}>
         <Demo />
+      </section>
+      <section ref={dataPrivacyRef} className={styles.section}>
+        <DataPrivacy />
       </section>
       {/* <section ref={faqsRef} className={styles.section}>
         <FAQs />
