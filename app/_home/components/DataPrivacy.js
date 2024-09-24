@@ -21,7 +21,7 @@ const AnimatedLock = ({ isLocked }) => {
           strokeWidth="10"
           fill="none"
           strokeLinecap="round"
-          transform={`translate(0,${isLocked ? 20 : 0})`}
+          transform={`translate(0,${isLocked ? 15 : 0})`}
           style={{ transition: 'transform 0.8s cubic-bezier(0.2, 0.8, 0.3, 1.3)' }}
         />
   
