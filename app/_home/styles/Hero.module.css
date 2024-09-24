@@ -1,28 +1,153 @@
-.hero {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    text-align: center;
+.heroContainer {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background-color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.phoneContainer {
+  position: absolute;
+  width: 265px;
+  height: 529px;
+}
+
+.phoneImage {
+  width: 100%;
+  height: auto;
+}
+
+.callerNameContainer {
+  position: absolute;
+  top: 16%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  text-align: center;
+  color: white;
+}
+
+.callerName {
+  font-size: 1.5rem;
+  font-weight: bold;
+  word-wrap: break-word;
+}
+
+.bottomControls {
+  position: absolute;
+  bottom: 1%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7vh;
+}
+
+.buttonsContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  gap: 1rem;
+}
+
+.dash {
+  width: 40%;
+  height: 6px;
+  background-color: #fff;
+  border-radius: 3px;
+}
+
+.callButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.buttonIcon {
+  transition: transform 0.3s ease;
+}
+
+.callButton:hover .buttonIcon {
+  transform: translateY(-5px);
+}
+
+.animatedText {
+  color: white;
+  font-size: 2.5rem;
+  text-align: center;
+  font-weight: bold;
+  padding: 0 1rem;
+}
+
+.secondLine {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.inlineBlock {
+  display: inline-block;
+}
+
+.highlightedText {
+  font-weight: bold;
+  color: #3284C2;
+}
+
+.declinedMessage {
+  color: white;
+  font-size: 2rem;
+  text-align: center;
+  padding: 0 1rem;
+  animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (max-width: 768px) {
+  .phoneContainer {
+    width: 150px;
+    height: 300px;
   }
-  
-  .title {
-    font-size: 8rem;
-    font-weight: bold;
-    transition: opacity 0.5s ease-in-out;
+
+  .callerNameContainer {
+    top: 5%;
+    width: 90%;
   }
-  
-  .subtitle {
-    font-size: 2rem;
-    margin-top: 0.5rem;
-    opacity: 0;
+
+  .callerName {
+    font-size: 1.2rem;
   }
-  
-  .visible {
-    opacity: 1;
+
+  .bottomControls {
+    bottom: 5%;
+    width: 90%;
+    gap: 1vh;
   }
-  
-  .hidden {
-    opacity: 0;
+
+  .buttonsContainer {
+    width: 90%;
+    gap: 0.5rem;
   }
+
+  .dash {
+    width: 40%;
+    height: 4px;
+  }
+
+  .animatedText {
+    font-size: 1.8rem;
+  }
+}
