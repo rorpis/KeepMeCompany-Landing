@@ -9,7 +9,7 @@ const SlidingPanel = () => {
 
   const handleWhatsAppClick = () => {
     const phoneNumber = '33780106258';
-    const message = encodeURIComponent('Hi, I\ would like to talk about KeepMeCompany.');
+    const message = encodeURIComponent('Hi, I\ need help with my centre.');
     window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
   };
 
