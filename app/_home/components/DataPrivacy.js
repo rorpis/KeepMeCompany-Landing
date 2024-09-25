@@ -1,124 +1,127 @@
-import React, { useState, useEffect } from 'react';
-import useVisibilityDetection from '../hooks/useVisibilityDetection'; // Ensure this path is correct based on your project structure
+import React from 'react';
+import useVisibilityDetection from '../hooks/useVisibilityDetection';
 
-// AnimatedLock Component
 const AnimatedLock = ({ isLocked }) => {
-    return (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 100 120" // Original viewBox
-        width="80%" // Scales based on container
-        height="80%" // Scales based on container
-        preserveAspectRatio="xMidYMid meet"
-        transform="scale(3)" // Scaling the SVG by 3 times
-        style={{ transform: 'scale(3)', transformOrigin: 'center center' }} // Apply scale via CSS for better control
-      >
-  
-        {/* Shackle (animated) */}
-        <path
-          d="M30 48 V35 A20 20 0 0 1 70 35 V61"
-          stroke="#5f5f5f"
-          strokeWidth="10"
-          fill="none"
-          strokeLinecap="round"
-          transform={`translate(0,${isLocked ? 15 : 0})`}
-          style={{ transition: 'transform 0.8s cubic-bezier(0.2, 0.8, 0.3, 1.3)' }}
-        />
-  
-        {/* Outer Lock Body */}
-        <rect x="1" y="60" width="98" height="50" rx="18" ry="18" fill="#5f5f5f" />
-  
-        {/* Inner Lock Body */}
-        <rect x="3.45" y="62.5" width="93.1" height="45" rx="16.2" ry="16.2" fill="#4f4f4f" />
-      </svg>
-    );
-  };
-  
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 100 120"
+      width="80%"
+      height="80%"
+      preserveAspectRatio="xMidYMid meet"
+      transform="scale(3)"
+      style={{ transform: 'scale(3)', transformOrigin: 'center center' }}
+    >
+      <path
+        d="M30 48 V35 A20 20 0 0 1 70 35 V61"
+        stroke="#5f5f5f"
+        strokeWidth="10"
+        fill="none"
+        strokeLinecap="round"
+        transform={`translate(0,${isLocked ? 15 : 0})`}
+        style={{ transition: 'transform 0.8s cubic-bezier(0.2, 0.8, 0.3, 1.3)' }}
+      />
+      <rect x="1" y="60" width="98" height="50" rx="18" ry="18" fill="#5f5f5f" />
+      <rect x="3.45" y="62.5" width="93.1" height="45" rx="16.2" ry="16.2" fill="#4f4f4f" />
+    </svg>
+  );
+};
 
-// DataPrivacyComponent
-const DataPrivacyComponent = () => {
+const DataPrivacyComponent = ({ showAccessibility }) => {
+  const certifications = ['DTAC', 'GDPR Compliant', 'Data Security and Protection Toolkit'];
+
   return (
     <div className="text-white p-10 rounded-lg mx-auto w-full max-w-[85%]">
-      {/* Header Badge */}
       <div className="text-center mb-6">
         <span className="bg-white bg-opacity-10 text-sm font-semibold px-3 py-1 rounded-full">
-          Data Privacy & Security
+          Compliance
         </span>
       </div>
 
-      {/* Title */}
-      <h1 className="text-4xl font-bold mb-4 text-center">Unbreakable.</h1>
+      <h1 className="text-4xl font-bold mb-4 text-center">Impenetrable.</h1>
 
-      {/* Description */}
       <p className="text-center mb-6 max-w-2xl mx-auto">
         Processing sensitive data is a serious responsibility. 
         We've implemented top-tier privacy standards compliant with EU/UK regulations.
       </p>
 
-      {/* Call-to-Action Button */}
       <div className="text-center mb-8">
-        <button className="bg-transparent border border-white text-white px-4 py-2 rounded-md font-semibold">
-          Visit Safety to learn more
-        </button>
+        <a
+          href="https://shine-galaxy-e28.notion.site/KeepMeCompany-Privacy-Policy-10c288e56116801da9a9f47ec6a3fabe"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <button className="bg-transparent border border-white text-white px-4 py-2 rounded-md font-semibold">
+            Read our Privacy Policy
+          </button>
+        </a>
       </div>
 
-      {/* Certifications Grid */}
-<div className="max-w-[80%] mx-auto">
-  <div className="grid grid-cols-3 gap-4 text-center">
-    {[
-      { icon: '🏅', text: 'ISO Certified' },
-      { icon: '🇪🇺', text: 'GDPR Compliant' },
-      { icon: '🏥', text: 'HIPAA Compliant' },
-      { icon: '🇨🇦', text: 'PIPEDA Compliant' },
-      { icon: '📱', text: 'APP Compliant' },
-      { icon: '🔐', text: 'Cyber Essentials Certified' }
-    ].map((item, index) => (
-      <div key={index} className="bg-transparent border border-white p-2 rounded">
-        <div className="text-2xl mb-2">{item.icon}</div>
-        <span className="text-xs">{item.text}</span>
+      <div className="max-w-[80%] mx-auto">
+        <div className="grid grid-cols-3 gap-4 text-center">
+          {certifications.map((item, index) => (
+            <div key={index} className="bg-transparent border border-white p-2 rounded">
+              <span className="text-xs font-bold">{item}</span>
+            </div>
+          ))}
+        </div>
       </div>
-    ))}
-  </div>
-</div>
+
+      {/* Accessibility Statement Button */}
+      <div
+        className={`text-center mt-[15vh] transition-all duration-1000 ease-in-out ${
+          showAccessibility ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}
+      >
+        <a
+          href="https://shine-galaxy-e28.notion.site/Accessibility-Statement-10c288e56116801da9a9f47ec6a3fabe"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <button className="bg-transparent text-white px-2 py-1 rounded-md font-semibold text-xs italic">
+            Read our Accessibility Statement
+          </button>
+        </a>
+      </div>
     </div>
   );
 };
 
-// DataPrivacyWrapper Component
 const DataPrivacyWrapper = () => {
   const [ref, isVisible] = useVisibilityDetection(0.1);
-  const [isLocked, setIsLocked] = useState(false);
+  const [isLocked, setIsLocked] = React.useState(false);
+  const [showAccessibility, setShowAccessibility] = React.useState(false); // New state for Accessibility Button
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (isVisible) {
-      const timer = setTimeout(() => setIsLocked(true), 500);
-      return () => clearTimeout(timer);
+      const lockTimer = setTimeout(() => setIsLocked(true), 500);
+      const accessibilityTimer = setTimeout(() => setShowAccessibility(true), 7000); // 10 seconds timer
+      return () => {
+        clearTimeout(lockTimer);
+        clearTimeout(accessibilityTimer);
+      };
     }
   }, [isVisible]);
 
   return (
     <div ref={ref} className="relative">
-      {/* Animated Lock in the Background */}
-      <div className="absolute inset-0 z-0 flex justify-center items-start" style={{ transform: 'translateY(40%)' }}>
-        {/* Adjusted the container to center the lock and move it downward by 30% */}
+      <div
+        className="absolute inset-0 z-0 flex justify-center items-start"
+        style={{ transform: 'translateY(40%)' }}
+      >
         <AnimatedLock isLocked={isLocked} />
       </div>
-
-      {/* Data Privacy Content */}
       <div className="relative z-10">
-        <DataPrivacyComponent />
+        <DataPrivacyComponent showAccessibility={showAccessibility} /> {/* Pass the state as a prop */}
       </div>
     </div>
   );
 };
 
-// Main DataPrivacy Component
 const DataPrivacy = () => {
   return (
     <div>
-      {/* You can include other components here if needed */}
       <DataPrivacyWrapper />
-      {/* You can include other components here if needed */}
     </div>
   );
 };
