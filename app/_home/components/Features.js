@@ -60,14 +60,14 @@ const Features = () => {
     if (isVisible) {
       timer = setTimeout(() => {
         setShowPricing(true);
-      }, 2000);
+      }, 3000);
     }
     return () => clearTimeout(timer);
   }, [isVisible]);
 
   return (
     <div className={`section ${styles.features}`} ref={ref}>
-      <h2><b>Say goodbye to daily headaches</b></h2>
+      <h2><b>Reimagine your Centre</b></h2>
 
       <div className={styles.featuresContainer}>
         <Feature
@@ -96,8 +96,9 @@ const Features = () => {
         />
       </div>
       <div className={`${styles.pricingBox} ${showPricing ? styles.visible : ''}`}>
-        Cost per call.
+        Save up to <strong style={{ color: '#3284C2' }}>10x</strong> the cost
       </div>
+
     </div>
   );
 };

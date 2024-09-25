@@ -17,7 +17,7 @@ const AnimatedLock = ({ isLocked }) => {
         {/* Shackle (animated) */}
         <path
           d="M30 48 V35 A20 20 0 0 1 70 35 V61"
-          stroke="#4a4a4a"
+          stroke="#5f5f5f"
           strokeWidth="10"
           fill="none"
           strokeLinecap="round"
@@ -26,10 +26,10 @@ const AnimatedLock = ({ isLocked }) => {
         />
   
         {/* Outer Lock Body */}
-        <rect x="1" y="60" width="98" height="50" rx="18" ry="18" fill="#4a4a4a" />
+        <rect x="1" y="60" width="98" height="50" rx="18" ry="18" fill="#5f5f5f" />
   
         {/* Inner Lock Body */}
-        <rect x="3.45" y="62.5" width="93.1" height="45" rx="16.2" ry="16.2" fill="#3a3a3a" />
+        <rect x="3.45" y="62.5" width="93.1" height="45" rx="16.2" ry="16.2" fill="#4f4f4f" />
       </svg>
     );
   };

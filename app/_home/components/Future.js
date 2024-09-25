@@ -9,11 +9,11 @@ import useVisibilityDetection from '../hooks/useVisibilityDetection';
 
 // 1. Define Animation Variants First
 const letterVariants = {
-  hidden: { opacity: 0, y: 10 },
+  hidden: { opacity: 0, y: 0 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.3, ease: 'easeOut' },
+    transition: { duration: 0.3, ease: [0.68, -0.6, 0.32, 1.6] },
   },
 };
 
@@ -123,6 +123,7 @@ const Future = () => {
           await controls2.start('visible'); // "real time"
           await sleep(600);
           await controls3.start('visible'); // "to hear your patients"
+          await sleep(300);
           await controls4.start('visible'); // "without sacrificing efficiency"
         }
       }
@@ -154,7 +155,7 @@ const Future = () => {
         <TextSegment
           text="to hear your patients"
           controls={controls3}
-          staggerDelay={0.03} // 0.05-second stagger delay for faster letters
+          staggerDelay={0.10} // 0.05-second stagger delay for faster letters
         />
       </motion.p>
 
@@ -163,7 +164,7 @@ const Future = () => {
         <TextSegment
           text="without sacrificing efficiency"
           controls={controls4}
-          staggerDelay={0.005} // 0.005-second stagger delay for slower letters
+          staggerDelay={0.01} // 0.005-second stagger delay for slower letters
         />
       </motion.p>
     </div>

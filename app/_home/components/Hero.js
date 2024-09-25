@@ -8,14 +8,14 @@ import Image from 'next/image';
 
 const phoneVariants = {
   animate: {
-    y: '5vh',
+    y: '0vh',
     opacity: 1,
-    transition: { delay: 0.1, duration: 1.5, ease: [0.2, 0.8, 0.2, 1] },
+    transition: { delay: 0.1, duration: 1.5, ease: [0.2, 0.8, 0.65, 1.04] },
   },
   exit: {
-    y: '105vh',
+    y: '100vh',
     opacity: 0,
-    transition: { duration: 1, ease: [0.4, 0, 0.4, 1] },
+    transition: { duration: 1, ease: [0.25, 0.1, 0.25, 1] },
   },
 };
 
@@ -75,7 +75,8 @@ const BottomControls = ({ onDecline, onAccept, callStatus }) => (
 
 const CallerName = () => (
   <div className={styles.callerNameContainer}>
-    <p className={styles.callerName}>KeepMeCompany</p>
+    <p className={styles.callerNameMain}>KeepMeCompany</p>
+    <p className={styles.callerNameSub}>mobile</p>
   </div>
 );
 
@@ -122,7 +123,7 @@ const AnimatedText = () => {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: { staggerChildren: 0.12, delayChildren: 0.04, duration: 0.5 }, // Faster animation
+      transition: { staggerChildren: 0.12, delayChildren: 0.04, duration: 0.5 },
     },
   };
 

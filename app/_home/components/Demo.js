@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from '../styles/Demo.module.css';
@@ -15,7 +13,7 @@ const Demo = () => {
     if (isVisible) {
       timer = setTimeout(() => {
         setShowCTA(true);
-      }, 2000);
+      }, 4000);
     }
     return () => clearTimeout(timer);
   }, [isVisible]);
@@ -30,10 +28,10 @@ const Demo = () => {
     <div className={styles.demoSection} ref={demoRef}>
       <div className={styles.demoContainer}>
         <div className={styles.contentWrapper}>
-          <h2 className={styles.title}>The Future of Care</h2>
+          <h2 className={styles.title}>Hay Fever Intake</h2>
           <div className={styles.videoContainer}>
             <iframe
-              src={`https://www.youtube.com/embed/${videoId}?controls=1&modestbranding=1&rel=0&color=white`}
+              src={`https://www.youtube-nocookie.com/embed/${videoId}?controls=0&color=white&modestbranding=0&rel=0&showinfo=0`}
               title="YouTube video player"
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
