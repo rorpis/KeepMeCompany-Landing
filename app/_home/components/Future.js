@@ -45,6 +45,9 @@ const Letter = React.memo(({ children, variants }) => {
   );
 });
 
+// Add displayName to the component
+Letter.displayName = 'Letter';
+
 // Inner Component: TextSegment
 const TextSegment = ({ text, controls, staggerDelay, className }) => {
   // Split the text into individual characters

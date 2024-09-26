@@ -137,7 +137,7 @@ const SignupForm = () => {
 
         {showSuccessMessage && (
           <div className={styles.successMessage}>
-            Thank you for signing up! We'll contact you very soon.
+            Thank you for signing up! We&apos;ll contact you very soon.
           </div>
         )}
       </form>

@@ -42,7 +42,7 @@ const DataPrivacyComponent = ({ showAccessibility }) => {
 
       <p className="text-center mb-6 max-w-2xl mx-auto">
         Processing sensitive data is a serious responsibility. 
-        We've implemented top-tier privacy standards compliant with EU/UK regulations.
+        We&apos;ve implemented top-tier privacy standards compliant with EU/UK regulations.
       </p>
 
       <div className="text-center mb-8">
