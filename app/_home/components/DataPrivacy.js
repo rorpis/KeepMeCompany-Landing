@@ -47,7 +47,7 @@ const DataPrivacyComponent = ({ showAccessibility }) => {
 
       <div className="text-center mb-8">
         <a
-          href="https://shine-galaxy-e28.notion.site/KeepMeCompany-Privacy-Policy-10c288e56116801da9a9f47ec6a3fabe"
+          href="https://www.notion.so/Privacy-Policy-10d288e561168082b48cce94ef79e3ca?showMoveTo=true&saveParent=true"
           target="_blank"
           rel="noopener noreferrer"
         >
