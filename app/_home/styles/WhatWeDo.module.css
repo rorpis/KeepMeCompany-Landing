@@ -1,15 +1,39 @@
+/* WhatWeDo.module.css */
+
 .whatWeDo {
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: center; /* Centered to accommodate horizontal movements */
   height: 100vh;
   background-color: black;
+  padding: 2rem;
 }
 
 .message {
-  font-size: 3rem;
+  font-size: 2.5rem; /* Updated font size */
   color: white;
-  max-width: 80%;
+  max-width: 100%; /* Updated max width */
   text-align: center;
   font-weight: bold;
+  margin: 1rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.textSegment {
+  margin: 0 0.1em; /* Increased margin for better spacing */
+  display: inline-block; /* Allow horizontal transformations */
+}
+
+@media (max-width: 768px) {
+  .message {
+    font-size: 1.5rem; /* Adjust for smaller screens */
+  }
+}
+
+.firstLine {
+  transform: translateX(-8%);
+  width: 100%;
 }

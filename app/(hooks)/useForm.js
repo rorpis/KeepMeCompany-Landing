@@ -1,8 +1,6 @@
 import { useState, useCallback } from 'react';
 
-const useForm = (initialState, validate) => {
-  // used to declare functions used in signup form
-
+const useForm = (initialState, validate, onSubmitSuccess) => {
   const [values, setValues] = useState(initialState);
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -20,11 +18,13 @@ const useForm = (initialState, validate) => {
     if (Object.keys(validationErrors).length === 0) {
       // Submit the form
       console.log('Form submitted', values);
-      // Reset form or show success message
+      // Call onSubmitSuccess callback
+      onSubmitSuccess();
     }
-  }, [values, validate]);
+    setIsSubmitting(false);
+  }, [values, validate, onSubmitSuccess]);
 
-  return { values, errors, isSubmitting, handleChange, handleSubmit };
+  return { values, errors, isSubmitting, handleChange, handleSubmit, setValues };
 };
 
 export default useForm;

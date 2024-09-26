@@ -1,5 +1,7 @@
 'use client';
 
+// app/(components)/header.js
+
 import React, { useState } from 'react';
 import Link from 'next/link';
 import styles from '../(styles)/Header.module.css';
@@ -23,10 +25,10 @@ const Header = () => {
     >
       <Link href="/" className={styles.logo}>KeepMeCompany</Link>
       <nav className={styles.nav}>
-        <a href="#contact">Contact</a>
-        <Link href="/signup" className={styles.navLink}>Get Started</Link>
+       {/*} <a href="#contact">Contact</a> */}
+        <Link href="/signup" className={styles.navLink}>Contact Us</Link>
       </nav>
-      <button className={styles.loginButton}>Log In</button>
+      {/* <button className={styles.loginButton}>Log In</button> */}
     </header>
   );
 };
