@@ -28,7 +28,7 @@ const Demo = () => {
     <div className={styles.demoSection} ref={demoRef}>
       <div className={styles.demoContainer}>
         <div className={styles.contentWrapper}>
-          <h2 className={styles.title}>Hay Fever Intake</h2>
+          <h2 className={styles.title}>Demo</h2>
           <div className={styles.videoContainer}>
             <iframe
               src={`https://www.youtube-nocookie.com/embed/${videoId}?controls=0&color=white&modestbranding=0&rel=0&showinfo=0`}
