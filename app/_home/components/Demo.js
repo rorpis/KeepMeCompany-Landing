@@ -18,7 +18,7 @@ const Demo = () => {
     return () => clearTimeout(timer);
   }, [isVisible]);
 
-  const videoId = "x6B93iwSWEo";
+  const videoId = "6x-PUCgZO08";
   
   const handleCtaClick = () => {
     router.push('/signup');
