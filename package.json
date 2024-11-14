@@ -10,6 +10,7 @@
     "docker-dev": "docker-compose -f docker-compose.dev.yml up --build"
   },
   "dependencies": {
+    "firebase": "^11.0.1",
     "framer-motion": "^11.3.17",
     "next": "14.2.5",
     "react": "^18",
