@@ -29,7 +29,7 @@ const useForm = (initialState, validate, onSubmitSuccess) => {
         ].filter(Boolean).join(', ');
 
         // Create the email document
-        await addDoc(collection(db, 'mail'), {
+        await addDoc(collection(db, 'mail/inbound/contactForm'), {
           to: ['rodrigo@keepmecompanyai.com', 'eduardo@keepmecompanyai.com'],
           message: {
             subject: 'New Contact Form Submission',
