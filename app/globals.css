@@ -1,14 +1,27 @@
+/* globals.css */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Import fonts */
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script&family=Space+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Patrick+Hand&display=swap');
+
+
+
+
 :root {
   --standard-spacing: 4rem;
   --section-spacing: 6rem; /* Added new variable for consistent section spacing */
-    --gray-text: rgba(197, 197, 197, 0.7);
-    --white-text: #ffffff;
-    --hover-bg: rgba(255, 255, 255, 0.1);
-    --transition-speed: 0.3s;
+  --gray-text: rgba(197, 197, 197, 0.7);
+  --white-text: #ffffff;
+  --hover-bg: rgba(255, 255, 255, 0.1);
+  --transition-speed: 0.3s;
+  --brand-blue: #3284C2; /* Added brand blue color */
+  --soft-red: #E57373;   /* Added a soft red color */
+  --ai-font: 'Space Mono', monospace;
+  --gp-font: 'Patrick Hand', cursive;
 }
 
 body {

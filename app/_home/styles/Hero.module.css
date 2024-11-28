@@ -1,167 +1,137 @@
-.heroContainer {
+.container {
+  display: grid;
+  grid-template-rows: 25vh 70vh;
+  height: 80vh;
+}
+
+.topTitle {
+  display: grid;
+  place-items: center;
+  font-weight: bold;
+}
+
+.mainTitle {
+  font-size: 2.5rem;
+  margin: 0;
+  text-align: center;
+}
+
+.comparison {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3vw;
+  padding: 0 5vw;
+}
+
+.leftComponent,
+.rightComponent {
+  width: 100%;
+  max-width: 500px;
+  justify-self: center;
+}
+
+.textComponents {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.listContainer {
   position: relative;
   width: 100%;
-  height: 100vh;
-  background-color: #000;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
 }
 
-.phoneContainer {
-  position: absolute;
-  width: 265px;
-  height: 529px;
-}
-
-.phoneImage {
+.symptomsListRed,
+.symptomsListBlue {
   width: 100%;
-  height: auto;
+  min-width: 15rem;
+  box-sizing: border-box;
+  padding: 1rem;
+  border-radius: 15px;
+  list-style-type: decimal;  /* Added back */
+  list-style-position: inside;
+  color: rgb(255, 255, 255);
 }
 
-.callerNameContainer {
+.symptomsListRed {
+  background-color: rgba(228, 111, 111, 0.2);
+  border: 2px solid rgba(228, 111, 111, 0.6);
+  font-size: 1.1rem;
+}
+
+.symptomsListBlue {
+  background-color: rgba(111, 175, 228, 0.2);
+  border: 2px solid rgba(111, 175, 228, 0.6);
+  font-family: var(--ai-font);
+  margin-bottom: 1rem;
+}
+
+.brainIconContainer {
   position: absolute;
-  top: 16%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80%;
-  text-align: center;
-  color: white;
+  bottom: 0;
+  right: 0;
+  transform: translate(-35%, -60%);
+  width: 10%;
   display: flex;
-  flex-direction: column;
   align-items: center;
-}
-
-.callerNameMain {
-  font-size: 1.5rem;
-  font-weight: bold;
-  word-wrap: break-word;
-  margin-bottom: 0.25rem;
-}
-
-.callerNameSub {
-  font-size: 1rem;
-  opacity: 0.8;
-}
-
-.bottomControls {
-  position: absolute;
-  bottom: 1%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 7vh;
-}
-
-.buttonsContainer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 90%;
-  gap: 1rem;
-}
-
-.dash {
-  width: 40%;
-  height: 6px;
-  background-color: #fff;
-  border-radius: 3px;
-}
-
-.callButton {
-  background: none;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.buttonIcon {
-  transition: transform 0.3s ease;
-}
-
-.callButton:hover .buttonIcon {
-  transform: translateY(-5px);
-}
-
-.animatedText {
-  color: white;
-  font-size: 2.5rem;
-  text-align: center;
-  font-weight: bold;
-  padding: 0 1rem;
-}
-
-.secondLine {
-  display: flex;
   justify-content: center;
-  flex-wrap: wrap;
 }
 
-.inlineBlock {
-  display: inline-block;
+.brainIcon {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  animation: pulsate 1s ease-in-out infinite;
 }
 
-.highlightedText {
-  font-weight: bold;
-  color: #3284C2;
+.rightSymptoms {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
-.declinedMessage {
-  color: white;
+.timeBlock {
+  border-radius: 0.5rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.timeContent {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.minutes {
   font-size: 2rem;
-  text-align: center;
-  padding: 0 1rem;
-  animation: fadeIn 1s ease-in-out;
+  font-weight: bold;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+.minutesLabel {
+  font-size: 1rem;
+  color: rgb(75, 85, 99);
 }
 
-@media (max-width: 768px) {
-  .phoneContainer {
-    width: 150px;
-    height: 300px;
-  }
+.clockIconAI {
+  color: var(--brand-blue);
+}
 
-  .callerNameContainer {
-    top: 5%;
-    width: 90%;
-  }
+.clockIconStandard {
+  color: rgb(136, 142, 154);
+}
 
-  .callerNameMain {
-    font-size: 1.2rem;
-    margin-bottom: 0.15rem;
+@keyframes pulsate {
+  0% {
+    transform: scale(1);
   }
-
-  .callerNameSub {
-    font-size: 0.8rem;
+  50% {
+    transform: scale(1.05);
   }
-
-  .bottomControls {
-    bottom: 5%;
-    width: 90%;
-    gap: 1vh;
-  }
-
-  .buttonsContainer {
-    width: 90%;
-    gap: 0.5rem;
-  }
-
-  .dash {
-    width: 40%;
-    height: 4px;
-  }
-
-  .animatedText {
-    font-size: 1.8rem;
+  100% {
+    transform: scale(1);
   }
 }
+

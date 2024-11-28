@@ -1,0 +1,138 @@
+.container {
+    display: grid;
+    grid-template-rows: 25vh 70vh;
+    height: 80vh;
+  }
+  
+  .topTitle {
+    display: grid;
+    place-items: center;
+    font-weight: bold;
+  }
+  
+  .mainTitle {
+    font-size: 2.5rem;
+    margin: 0;
+    text-align: center;
+  }
+  
+  .comparison {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3vw;
+    padding: 0 5vw;
+  }
+  
+  .leftComponent,
+  .rightComponent {
+    width: 100%;
+    max-width: 500px;
+    justify-self: center;
+  }
+  
+  .textComponents {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .listContainer {
+    position: relative;
+    width: 100%;
+  }
+  
+  .symptomsListRed,
+  .symptomsListBlue {
+    width: 100%;
+    min-width: 15rem;
+    box-sizing: border-box;
+    padding: 1rem;
+    border-radius: 15px;
+    list-style-type: decimal;  /* Added back */
+    list-style-position: inside;
+    color: rgb(255, 255, 255);
+  }
+  
+  .symptomsListRed {
+    background-color: rgba(228, 111, 111, 0.2);
+    border: 2px solid rgba(228, 111, 111, 0.6);
+    font-size: 1.1rem;
+  }
+  
+  .symptomsListBlue {
+    background-color: rgba(111, 175, 228, 0.2);
+    border: 2px solid rgba(111, 175, 228, 0.6);
+    font-family: var(--ai-font);
+    margin-bottom: 1rem;
+  }
+  
+  .brainIconContainer {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    transform: translate(-35%, -60%);
+    width: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .brainIcon {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    animation: pulsate 1s ease-in-out infinite;
+  }
+  
+  .rightSymptoms {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .timeBlock {
+    border-radius: 0.5rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .timeContent {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .minutes {
+    font-size: 2rem;
+    font-weight: bold;
+  }
+  
+  .minutesLabel {
+    font-size: 1rem;
+    color: rgb(75, 85, 99);
+  }
+  
+  .clockIconAI {
+    color: var(--brand-blue);
+  }
+  
+  .clockIconStandard {
+    color: rgb(136, 142, 154);
+  }
+  
+  @keyframes pulsate {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.05);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  

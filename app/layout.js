@@ -6,7 +6,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "KeepMeCompany",
-  description: "We call your patients so you can focus on delivering great care",
+  description: "Reach faster diagnosys by gathering symptoms in advance",
 };
 
 export default function RootLayout({ children }) {

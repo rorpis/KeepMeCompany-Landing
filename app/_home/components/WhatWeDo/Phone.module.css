@@ -1,0 +1,81 @@
+.phoneContainer {
+    position: relative;
+    width: 100%;
+    max-width: 265px;
+    aspect-ratio: 265/529;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    height: 90%;  /* Match conversation container height */
+  }
+  
+  .phoneImage {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  
+  .callerNameContainer {
+    position: absolute;
+    top: 16%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    text-align: center;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .callerNameMain {
+    font-size: 1.5rem;
+    font-weight: bold;
+    word-wrap: break-word;
+    margin-bottom: 0.25rem;
+  }
+  
+  .callerNameSub {
+    font-size: 1rem;
+    opacity: 0.8;
+  }
+  
+  .bottomControls {
+    position: absolute;
+    bottom: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4vh;
+  }
+  
+  .buttonsContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    gap: 1rem;
+  }
+  
+  .dash {
+    width: 40%;
+    height: 6px;
+    background-color: #fff;
+    border-radius: 3px;
+  }
+  
+  .callButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .buttonIcon {
+    transition: transform 0.3s ease;
+  }
