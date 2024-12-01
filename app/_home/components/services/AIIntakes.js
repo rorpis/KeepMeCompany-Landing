@@ -177,7 +177,7 @@ const BenefitsStage = ({ onComplete }) => (
   </div>
 );
 
-// Add required CSS animations
+// Move styles definition here
 const styles = `
   @keyframes fadeIn {
     from { opacity: 0; }
@@ -196,10 +196,21 @@ const styles = `
   }
 `;
 
-// Add styles to the document
-const styleSheet = document.createElement("style");
-styleSheet.innerText = styles;
-document.head.appendChild(styleSheet);
+// Create a new component to handle style injection
+const StyleInjector = () => {
+  useEffect(() => {
+    const styleSheet = document.createElement("style");
+    styleSheet.innerText = styles;
+    document.head.appendChild(styleSheet);
+
+    // Cleanup on unmount
+    return () => {
+      document.head.removeChild(styleSheet);
+    };
+  }, []);
+
+  return null;
+};
 
 // Main stage component that handles transitions
 const AIIntakeStages = ({ onStepChange, currentStep }) => {
@@ -243,13 +254,16 @@ const AIIntakes = ({ isVisible, onClose }) => {
   });
 
   return (
-    <PopupDialog 
-      isVisible={isVisible} 
-      onClose={onClose}
-      stages={stages}
-      enableKeyboardNav={true}
-      hideNavigation={true}
-    />
+    <>
+      <StyleInjector />
+      <PopupDialog 
+        isVisible={isVisible} 
+        onClose={onClose}
+        stages={stages}
+        enableKeyboardNav={true}
+        hideNavigation={true}
+      />
+    </>
   );
 };
 
