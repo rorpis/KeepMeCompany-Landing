@@ -19,6 +19,10 @@ const useForm = (initialState, validate, onSubmitSuccess) => {
     setIsSubmitting(true);
     if (Object.keys(validationErrors).length === 0) {
       try {
+        if (!db) {
+          throw new Error('Firebase not initialized');
+        }
+        
         // Format contact methods
         const contactMethods = [
           values.call && 'Phone Call',
