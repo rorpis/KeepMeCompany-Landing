@@ -1,68 +1,50 @@
 .header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 2rem;
-    height: 8vh;
-    background-color: transparent;
-    transition: all var(--transition-speed) ease;
-    z-index: 1000;
-  }
-  
-  .header.hovered {
-    background-color: var(--hover-bg);
-  }
-  
-  .logo {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: var(--gray-text);
-    transition: color var(--transition-speed) ease;
-    cursor: pointer;
-  }
-  
-  .header.hovered .logo {
-    color: var(--white-text);
-  }
-  
-  .nav {
-    display: flex;
-    gap: 2rem;
-  }
-  
-  .nav a {
-    color: var(--gray-text);
-    text-decoration: none;
-    transition: color var(--transition-speed) ease, font-weight var(--transition-speed) ease;
-  }
-  
-  .header.hovered .nav a {
-    color: var(--white-text);
-  }
-  
-  .nav a:hover {
-    font-weight: bold;
-  }
-  
-  .loginButton {
-    background-color: transparent;
-    border: 1px solid var(--gray-text);
-    color: var(--gray-text);
-    padding: 0.5rem 1rem;
-    cursor: pointer;
-    transition: all var(--transition-speed) ease, border-width var(--transition-speed) ease, font-weight var(--transition-speed) ease;
-  }
-  
-  .header.hovered .loginButton {
-    border-color: var(--white-text);
-    color: var(--white-text);
-  }
-  
-  .loginButton:hover {
-    border-width: 2px;
-    font-weight: bold;
-  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem;
+  height: 8vh;
+  background-color: transparent;
+  transition: all var(--transition-speed) ease;
+  z-index: 1000;
+}
+
+.header.hovered {
+  background-color: rgba(23, 23, 23, 0.85);
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--gray-text);
+  transition: color var(--transition-speed) ease;
+  cursor: pointer;
+}
+
+.header.hovered .logo {
+  color: var(--white-text);
+}
+
+.nav {
+  display: flex;
+  gap: 2rem;
+}
+
+.navLink {
+  color: var(--gray-text);
+  text-decoration: none;
+  transition: color var(--transition-speed) ease, 
+              font-weight var(--transition-speed) ease;
+}
+
+.header.hovered .navLink {
+  color: var(--white-text);
+}
+
+.navLink:hover {
+  font-weight: bold;
+}

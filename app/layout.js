@@ -1,12 +1,13 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from './(components)/header';
+import Footer from './(components)/footer';
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "KeepMeCompany",
-  description: "We call your patients so you can focus on delivering great care",
+  description: "Improve your GP Practice with AI",
 };
 
 export default function RootLayout({ children }) {
@@ -14,7 +15,8 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         <Header />
-        <main style={{ paddingTop: '0vh' }}>{children}</main>
+        <main style={{ paddingTop: '8vh' }}>{children}</main>
+        <Footer />
       </body>
     </html>
   );
