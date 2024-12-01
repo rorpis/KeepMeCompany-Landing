@@ -37,7 +37,7 @@ const Security = () => {
         <span className="text-sm uppercase tracking-wider text-gray-600 dark:text-gray-400">Compliance</span>
         <h2 className="text-4xl font-bold mt-2">Impenetrable.</h2>
         <p className="max-w-2xl mx-auto mt-4 text-gray-600 dark:text-gray-400">
-          Processing sensitive data is a serious responsibility. We've implemented top-tier privacy standards compliant with EU/UK regulations.
+          Processing sensitive data is a serious responsibility. We&apos;ve implemented top-tier privacy standards compliant with EU/UK regulations.
         </p>
       </div>
       
