@@ -6,11 +6,11 @@ const Problem = () => {
   return (
     <div className="h-screen flex justify-center items-center bg-background">
       <div className="text-center text-4xl font-bold leading-relaxed">
-        <div>Centres answer the phone like it's <span style={{ color: 'var(--color-text-gray)' }}>2010</span></div>
-        <div>type on medical records like it's <span style={{ color: 'var(--color-text-gray)' }}>2010</span></div>
-        <div>follow up on patients like it's <span style={{ color: 'var(--color-text-gray)' }}>2010</span></div>
+        <div>Centres answer the phone like it&apos;s <span style={{ color: 'var(--color-text-gray)' }}>2010</span></div>
+        <div>type on medical records like it&apos;s <span style={{ color: 'var(--color-text-gray)' }}>2010</span></div>
+        <div>follow up on patients like it&apos;s <span style={{ color: 'var(--color-text-gray)' }}>2010</span></div>
         <div className="" style={{ color: 'var(--color-company-blue)' }}>
-          But it's 2024.
+          But it&apos;s 2024.
         </div>
       </div>
     </div>

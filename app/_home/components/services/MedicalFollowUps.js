@@ -70,7 +70,7 @@ const InstructionStage = ({ onComplete }) => {
       >
         <p className="text-center text-lg italic">
           John has <span className="text-[var(--color-company-blue)]">bacterial pneumonia</span>. 
-          I'm prescribing <span className="text-[var(--color-company-blue)]">amoxicillin 500mg three times a day</span> for{' '}
+          I&apos;m prescribing <span className="text-[var(--color-company-blue)]">amoxicillin 500mg three times a day</span> for{' '}
           <span className="text-[var(--color-company-blue)]">7 days</span>, along with bed rest and increased fluid intake. 
           Follow up over the <span className="text-[var(--color-company-blue)]">next 7 days</span>.
         </p>
@@ -244,7 +244,7 @@ const NextStepsStage = ({ onComplete }) => {
           Coordinate <br/>physical visit
         </button>
         <button className="px-6 py-3 rounded-lg bg-white/5 border border-gray-100/20 hover:bg-white/10 transition-colors">
-          Patient doesn't require<br/>in-person follow-up
+          Patient doesn&apos;t require<br/>in-person follow-up
         </button>
       </div>
     </div>
