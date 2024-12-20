@@ -29,8 +29,6 @@ const Header = () => {
       </Link>
       
       <nav className={styles.nav}>
-        
-        
         <Link 
           href="/contact-sales" 
           className={styles.navLink}
@@ -38,19 +36,14 @@ const Header = () => {
           Contact Sales
         </Link>
 
-        <Link 
-          href="/login" 
-          className={styles.navLink}
+        <a 
+          href="https://app.keepmecompanyai.com" 
+          className={styles.platformButton}
+          target="_blank"
+          rel="noopener noreferrer"
         >
-          Log In
-        </Link>
-
-        <Link 
-          href="/signup" 
-          className={styles.navLink}
-        >
-          Sign Up
-        </Link>
+          Open Platform
+        </a>
       </nav>
     </header>
   );
