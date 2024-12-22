@@ -32,6 +32,7 @@
 .nav {
   display: flex;
   gap: 2rem;
+  align-items: center;
 }
 
 .navLink {
@@ -39,6 +40,7 @@
   text-decoration: none;
   transition: color var(--transition-speed) ease, 
               font-weight var(--transition-speed) ease;
+  padding: 0.5rem 0;
 }
 
 .header.hovered .navLink {
@@ -58,6 +60,8 @@
   font-size: 0.875rem;
   transition: transform 0.1s ease;
   text-decoration: none;
+  display: inline-flex;
+  align-items: center;
 }
 
 .platformButton:hover {
