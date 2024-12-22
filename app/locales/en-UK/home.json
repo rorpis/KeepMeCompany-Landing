@@ -1,0 +1,54 @@
+{
+  "hero": {
+    "title": "AI-Powered Healthcare Support",
+    "subtitle": "Empowering medical practices with intelligent automation"
+  },
+  "savingsEstimator": {
+    "title": "Find out how much\nyou could save here",
+    "practiceSize": "Practice Size",
+    "table": {
+      "receptionists": "Receptionists",
+      "fullTimeGPs": "# Full Time GPs",
+      "monthlyCost": "Monthly Cost",
+      "today": "Today",
+      "average": "Average for that size",
+      "withAI": "With AI"
+    },
+    "features": {
+      "phoneIntake": "AI Phone Intake",
+      "scribe": "Medical Scribe",
+      "followUp": "Automatic Follow-ups"
+    },
+    "cta": "Talk to Sales"
+  },
+  "security": {
+    "title": "Impenetrable.",
+    "subtitle": "Compliance",
+    "description": "Processing sensitive data is a serious responsibility. We've implemented top-tier privacy standards compliant with EU/UK regulations.",
+    "features": {
+      "dtac": {
+        "title": "DTAC",
+        "description": "Digital Technology Assessment Criteria compliance for healthcare solutions"
+      },
+      "gdpr": {
+        "title": "GDPR Compliant",
+        "description": "Full compliance with EU/UK data protection regulations"
+      },
+      "security": {
+        "title": "Data Security and Protection Toolkit",
+        "description": "Comprehensive security measures for protecting sensitive information"
+      },
+      "ce": {
+        "title": "CE Marking",
+        "description": "Certified compliance with European health, safety, and environmental standards"
+      }
+    }
+  },
+  "problem": {
+    "phone": "Centres answer the phone like it's",
+    "records": "type on medical records like it's",
+    "followUp": "follow up on patients like it's",
+    "year": "2010",
+    "currentYear": "But it's 2024."
+  }
+}
