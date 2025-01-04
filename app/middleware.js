@@ -2,52 +2,80 @@ import { NextResponse } from 'next/server';
 import { i18nConfig } from './config/i18n';
 import { getLocaleFromCountry } from './config/countryMapping';
 
-export function middleware(request) {
-  console.log('🚀 Middleware executing...');
-  const pathname = request.nextUrl.pathname;
-  console.log('📍 Pathname:', pathname);
+async function getCountryFromIP(ip) {
+  try {
+    const apiKey = process.env.IPTOEARTH_API_KEY;
+    const response = await fetch(`https://api.iptoearth.com/v1/location?ip=${ip}&key=${apiKey}`);
+    const data = await response.json();
+    
+    console.log('🌍 IP to Earth Response:', data);
+    
+    return data.country_code;
+  } catch (error) {
+    console.error('❌ Failed to get country from IP:', error);
+    return 'UK';
+  }
+}
 
-  // Skip static files and API routes
-  if (
-    pathname.startsWith('/_next') ||
-    pathname.includes('/api/') ||
-    pathname.includes('.')
-  ) {
+export async function middleware(request) {
+  // Basic request logging
+  console.log('=== MIDDLEWARE START ===');
+  console.log('🚀 Request URL:', request.url);
+  console.log('📍 Pathname:', request.nextUrl.pathname);
+  
+  // Log all headers
+  const headers = Object.fromEntries(request.headers);
+  console.log('🔍 All Headers:', headers);
+  
+  // Get the pathname
+  const pathname = request.nextUrl.pathname;
+  
+  // Early return for static files and API routes
+  if (pathname.startsWith('/_next') || 
+      pathname.includes('/api/') ||
+      pathname.includes('.')) {
     console.log('⏭️ Skipping middleware for static/api route');
+    console.log('=== MIDDLEWARE END ===');
     return;
   }
 
-  // Check if pathname already has a locale
-  const hasLocale = i18nConfig.locales.some(
-    locale => pathname.startsWith(`/${locale}`)
+  // Check if pathname has a locale
+  const pathnameHasLocale = i18nConfig.locales.some(
+    locale => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
   );
+  console.log('🌍 Has locale?', pathnameHasLocale);
 
-  console.log('🌍 Has locale?', hasLocale);
-  console.log('🌐 Request headers:', Object.fromEntries(request.headers));
-  console.log('📱 Geo information:', request.geo);
-
-  if (!hasLocale) {
-    // Get country from geo headers
-    const countryCode = request.geo?.country || 'UK';
-    console.log('🏳️ Detected country code:', countryCode);
+  if (!pathnameHasLocale) {
+    // Get client IP from Heroku headers
+    const clientIP = headers['x-forwarded-for']?.split(',')[0] || 
+                    headers['x-real-ip'] || 
+                    'unknown';
     
-    // Get appropriate locale for the country
-    const locale = getLocaleFromCountry(countryCode);
-    console.log('🌐 Selected locale:', locale);
+    console.log('🌐 Client IP:', clientIP);
     
-    // Create new URL with detected locale
+    // Get country from IP
+    const country = await getCountryFromIP(clientIP);
+    console.log('🌐 Detected Country:', country);
+                   
+    // Get locale for the country
+    const locale = getLocaleFromCountry(country);
+    console.log('🗣️ Selected locale:', locale);
+    
+    // Create new URL
     const newUrl = new URL(request.url);
     newUrl.pathname = `/${locale}${pathname === '/' ? '' : pathname}`;
     console.log('➡️ Redirecting to:', newUrl.pathname);
     
+    console.log('=== MIDDLEWARE END ===');
     return NextResponse.redirect(newUrl);
   }
+
+  console.log('✅ No redirect needed');
+  console.log('=== MIDDLEWARE END ===');
 }
 
 export const config = {
   matcher: [
-    // Match all paths except static files and api routes
-    '/((?!_next/static|_next/image|favicon.ico|api).*)',
-    '/'
+    '/((?!api|_next/static|_next/image|favicon.ico).*)'
   ],
 };
