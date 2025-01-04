@@ -2,12 +2,13 @@ import { NextResponse } from 'next/server';
 import { i18nConfig } from './config/i18n';
 import { getLocaleFromCountry } from './config/countryMapping';
 
-// Force logs to appear in Heroku
+// Use console.log instead of process.stdout
 const log = (message, data = {}) => {
-  const timestamp = new Date().toISOString();
-  const logMessage = `[Middleware ${timestamp}] ${message} ${JSON.stringify(data)}\n`;
-  process.stdout.write(logMessage);
+  console.log(`[Middleware] ${message}`, data);
 };
+
+// Remove the top-level process.stdout.write
+console.log('🚀 Middleware file loaded');
 
 async function getCountryFromIP(ip) {
   if (!ip) {
@@ -55,83 +56,81 @@ async function getCountryFromIP(ip) {
 }
 
 export async function middleware(request) {
-  log('🚀 Middleware executing');
+  console.log('⚡ Middleware executing');
 
   // Get the pathname
   const pathname = request.nextUrl.pathname;
-  
-  log('📍 Request info', {
+
+  // Log every request
+  log('📍 Request', {
     url: request.url,
     pathname,
-    headers: Object.fromEntries(request.headers)
+    method: request.method
   });
 
-  // Skip middleware for these paths
-  if (
-    pathname.startsWith('/_next') || 
-    pathname.includes('/api/') ||
-    pathname.includes('.') ||
-    pathname === '/favicon.ico'
-  ) {
-    log('⏭️ Skipping middleware');
+  // Check if pathname already has a locale
+  const hasLocale = i18nConfig.locales.some(
+    locale => pathname.startsWith(`/${locale}`)
+  );
+
+  // If path already has a valid locale, skip middleware
+  if (hasLocale) {
+    log('✅ Valid locale found, skipping redirect');
     return NextResponse.next();
   }
 
-  // Get client IP from x-forwarded-for header
-  const forwardedFor = request.headers.get('x-forwarded-for');
-  const clientIP = forwardedFor ? forwardedFor.split(',')[0].trim() : null;
-  
-  log('🌐 Client IP detected', { clientIP });
-
-  // Check if pathname has a locale
-  const pathnameHasLocale = i18nConfig.locales.some(
-    locale => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
-  );
-
-  if (!pathnameHasLocale) {
-    try {
-      const country = await getCountryFromIP(clientIP);
-      const locale = getLocaleFromCountry(country);
-      
-      log('🌍 Locale detection', {
-        clientIP,
-        detectedCountry: country,
-        selectedLocale: locale
-      });
-
-      const newUrl = new URL(request.url);
-      newUrl.pathname = `/${locale}${pathname === '/' ? '' : pathname}`;
-      
-      log('➡️ Redirecting', {
-        from: pathname,
-        to: newUrl.pathname
-      });
-
-      return NextResponse.redirect(newUrl);
-    } catch (error) {
-      log('❌ Error in middleware', { 
-        error: error.message,
-        stack: error.stack 
-      });
-      const newUrl = new URL(request.url);
-      newUrl.pathname = `/${i18nConfig.defaultLocale}${pathname === '/' ? '' : pathname}`;
-      return NextResponse.redirect(newUrl);
-    }
+  // Early return for static files and API routes
+  if (pathname.startsWith('/_next') || 
+      pathname.includes('/api/') ||
+      pathname.includes('.')) {
+    log('⏭️ Skipping static/api route');
+    return NextResponse.next();
   }
 
-  log('✅ No redirect needed');
-  return NextResponse.next();
+  // Get client IP
+  const forwardedFor = request.headers.get('x-forwarded-for');
+  const clientIP = forwardedFor ? forwardedFor.split(',')[0].trim() : null;
+
+  log('🌐 Client IP detected', { clientIP });
+
+  try {
+    const country = await getCountryFromIP(clientIP);
+    const locale = getLocaleFromCountry(country);
+    
+    log('🌍 Locale detection', {
+      clientIP,
+      detectedCountry: country,
+      selectedLocale: locale
+    });
+
+    // Create new URL with locale
+    const newUrl = new URL(request.url);
+    // Ensure we don't add locale if it's already there
+    newUrl.pathname = pathname === '/' ? `/${locale}` : `/${locale}${pathname}`;
+    
+    log('➡️ Redirecting', {
+      from: pathname,
+      to: newUrl.pathname
+    });
+
+    return NextResponse.redirect(newUrl);
+  } catch (error) {
+    log('❌ Error in middleware', { 
+      error: error.message
+    });
+    // On error, redirect to default locale
+    const newUrl = new URL(request.url);
+    newUrl.pathname = `/${i18nConfig.defaultLocale}${pathname === '/' ? '' : pathname}`;
+    return NextResponse.redirect(newUrl);
+  }
 }
 
-// Simplified matcher pattern
+// Update matcher to be more specific
 export const config = {
-  // Match all paths except static files and API routes
   matcher: [
-    // Match all paths
+    // Match root path
     '/',
-    // Match all paths under locales
-    '/(en-UK|es-ES)/:path*',
-    // Match everything except static files and API
-    '/((?!api|_next/static|_next/image|favicon.ico|public/).*)',
-  ],
+    // Match all paths that don't start with _next, api, or any of our locales
+    '/((?!_next|api|en-UK|es-ES).*)'
+  ]
 };

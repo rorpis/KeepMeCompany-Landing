@@ -3,18 +3,14 @@ const nextConfig = {
   output: 'standalone',
   reactStrictMode: true,
   trailingSlash: true,
-  async headers() {
-    return [
-      {
-        source: '/:path*',
-        headers: [
-          {
-            key: 'x-middleware-cache',
-            value: 'no-cache'
-          }
-        ]
-      }
-    ];
+  experimental: {
+    instrumentationHook: true
+  },
+  webpack: (config, { isServer }) => {
+    if (isServer) {
+      config.externals = ['@next/env', ...config.externals];
+    }
+    return config;
   }
 };
 
