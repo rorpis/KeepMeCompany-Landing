@@ -1,0 +1,12 @@
+{
+  "header": {
+    "contactSales": "Contactar Ventas",
+    "openPlatform": "Abrir Plataforma",
+    "languageSelector": "Seleccionar Idioma"
+  },
+  "footer": {
+    "privacyNotice": "Política de Privacidad",
+    "accessibility": "Declaración de Accesibilidad",
+    "gdprRequests": "Solicitudes RGPD"
+  }
+}

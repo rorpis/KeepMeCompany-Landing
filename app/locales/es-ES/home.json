@@ -1,0 +1,54 @@
+{
+  "hero": {
+    "title": "Soporte Sanitario con IA",
+    "subtitle": "Potenciando consultas médicas con automatización inteligente"
+  },
+  "savingsEstimator": {
+    "title": "Descubre cuánto\npodrías ahorrar aquí",
+    "practiceSize": "Tamaño de la Consulta",
+    "table": {
+      "receptionists": "Recepcionistas",
+      "fullTimeGPs": "# Médicos Tiempo Completo",
+      "monthlyCost": "Coste Mensual",
+      "today": "Actualmente",
+      "average": "Media para ese tamaño",
+      "withAI": "Con IA"
+    },
+    "features": {
+      "phoneIntake": "Recepción Telefónica IA",
+      "scribe": "Escriba Médico",
+      "followUp": "Seguimientos Automáticos"
+    },
+    "cta": "Hablar con Ventas"
+  },
+  "security": {
+    "title": "Impenetrable.",
+    "subtitle": "Cumplimiento Normativo",
+    "description": "Procesar datos sensibles es una responsabilidad seria. Hemos implementado estándares de privacidad de primer nivel que cumplen con las regulaciones de la UE.",
+    "features": {
+      "dtac": {
+        "title": "DTAC",
+        "description": "Cumplimiento de Criterios de Evaluación de Tecnología Digital para soluciones sanitarias"
+      },
+      "gdpr": {
+        "title": "RGPD",
+        "description": "Cumplimiento total con las regulaciones de protección de datos de la UE"
+      },
+      "security": {
+        "title": "Kit de Herramientas de Seguridad y Protección de Datos",
+        "description": "Medidas integrales de seguridad para proteger información sensible"
+      },
+      "ce": {
+        "title": "Marcado CE",
+        "description": "Conformidad certificada con los estándares europeos de salud, seguridad y medio ambiente"
+      }
+    }
+  },
+  "problem": {
+    "phone": "Los centros atienden el teléfono como si fuera",
+    "records": "escriben en historiales médicos como si fuera",
+    "followUp": "hacen seguimiento a pacientes como si fuera",
+    "year": "2010",
+    "currentYear": "Pero estamos en 2024."
+  }
+}

@@ -1,0 +1,23 @@
+import { Inter } from "next/font/google";
+import "../globals.css";
+import Header from '@/app/(components)/header';
+import Footer from '@/app/(components)/footer';
+import { i18nConfig } from '../config/i18n';
+
+const inter = Inter({ subsets: ["latin"] });
+
+export async function generateStaticParams() {
+  return i18nConfig.locales.map((locale) => ({ locale }));
+}
+
+export default function LocaleLayout({ children, params: { locale } }) {
+  return (
+    <html lang={locale}>
+      <body className={inter.className}>
+        <Header locale={locale} />
+        <main style={{ paddingTop: '8vh' }}>{children}</main>
+        <Footer locale={locale} />
+      </body>
+    </html>
+  );
+} 

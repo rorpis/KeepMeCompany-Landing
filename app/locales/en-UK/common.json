@@ -1,0 +1,12 @@
+{
+  "header": {
+    "contactSales": "Contact Sales",
+    "openPlatform": "Open Platform",
+    "languageSelector": "Select Language"
+  },
+  "footer": {
+    "privacyNotice": "Privacy Notice",
+    "accessibility": "Accessibility Statement",
+    "gdprRequests": "GDPR Requests"
+  }
+}

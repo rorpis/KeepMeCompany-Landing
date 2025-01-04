@@ -1,10 +1,8 @@
 'use client';
 
-import HomeComponent from './_home/components/Home.js';
+import { redirect } from 'next/navigation';
+import { i18nConfig } from './config/i18n';
 
-export default function Home() {
-  
-  return (
-    <HomeComponent />
-  );
+export default function Page() {
+  redirect(`/${i18nConfig.defaultLocale}`);
 }

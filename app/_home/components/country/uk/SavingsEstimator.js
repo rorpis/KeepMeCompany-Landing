@@ -5,7 +5,7 @@ import {
   calculateAIStaffing 
 } from '@/app/utils/healthcarePracticeCalculator';
 import Toggle from '@/app/components/ui/Toggle';
-import useTransitionNumber from '../hooks/useTransitionNumber';
+import useTransitionNumber from '../../hooks/useTransitionNumber';
 
 const PracticeSizeInput = ({ value, onChange }) => (
   <div className="mb-6">
