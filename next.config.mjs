@@ -7,7 +7,7 @@ const nextConfig = {
     instrumentationHook: true
   },
   env: {
-    NEXT_PUBLIC_BACKEND_URL: process.env.NEXT_PUBLIC_BACKEND_URL,
+    NEXT_PUBLIC_BACKEND_URL: "https://keep-me-company-backend-b450f889ef90.herokuapp.com",
   },
   webpack: (config, { isServer }) => {
     if (isServer) {
