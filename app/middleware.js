@@ -2,6 +2,9 @@ import { NextResponse } from 'next/server';
 import { i18nConfig } from './config/i18n';
 import { getLocaleFromCountry } from './config/countryMapping';
 
+// Add this at the very top of the file
+console.log('🚀 Middleware file loaded');
+
 async function getCountryFromIP(ip) {
   try {
     const apiKey = process.env.IPTOEARTH_API_KEY;
@@ -18,6 +21,13 @@ async function getCountryFromIP(ip) {
 }
 
 export async function middleware(request) {
+  // Force console log to appear
+  console.log('🔥 Middleware executing', {
+    url: request.url,
+    pathname: request.nextUrl.pathname,
+    headers: Object.fromEntries(request.headers)
+  });
+  
   // Basic request logging
   console.log('=== MIDDLEWARE START ===');
   console.log('🚀 Request URL:', request.url);
@@ -76,8 +86,14 @@ export async function middleware(request) {
 
 export const config = {
   matcher: [
-    // Match all paths except files
-    '/((?!_next/static|_next/image|favicon.ico).*)',
-    '/',
+    /*
+     * Match all request paths except for the ones starting with:
+     * - api (API routes)
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     * - public folder
+     */
+    '/((?!api|_next/static|_next/image|favicon.ico|public/).*)',
   ],
 };

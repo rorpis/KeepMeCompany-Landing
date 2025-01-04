@@ -3,6 +3,9 @@ const nextConfig = {
   output: 'standalone',
   reactStrictMode: true,
   trailingSlash: true,
+  experimental: {
+    middleware: true
+  },
   generateStaticParams: async () => {
     return [
       { locale: 'en-UK' },
