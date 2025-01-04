@@ -2,8 +2,14 @@ import { NextResponse } from 'next/server';
 import { i18nConfig } from './config/i18n';
 import { getLocaleFromCountry } from './config/countryMapping';
 
-// Add this at the very top of the file
-console.log('🚀 Middleware file loaded');
+// Add this function for consistent logging
+function logToConsole(message, data) {
+  console.log(`[Middleware] ${message}`, JSON.stringify(data, null, 2));
+  // Force flush logs in production
+  if (process.env.NODE_ENV === 'production') {
+    console.log('\n');
+  }
+}
 
 async function getCountryFromIP(ip) {
   try {
@@ -21,67 +27,60 @@ async function getCountryFromIP(ip) {
 }
 
 export async function middleware(request) {
-  // Force console log to appear
-  console.log('🔥 Middleware executing', {
-    url: request.url,
-    pathname: request.nextUrl.pathname,
-    headers: Object.fromEntries(request.headers)
-  });
-  
-  // Basic request logging
-  console.log('=== MIDDLEWARE START ===');
-  console.log('🚀 Request URL:', request.url);
-  console.log('📍 Pathname:', request.nextUrl.pathname);
-  
-  // Log all headers
-  const headers = Object.fromEntries(request.headers);
-  console.log('🔍 All Headers:', headers);
-  
   // Get the pathname
   const pathname = request.nextUrl.pathname;
   
+  logToConsole('Request started', {
+    url: request.url,
+    pathname,
+    method: request.method
+  });
+
   // Early return for static files and API routes
   if (pathname.startsWith('/_next') || 
       pathname.includes('/api/') ||
       pathname.includes('.')) {
-    console.log('⏭️ Skipping middleware for static/api route');
-    console.log('=== MIDDLEWARE END ===');
+    logToConsole('Skipping middleware for static/api route', { pathname });
     return;
   }
+
+  // Get client IP
+  const forwardedFor = request.headers.get('x-forwarded-for');
+  const clientIP = forwardedFor ? forwardedFor.split(',')[0].trim() : 'unknown';
+  
+  logToConsole('Client details', { 
+    ip: clientIP,
+    headers: Object.fromEntries(request.headers)
+  });
 
   // Check if pathname has a locale
   const pathnameHasLocale = i18nConfig.locales.some(
     locale => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
   );
-  console.log('🌍 Has locale?', pathnameHasLocale);
 
   if (!pathnameHasLocale) {
-    // Get client IP from Heroku headers
-    const clientIP = headers['x-forwarded-for']?.split(',')[0] || 
-                    headers['x-real-ip'] || 
-                    'unknown';
-    
-    console.log('🌐 Client IP:', clientIP);
-    
-    // Get country from IP
     const country = await getCountryFromIP(clientIP);
-    console.log('🌐 Detected Country:', country);
-                   
-    // Get locale for the country
     const locale = getLocaleFromCountry(country);
-    console.log('🗣️ Selected locale:', locale);
     
-    // Create new URL
+    logToConsole('Locale detection', {
+      detectedCountry: country,
+      selectedLocale: locale
+    });
+
+    // Create new URL with locale
     const newUrl = new URL(request.url);
     newUrl.pathname = `/${locale}${pathname === '/' ? '' : pathname}`;
-    console.log('➡️ Redirecting to:', newUrl.pathname);
     
-    console.log('=== MIDDLEWARE END ===');
+    logToConsole('Redirecting', {
+      from: pathname,
+      to: newUrl.pathname
+    });
+
     return NextResponse.redirect(newUrl);
   }
 
-  console.log('✅ No redirect needed');
-  console.log('=== MIDDLEWARE END ===');
+  logToConsole('No redirect needed', { pathname });
+  return NextResponse.next();
 }
 
 export const config = {
