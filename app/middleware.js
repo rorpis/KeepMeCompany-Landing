@@ -2,13 +2,10 @@ import { NextResponse } from 'next/server';
 import { i18nConfig } from './config/i18n';
 import { getLocaleFromCountry } from './config/countryMapping';
 
-// Use console.log instead of process.stdout
+// Use error logging for Heroku (more likely to show up)
 const log = (message, data = {}) => {
-  console.log(`[Middleware] ${message}`, data);
+  console.error(`[Middleware ${Date.now()}] ${message}`, JSON.stringify(data));
 };
-
-// Remove the top-level process.stdout.write
-console.log('🚀 Middleware file loaded');
 
 async function getCountryFromIP(ip) {
   if (!ip) {
@@ -26,7 +23,7 @@ async function getCountryFromIP(ip) {
     console.log(`Fetching country for IP: ${ip}`);
     
     const response = await fetch(
-      `https://api.iptoearth.com/v1/location?ip=${ip}&key=${apiKey}`,
+      `https://iptoearth.expeditedaddons.com/?ip=${ip}&api_key=${apiKey}`,
       {
         headers: {
           'Accept': 'application/json',
@@ -56,26 +53,27 @@ async function getCountryFromIP(ip) {
 }
 
 export async function middleware(request) {
-  console.log('⚡ Middleware executing');
+  // Force an error log at the start
+  console.error(`[Middleware] START - URL: ${request.url}`);
 
   // Get the pathname
   const pathname = request.nextUrl.pathname;
-
-  // Log every request
-  log('📍 Request', {
-    url: request.url,
-    pathname,
-    method: request.method
-  });
 
   // Check if pathname already has a locale
   const hasLocale = i18nConfig.locales.some(
     locale => pathname.startsWith(`/${locale}`)
   );
 
+  // Log the current state
+  log('Request state', {
+    pathname,
+    hasLocale,
+    headers: Object.fromEntries(request.headers)
+  });
+
   // If path already has a valid locale, skip middleware
   if (hasLocale) {
-    log('✅ Valid locale found, skipping redirect');
+    log('Skipping - has locale');
     return NextResponse.next();
   }
 
@@ -83,7 +81,7 @@ export async function middleware(request) {
   if (pathname.startsWith('/_next') || 
       pathname.includes('/api/') ||
       pathname.includes('.')) {
-    log('⏭️ Skipping static/api route');
+    log('Skipping - static/api');
     return NextResponse.next();
   }
 
@@ -91,33 +89,32 @@ export async function middleware(request) {
   const forwardedFor = request.headers.get('x-forwarded-for');
   const clientIP = forwardedFor ? forwardedFor.split(',')[0].trim() : null;
 
-  log('🌐 Client IP detected', { clientIP });
-
   try {
     const country = await getCountryFromIP(clientIP);
     const locale = getLocaleFromCountry(country);
     
-    log('🌍 Locale detection', {
-      clientIP,
-      detectedCountry: country,
-      selectedLocale: locale
+    log('Locale detected', {
+      ip: clientIP,
+      country,
+      locale
     });
 
     // Create new URL with locale
     const newUrl = new URL(request.url);
-    // Ensure we don't add locale if it's already there
     newUrl.pathname = pathname === '/' ? `/${locale}` : `/${locale}${pathname}`;
     
-    log('➡️ Redirecting', {
+    log('Redirecting', {
       from: pathname,
       to: newUrl.pathname
     });
 
     return NextResponse.redirect(newUrl);
   } catch (error) {
-    log('❌ Error in middleware', { 
-      error: error.message
+    log('Error occurred', { 
+      error: error.message,
+      stack: error.stack
     });
+    
     // On error, redirect to default locale
     const newUrl = new URL(request.url);
     newUrl.pathname = `/${i18nConfig.defaultLocale}${pathname === '/' ? '' : pathname}`;
@@ -125,12 +122,10 @@ export async function middleware(request) {
   }
 }
 
-// Update matcher to be more specific
+// Simplify matcher to ensure it runs
 export const config = {
   matcher: [
-    // Match root path
     '/',
-    // Match all paths that don't start with _next, api, or any of our locales
-    '/((?!_next|api|en-UK|es-ES).*)'
+    '/((?!api|_next|favicon.ico).*)'
   ]
 };
