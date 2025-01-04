@@ -125,5 +125,13 @@ export async function middleware(request) {
 
 // Simplified matcher pattern
 export const config = {
-  matcher: '/((?!api|_next/static|_next/image|favicon.ico).*)'
+  // Match all paths except static files and API routes
+  matcher: [
+    // Match all paths
+    '/',
+    // Match all paths under locales
+    '/(en-UK|es-ES)/:path*',
+    // Match everything except static files and API
+    '/((?!api|_next/static|_next/image|favicon.ico|public/).*)',
+  ],
 };
