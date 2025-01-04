@@ -1,7 +1,13 @@
 {
   "hero": {
-    "title": "AI-Powered Healthcare Support",
-    "subtitle": "Empowering medical practices with intelligent automation"
+    "line1": {
+      "part1": "Classic cars need new",
+      "part2": "Engines"
+    },
+    "line2": {
+      "part1": "Modern Practices need",
+      "part2": "AI"
+    }
   },
   "savingsEstimator": {
     "title": "Find out how much\nyou could save here",

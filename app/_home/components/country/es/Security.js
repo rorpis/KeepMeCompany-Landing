@@ -7,26 +7,26 @@ const Security = () => {
   const features = [
     {
       Icon: ShieldCheckIcon,
-      title: "DTAC",
-      description: "Digital Technology Assessment Criteria compliance for healthcare solutions",
+      title: "NHS Compliant",
+      description: "Cumplimos con los estrictos marcos y estándares de cumplimiento del Reino Unido.",
       className: "icon-fade-1"
     },
     {
       Icon: GlobeEuropeAfricaIcon,
       title: "GDPR Compliant",
-      description: "Full compliance with EU/UK data protection regulations",
+      description: "Cumplimiento total con las regulaciones de protección de datos de la UE/Reino Unido",
       className: "icon-fade-2"
     },
     {
       Icon: LockClosedIcon,
       title: "Data Security and Protection Toolkit",
-      description: "Comprehensive security measures for protecting sensitive information",
+      description: "Medidas de seguridad integrales para proteger información sensible",
       className: "icon-fade-3"
     },
     {
       Icon: CheckBadgeIcon,
-      title: "CE Marking",
-      description: "Certified compliance with European health, safety, and environmental standards",
+      title: "Marcado CE",
+      description: "Cumplimiento certificado con los estándares europeos de salud, seguridad y medio ambiente",
       className: "icon-fade-4"
     }
   ];
@@ -34,10 +34,10 @@ const Security = () => {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-background p-8">
       <div className="text-center mb-12">
-        <span className="text-sm uppercase tracking-wider text-gray-600 dark:text-gray-400">Compliance</span>
-        <h2 className="text-4xl font-bold mt-2">Impenetrable.</h2>
+        <span className="text-sm uppercase tracking-wider text-gray-600 dark:text-gray-400">Seguridad</span>
+        <h2 className="text-4xl font-bold mt-2">Confidencial e Impenetrable.</h2>
         <p className="max-w-2xl mx-auto mt-4 text-gray-600 dark:text-gray-400">
-          Processing sensitive data is a serious responsibility. We&apos;ve implemented top-tier privacy standards compliant with EU/UK regulations.
+          Procesar datos sensibles es una responsabilidad seria. Hemos implementado estándares de privacidad de primer nivel que cumplen con las regulaciones de la UE y Reino Unido.
         </p>
       </div>
       

@@ -5,11 +5,13 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import styles from '../(styles)/Header.module.css';
 import { COUNTRIES } from '../config/countries';
+import { useTranslations } from '../hooks/useTranslations';
 
 const Header = ({ locale }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isSelectOpen, setIsSelectOpen] = useState(false);
   const router = useRouter();
+  const { t } = useTranslations();
 
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -50,6 +52,7 @@ const Header = ({ locale }) => {
           <button
             className={styles.selectorButton}
             onClick={() => setIsSelectOpen(!isSelectOpen)}
+            aria-label={t('common.header.languageSelector')}
           >
             <span>{currentCountry.flag}</span>
           </button>
@@ -74,7 +77,7 @@ const Header = ({ locale }) => {
           href="/contact-sales" 
           className={styles.navLink}
         >
-          Contact Sales
+          {t('common.header.contactSales')}
         </Link>
 
         <a 
@@ -83,7 +86,7 @@ const Header = ({ locale }) => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Open Platform
+          {t('common.header.openPlatform')}
         </a>
       </nav>
     </header>

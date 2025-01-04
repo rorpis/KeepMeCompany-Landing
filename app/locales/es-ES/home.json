@@ -1,7 +1,13 @@
 {
   "hero": {
-    "title": "Soporte Sanitario con IA",
-    "subtitle": "Potenciando consultas médicas con automatización inteligente"
+    "line1": {
+      "part1": "Más pacientes",
+      "part2": "Menos estrés"
+    },
+    "line2": {
+      "part1": "",
+      "part2": ""
+    }
   },
   "savingsEstimator": {
     "title": "Descubre cuánto\npodrías ahorrar aquí",
