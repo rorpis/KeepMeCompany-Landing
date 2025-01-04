@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const SavingsEstimator = () => {
+const OutboundCallTester = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [selectedCountry, setSelectedCountry] = useState('ES');
   const [selectedLanguage, setSelectedLanguage] = useState('es');
@@ -229,4 +229,4 @@ const SavingsEstimator = () => {
   );
 };
 
-export default SavingsEstimator; 
+export default OutboundCallTester; 

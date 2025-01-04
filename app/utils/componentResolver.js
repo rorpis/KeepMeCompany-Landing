@@ -13,7 +13,7 @@ export const resolveComponent = async (componentName, locale) => {
       const baseComponent = await import(`@/app/_home/components/base/${componentName}`);
       return baseComponent.default;
     } catch (error) {
-      console.error(`Could not load component ${componentName}`);
+      // console.error(`Could not load component ${componentName}`);
       return null;
     }
   }

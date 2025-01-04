@@ -2,10 +2,14 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import styles from '../(styles)/Header.module.css';
+import { COUNTRIES } from '../config/countries';
 
-const Header = () => {
+const Header = ({ locale }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const [isSelectOpen, setIsSelectOpen] = useState(false);
+  const router = useRouter();
 
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -14,6 +18,19 @@ const Header = () => {
   const handleMouseLeave = () => {
     setIsHovered(false);
   };
+
+  const handleCountryChange = (countryCode) => {
+    const country = COUNTRIES[countryCode];
+    if (country) {
+      router.push(`/${country.locale}`);
+    }
+    setIsSelectOpen(false);
+  };
+
+  // Determine current country from locale
+  const currentCountry = Object.values(COUNTRIES).find(
+    country => country.locale === locale
+  ) || COUNTRIES.UK;
 
   return (
     <header 
@@ -29,6 +46,30 @@ const Header = () => {
       </Link>
       
       <nav className={styles.nav}>
+        <div className={styles.countrySelector}>
+          <button
+            className={styles.selectorButton}
+            onClick={() => setIsSelectOpen(!isSelectOpen)}
+          >
+            <span>{currentCountry.flag}</span>
+          </button>
+          
+          {isSelectOpen && (
+            <div className={styles.dropdown}>
+              {Object.entries(COUNTRIES).map(([code, country]) => (
+                <button
+                  key={code}
+                  className={styles.countryOption}
+                  onClick={() => handleCountryChange(code)}
+                >
+                  <span>{country.flag}</span>
+                  <span>{country.name}</span>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+
         <Link 
           href="/contact-sales" 
           className={styles.navLink}
