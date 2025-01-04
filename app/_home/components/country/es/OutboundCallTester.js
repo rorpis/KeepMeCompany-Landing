@@ -104,13 +104,22 @@ const OutboundCallTester = () => {
         .map(obj => obj.text)
         .filter(text => text.length >= 3);
 
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/public_api/schedule_follow_up_call`, {
+      // Combine country code with phone number and remove spaces
+      const fullPhoneNumber = `${countries[selectedCountry].code}${phoneNumber.replace(/\s/g, '')}`;
+
+      // Ensure we have the backend URL
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+      if (!backendUrl) {
+        throw new Error('Backend URL not configured');
+      }
+
+      const response = await fetch(`${backendUrl}/public_api/schedule_follow_up_call`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          phoneNumber: phoneNumber.replace(/\s/g, ''),  // Remove spaces from phone number
+          phoneNumber: fullPhoneNumber,
           patientName: name,
           objectives: validObjectives
         })
