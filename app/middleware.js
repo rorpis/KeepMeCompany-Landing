@@ -9,18 +9,14 @@ const log = (message, data = {}) => {
 
 async function getCountryFromIP(ip) {
   if (!ip) {
-    console.error('No IP provided to getCountryFromIP');
     return 'UK';
   }
 
   try {
     const apiKey = process.env.IPTOEARTH_API_KEY;
     if (!apiKey) {
-      console.error('Missing IPTOEARTH_API_KEY environment variable');
       return 'UK';
     }
-
-    console.log(`Fetching country for IP: ${ip}`);
     
     const response = await fetch(
       `https://iptoearth.expeditedaddons.com/?ip=${ip}&api_key=${apiKey}`,
@@ -47,15 +43,11 @@ async function getCountryFromIP(ip) {
 
     return data.country_code;
   } catch (error) {
-    console.error('Failed to get country from IP:', error);
     return 'UK';
   }
 }
 
 export async function middleware(request) {
-  // Force an error log at the start
-  console.error(`[Middleware] START - URL: ${request.url}`);
-
   // Get the pathname
   const pathname = request.nextUrl.pathname;
 
@@ -64,16 +56,8 @@ export async function middleware(request) {
     locale => pathname.startsWith(`/${locale}`)
   );
 
-  // Log the current state
-  log('Request state', {
-    pathname,
-    hasLocale,
-    headers: Object.fromEntries(request.headers)
-  });
-
   // If path already has a valid locale, skip middleware
   if (hasLocale) {
-    log('Skipping - has locale');
     return NextResponse.next();
   }
 
@@ -81,7 +65,6 @@ export async function middleware(request) {
   if (pathname.startsWith('/_next') || 
       pathname.includes('/api/') ||
       pathname.includes('.')) {
-    log('Skipping - static/api');
     return NextResponse.next();
   }
 
@@ -102,19 +85,9 @@ export async function middleware(request) {
     // Create new URL with locale
     const newUrl = new URL(request.url);
     newUrl.pathname = pathname === '/' ? `/${locale}` : `/${locale}${pathname}`;
-    
-    log('Redirecting', {
-      from: pathname,
-      to: newUrl.pathname
-    });
 
     return NextResponse.redirect(newUrl);
   } catch (error) {
-    log('Error occurred', { 
-      error: error.message,
-      stack: error.stack
-    });
-    
     // On error, redirect to default locale
     const newUrl = new URL(request.url);
     newUrl.pathname = `/${i18nConfig.defaultLocale}${pathname === '/' ? '' : pathname}`;

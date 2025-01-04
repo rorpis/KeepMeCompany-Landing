@@ -8,6 +8,8 @@ const OutboundCallTester = () => {
   const [selectedPlan, setSelectedPlan] = useState('');
   const [objectives, setObjectives] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
+  const [name, setName] = useState('');
+  const [popupMessage, setPopupMessage] = useState('');
 
   const countries = {
     ES: { name: 'España', code: '+34' },
@@ -56,24 +58,18 @@ const OutboundCallTester = () => {
     },
     otro: {
       name: 'Otro',
-      objectives: [
-        'Objetivo 1',
-        'Objetivo 2',
-        'Objetivo 3'
-      ]
+      objectives: ['', '', '']
     }
+  };
+
+  const handleNameChange = (e) => {
+    setName(e.target.value);
   };
 
   const handlePhoneChange = (e) => {
     const value = e.target.value.replace(/\D/g, '');
-    
     const formatted = value.replace(/(\d{3})(?=\d)/g, '$1 ');
     setPhoneNumber(formatted);
-  };
-
-  const handleCountryChange = (e) => {
-    setSelectedCountry(e.target.value);
-    setPhoneNumber('');
   };
 
   const handleLanguageChange = (e) => {
@@ -101,11 +97,55 @@ const OutboundCallTester = () => {
     ));
   };
 
-  const handleCallNow = () => {
-    setShowPopup(true);
-    setTimeout(() => {
-      setShowPopup(false);
-    }, 3000);
+  const handleCallNow = async () => {
+    try {
+      // Filter out objectives with less than 3 characters
+      const validObjectives = objectives
+        .map(obj => obj.text)
+        .filter(text => text.length >= 3);
+
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/public_api/schedule_follow_up_call`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          phoneNumber: phoneNumber.replace(/\s/g, ''),  // Remove spaces from phone number
+          patientName: name,
+          objectives: validObjectives
+        })
+      });
+
+      const data = await response.json();
+
+      setShowPopup(true);
+      
+      if (response.status === 429) {
+        // Maximum calls reached
+        setPopupMessage('Ha alcanzado el límite máximo de llamadas permitidas para este número');
+      } else if (data.success) {
+        // Success case
+        setPopupMessage('Recibirá la llamada en unos segundos, asegúrese de no tener el teléfono en no molestar');
+      } else {
+        // Other error cases
+        setPopupMessage('El servicio no está disponible en este momento. Por favor, inténtelo más tarde');
+      }
+
+      setTimeout(() => {
+        setShowPopup(false);
+        setPopupMessage('');
+      }, 3000);
+
+    } catch (error) {
+      console.error('Error:', error);
+      setShowPopup(true);
+      setPopupMessage('El servicio no está disponible en este momento. Por favor, inténtelo más tarde');
+      
+      setTimeout(() => {
+        setShowPopup(false);
+        setPopupMessage('');
+      }, 3000);
+    }
   };
 
   return (
@@ -114,7 +154,7 @@ const OutboundCallTester = () => {
       
       <div className="flex gap-[10vh] w-[900px] mx-auto mb-8">
         <div className="flex flex-col space-y-6 w-[300px]">
-          <div className="flex flex-col">
+          {/* <div className="flex flex-col">
             <label className="text-white mb-2">País</label>
             <select
               value={selectedCountry}
@@ -127,22 +167,26 @@ const OutboundCallTester = () => {
                 </option>
               ))}
             </select>
+          </div> */}
+
+
+          <div className="flex flex-col">
+            <label className="text-white mb-2">Ingrese su nombre</label>
+            <input
+              type="text"
+              value={name}
+              onChange={handleNameChange}
+              className="w-full bg-transparent border border-gray-600 rounded-lg p-3 text-white focus:border-white outline-none"
+              placeholder="Nombre"
+            />
           </div>
 
           <div className="flex flex-col">
             <label className="text-white mb-2">Introduzca su número</label>
             <div className="relative">
-              <select
-                value={selectedCountry}
-                onChange={handleCountryChange}
-                className="absolute left-3 top-1/2 -translate-y-1/2 bg-transparent text-white appearance-none outline-none cursor-pointer z-10"
-              >
-                {Object.entries(countries).map(([code, { name }]) => (
-                  <option key={code} value={code} className="bg-gray-900">
-                    {countries[code].code}
-                  </option>
-                ))}
-              </select>
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-white">
+                {countries['ES'].code}
+              </span>
               
               <input
                 type="tel"
@@ -154,7 +198,7 @@ const OutboundCallTester = () => {
             </div>
           </div>
 
-          <div className="flex flex-col">
+          {/* <div className="flex flex-col">
             <label className="text-white mb-2">Idioma de la llamada</label>
             <select
               value={selectedLanguage}
@@ -167,7 +211,7 @@ const OutboundCallTester = () => {
                 </option>
               ))}
             </select>
-          </div>
+          </div> */}
 
           <div className="flex flex-col">
             <label className="text-white mb-2">Elija su plan de seguimiento</label>
@@ -189,13 +233,14 @@ const OutboundCallTester = () => {
           <h3 className="text-white mb-4 font-semibold">Defina los objetivos de la llamada</h3>
           {objectives.length > 0 && (
             <div className="space-y-2">
-              {objectives.map((objective) => (
+              {objectives.map((objective, index) => (
                 <div key={objective.id} className="relative group border border-gray-600 rounded-lg p-3">
                   <input
                     type="text"
                     value={objective.text}
                     onChange={(e) => updateObjective(objective.id, e.target.value)}
                     className="w-full bg-transparent text-white outline-none"
+                    placeholder={selectedPlan === 'otro' ? `Objetivo ${index + 1}` : ''}
                   />
                   <button
                     onClick={() => removeObjective(objective.id)}
@@ -221,7 +266,7 @@ const OutboundCallTester = () => {
         <>
           <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm" onClick={() => setShowPopup(false)} />
           <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white text-black px-8 py-4 rounded-lg shadow-lg text-xl">
-            Recibirá la llamada en unos segundos, asegúrese de no tener el teléfono en no molestar
+            {popupMessage}
           </div>
         </>
       )}
