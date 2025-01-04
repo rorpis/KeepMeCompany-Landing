@@ -24,4 +24,4 @@ ENV PORT=3000
 EXPOSE $PORT
 
 # Start the standalone server
-CMD ["node", ".next/standalone/server.js"]
+CMD ["npm", "start"]
