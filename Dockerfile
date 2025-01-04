@@ -19,8 +19,9 @@ RUN npm run build
 # Remove devDependencies to reduce image size
 RUN npm prune --production
 
-# Expose the port on which the app will run
-EXPOSE 3000
+# Expose the port that will be used by Heroku
+ENV PORT=3000
+EXPOSE $PORT
 
-# Start the Next.js app
-CMD ["npm", "start"]
+# Start the standalone server
+CMD ["node", ".next/standalone/server.js"]
