@@ -9,13 +9,13 @@ const log = (message, data = {}) => {
 
 async function getCountryFromIP(ip) {
   if (!ip) {
-    return 'UK';
+    return 'ES';
   }
 
   try {
     const apiKey = process.env.IPTOEARTH_API_KEY;
     if (!apiKey) {
-      return 'UK';
+      return 'ES';
     }
     
     const response = await fetch(
@@ -43,7 +43,7 @@ async function getCountryFromIP(ip) {
 
     return data.country_code;
   } catch (error) {
-    return 'UK';
+    return 'ES';
   }
 }
 
