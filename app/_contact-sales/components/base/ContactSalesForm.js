@@ -1,9 +1,10 @@
 'use client';
 
 import React, { useState, useCallback } from 'react';
-import useForm from '../hooks/useForm';
-import styles from '../styles/ContactSalesForm.module.css';
+import useForm from '../../hooks/useForm';
+import styles from '../../styles/ContactSalesForm.module.css';
 import WhatsAppContactPanel from '@/app/components/WhatsAppContactPanel';
+import { useTranslations } from '@/app/hooks/useTranslations';
 
 const validate = (values) => {
   let errors = {};
@@ -57,6 +58,7 @@ const CheckboxGroup = ({ label, options, values, onChange, error }) => (
 
 const ContactSalesForm = () => {
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const { t } = useTranslations();
 
   const initialState = {
     fullName: '',
@@ -90,7 +92,7 @@ const ContactSalesForm = () => {
     <div className={styles.formContainer}>
       <form onSubmit={onSubmit} className={styles.form}>
         <InputField
-          label="Full Name"
+          label={t('contact.form.fullName')}
           name="fullName"
           type="text"
           value={values.fullName}
@@ -99,7 +101,7 @@ const ContactSalesForm = () => {
         />
 
         <InputField
-          label="Email"
+          label={t('contact.form.email')}
           name="email"
           type="email"
           value={values.email}
@@ -108,7 +110,7 @@ const ContactSalesForm = () => {
         />
 
         <InputField
-          label="Phone Number"
+          label={t('contact.form.phone')}
           name="phone"
           type="tel"
           value={values.phone}
@@ -117,11 +119,11 @@ const ContactSalesForm = () => {
         />
 
         <CheckboxGroup
-          label="How would you like us to reach you?"
+          label={t('contact.form.contactMethods')}
           options={[
-            { value: 'call', label: 'Phone Call' },
-            { value: 'whatsapp', label: 'WhatsApp' },
-            { value: 'emailContact', label: 'Email' }
+            { value: 'call', label: t('contact.form.methods.call') },
+            { value: 'whatsapp', label: t('contact.form.methods.whatsapp') },
+            { value: 'emailContact', label: t('contact.form.methods.email') }
           ]}
           values={{ 
             call: values.call, 
@@ -133,12 +135,12 @@ const ContactSalesForm = () => {
         />
 
         <button type="submit" className={styles.submitButton} disabled={isSubmitting}>
-          Send
+          {t('contact.form.submit')}
         </button>
 
         {showSuccessMessage && (
           <div className={styles.successMessage}>
-            Thank you for signing up! We&apos;ll contact you very soon.
+            {t('contact.form.success')}
           </div>
         )}
       </form>

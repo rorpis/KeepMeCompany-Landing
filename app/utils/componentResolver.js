@@ -5,16 +5,27 @@ export const resolveComponent = async (componentName, locale) => {
   
   try {
     // Try country-specific component
-    const countryComponent = await import(`@/app/_home/components/country/${country}/${componentName}`);
-    return countryComponent.default;
+    const Component = await import(`@/app/_contact-sales/components/country/${country}/${componentName}`);
+    return Component.default;
   } catch (error) {
-    // Fall back to base component
     try {
-      const baseComponent = await import(`@/app/_home/components/base/${componentName}`);
-      return baseComponent.default;
+      // Try base component
+      const Component = await import(`@/app/_contact-sales/components/base/${componentName}`);
+      return Component.default;
     } catch (error) {
-      // console.error(`Could not load component ${componentName}`);
-      return null;
+      // If not found in contact-sales, try home components
+      try {
+        const Component = await import(`@/app/_home/components/country/${country}/${componentName}`);
+        return Component.default;
+      } catch (error) {
+        try {
+          const Component = await import(`@/app/_home/components/base/${componentName}`);
+          return Component.default;
+        } catch (error) {
+          return null;
+        }
+      }
     }
   }
 };
+

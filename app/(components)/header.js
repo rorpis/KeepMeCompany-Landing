@@ -74,7 +74,7 @@ const Header = ({ locale }) => {
         </div>
 
         <Link 
-          href="/contact-sales" 
+          href={`/${locale}/contact-sales`} 
           className={styles.navLink}
         >
           {t('common.header.contactSales')}

@@ -1,1 +1,19 @@
-{}
+{
+  "form": {
+    "fullName": "Full Name",
+    "email": "Email",
+    "phone": "Phone Number",
+    "contactMethods": "How would you like us to reach you?",
+    "methods": {
+      "call": "Phone Call",
+      "whatsapp": "WhatsApp",
+      "email": "Email"
+    },
+    "submit": "Send",
+    "success": "Thank you for signing up! We'll contact you very soon."
+  },
+  "whatsapp": {
+    "message": "Talk to us directly here",
+    "button": "Chat on WhatsApp"
+  }
+}

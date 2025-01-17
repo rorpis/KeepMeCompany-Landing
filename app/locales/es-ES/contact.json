@@ -1,1 +1,19 @@
-{}
+{
+  "form": {
+    "fullName": "Nombre Completo",
+    "email": "Correo Electrónico",
+    "phone": "Número de Teléfono",
+    "contactMethods": "¿Cómo prefieres que te contactemos?",
+    "methods": {
+      "call": "Llamada Telefónica",
+      "whatsapp": "WhatsApp",
+      "email": "Correo Electrónico"
+    },
+    "submit": "Enviar",
+    "success": "¡Gracias por registrarte! Te contactaremos muy pronto."
+  },
+  "whatsapp": {
+    "message": "Háblanos directamente aquí",
+    "button": "Chatear por WhatsApp"
+  }
+}
