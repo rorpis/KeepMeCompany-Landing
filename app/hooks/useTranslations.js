@@ -10,10 +10,12 @@ export function useTranslations() {
       try {
         const homeModule = await import(`@/app/locales/${locale}/home.json`);
         const commonModule = await import(`@/app/locales/${locale}/common.json`);
+        const contactModule = await import(`@/app/locales/${locale}/contact.json`);
         
         setTranslations({
           home: homeModule.default || {},
-          common: commonModule.default || {}
+          common: commonModule.default || {},
+          contact: contactModule.default || {}
         });
       } catch (error) {
         console.error(`Failed to load translations for locale ${locale}:`, error);
