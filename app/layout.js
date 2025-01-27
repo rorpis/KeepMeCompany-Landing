@@ -6,7 +6,11 @@ import crypto from 'crypto';
 const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({ children }) {
+  // Generate nonce for this request
   const nonce = crypto.randomBytes(16).toString('base64');
+  
+  // Add nonce to Next.js script tags
+  process.env.NEXT_SCRIPT_NONCE = nonce;
   
   return (
     <html suppressHydrationWarning>

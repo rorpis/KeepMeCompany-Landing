@@ -28,19 +28,13 @@ const nextConfig = {
             key: 'Content-Security-Policy',
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https: http: blob:",
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://app.keepmecompanyai.com",
               "style-src 'self' 'unsafe-inline'",
-              "font-src 'self' data: https: http:",
-              "img-src 'self' data: blob: https: http:",
-              "media-src 'self' https: http: blob:",
-              "connect-src 'self' https: http: wss: ws:",
-              "frame-src 'self' https: http:",
-              "worker-src 'self' blob:",
-              "manifest-src 'self'",
-              "object-src 'none'",
-              "form-action 'self'",
-              "base-uri 'self'",
-              "frame-ancestors 'none'"
+              "font-src 'self'",
+              "img-src 'self' data: https:",
+              "connect-src 'self' https://keep-me-company-backend-b450f889ef90.herokuapp.com https://iptoearth.expeditedaddons.com",
+              "connect-src 'self' https://*.keepmecompanyai.com https://firestore.googleapis.com https://*.firebaseio.com",
+              "frame-src 'self' https://www.youtube.com https://youtu.be",
             ].join('; ')
           },
           {
