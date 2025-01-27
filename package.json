@@ -11,8 +11,11 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
+    "cors": "^2.8.5",
     "firebase": "^11.0.1",
     "framer-motion": "^11.3.17",
+    "helmet": "^8.0.0",
+    "hpp": "^0.2.3",
     "next": "14.2.5",
     "react": "^18",
     "react-dom": "^18"
