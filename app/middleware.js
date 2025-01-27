@@ -49,15 +49,11 @@ async function getCountryFromIP(ip) {
 }
 
 export async function middleware(request) {
-  // Check if the request is not secure and not localhost
-  if (
-    !request.headers.get('x-forwarded-proto')?.includes('https') &&
-    process.env.NODE_ENV === 'production'
-  ) {
-    return Response.redirect(
-      `https://${request.headers.get('host')}${request.nextUrl.pathname}`,
-      301
-    );
+  // Force HTTPS redirect
+  if (process.env.NODE_ENV === 'production' && 
+      !request.headers.get('x-forwarded-proto')?.includes('https')) {
+    const secureUrl = `https://${request.headers.get('host')}${request.nextUrl.pathname}${request.nextUrl.search}`;
+    return NextResponse.redirect(secureUrl, 301);
   }
 
   // Get the pathname
@@ -131,10 +127,15 @@ export async function middleware(request) {
   }
 }
 
-// Simplify matcher to ensure it runs
+// Add matcher configuration to ensure middleware runs on all routes
 export const config = {
   matcher: [
-    '/',
-    '/((?!api|_next|favicon.ico).*)'
-  ]
+    /*
+     * Match all request paths except for the ones starting with:
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     */
+    '/((?!_next/static|_next/image|favicon.ico).*)',
+  ],
 };
