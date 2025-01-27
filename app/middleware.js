@@ -63,6 +63,13 @@ export async function middleware(request) {
   // Get the pathname
   const pathname = request.nextUrl.pathname;
 
+  // Early return for static files and API routes
+  if (pathname.startsWith('/_next') || 
+      pathname.includes('/api/') ||
+      pathname.includes('.')) {
+    return NextResponse.next();
+  }
+
   // Check if pathname already has a locale
   const hasLocale = i18nConfig.locales.some(
     locale => pathname.startsWith(`/${locale}`)
@@ -73,14 +80,7 @@ export async function middleware(request) {
     return NextResponse.next();
   }
 
-  // Early return for static files and API routes
-  if (pathname.startsWith('/_next') || 
-      pathname.includes('/api/') ||
-      pathname.includes('.')) {
-    return NextResponse.next();
-  }
-
-  // Get client IP
+  // Get client IP and determine locale
   const forwardedFor = request.headers.get('x-forwarded-for');
   const clientIP = forwardedFor ? forwardedFor.split(',')[0].trim() : null;
 
@@ -97,17 +97,24 @@ export async function middleware(request) {
     // Create new URL with locale
     const newUrl = new URL(request.url);
     newUrl.pathname = pathname === '/' ? `/${locale}` : `/${locale}${pathname}`;
-
+    
     // Generate nonce
     const nonce = crypto.randomBytes(16).toString('base64');
     
-    // Get the response
+    // Create response with redirect
     const response = NextResponse.redirect(newUrl);
     
-    // Get existing CSP header
+    // Set secure cookie attributes
+    response.cookies.set('locale', locale, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'Lax',
+      path: '/',
+      maxAge: 60 * 60 * 24 * 30, // 30 days
+    });
+
+    // Handle CSP nonce
     const csp = response.headers.get('Content-Security-Policy');
-    
-    // Replace nonce placeholder with actual nonce
     if (csp) {
       response.headers.set(
         'Content-Security-Policy',
