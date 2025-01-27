@@ -12,12 +12,10 @@ export async function generateStaticParams() {
 
 export default function LocaleLayout({ children, params: { locale } }) {
   return (
-    <html lang={locale}>
-      <body className={inter.className}>
-        <Header locale={locale} />
-        <main style={{ paddingTop: '8vh' }}>{children}</main>
-        <Footer locale={locale} />
-      </body>
-    </html>
+    <>
+      <Header locale={locale} />
+      <main style={{ paddingTop: '8vh' }}>{children}</main>
+      <Footer locale={locale} />
+    </>
   );
 } 

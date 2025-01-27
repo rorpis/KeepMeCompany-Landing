@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { i18nConfig } from './config/i18n';
 import { getLocaleFromCountry } from './config/countryMapping';
+import crypto from 'crypto';
 
 // Use error logging for Heroku (more likely to show up)
 const log = (message, data = {}) => {
@@ -97,7 +98,24 @@ export async function middleware(request) {
     const newUrl = new URL(request.url);
     newUrl.pathname = pathname === '/' ? `/${locale}` : `/${locale}${pathname}`;
 
-    return NextResponse.redirect(newUrl);
+    // Generate nonce
+    const nonce = crypto.randomBytes(16).toString('base64');
+    
+    // Get the response
+    const response = NextResponse.redirect(newUrl);
+    
+    // Get existing CSP header
+    const csp = response.headers.get('Content-Security-Policy');
+    
+    // Replace nonce placeholder with actual nonce
+    if (csp) {
+      response.headers.set(
+        'Content-Security-Policy',
+        csp.replace(/{{nonce}}/g, nonce)
+      );
+    }
+    
+    return response;
   } catch (error) {
     // On error, redirect to default locale
     const newUrl = new URL(request.url);
