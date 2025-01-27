@@ -48,6 +48,17 @@ async function getCountryFromIP(ip) {
 }
 
 export async function middleware(request) {
+  // Check if the request is not secure and not localhost
+  if (
+    !request.headers.get('x-forwarded-proto')?.includes('https') &&
+    process.env.NODE_ENV === 'production'
+  ) {
+    return Response.redirect(
+      `https://${request.headers.get('host')}${request.nextUrl.pathname}`,
+      301
+    );
+  }
+
   // Get the pathname
   const pathname = request.nextUrl.pathname;
 
