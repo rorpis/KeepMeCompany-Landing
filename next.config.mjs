@@ -26,7 +26,19 @@ const nextConfig = {
           },
           {
             key: 'Content-Security-Policy',
-            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://app.keepmecompanyai.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https:; connect-src 'self' https://keep-me-company-backend-b450f889ef90.herokuapp.com https://iptoearth.expeditedaddons.com;"
+            value: [
+              "default-src 'self'",
+              "script-src 'self' https://app.keepmecompanyai.com https://www.youtube.com https://youtu.be",
+              "style-src 'self' 'unsafe-inline'",
+              "font-src 'self'",
+              "img-src 'self' https:",
+              "frame-src 'self' https://www.youtube.com https://youtu.be",
+              "connect-src 'self' https://keep-me-company-backend-b450f889ef90.herokuapp.com https://iptoearth.expeditedaddons.com https://*.googleapis.com https://firestore.googleapis.com https://*.firebaseio.com",
+              "object-src 'none'",
+              "form-action 'self'",
+              "base-uri 'self'",
+              "frame-ancestors 'none'"
+            ].join('; ')
           },
           {
             key: 'X-Content-Type-Options',
