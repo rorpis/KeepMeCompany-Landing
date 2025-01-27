@@ -100,16 +100,24 @@ export async function middleware(request) {
     // Create response with redirect
     const response = NextResponse.redirect(newUrl);
     
-    // Set secure cookie attributes
-    response.cookies.set('locale', locale, {
+    // Set first-party cookie with explicit attributes
+    const cookieOptions = {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'Lax',
+      sameSite: 'Strict',  // Most restrictive setting
       path: '/',
       maxAge: 60 * 60 * 24 * 30, // 30 days
-    });
+    };
 
-    // Handle CSP nonce
+    // Set the cookie with explicit attributes
+    response.headers.set(
+      'Set-Cookie',
+      `locale=${locale}; ${Object.entries(cookieOptions)
+        .map(([key, value]) => `${key}=${value}`)
+        .join('; ')}`
+    );
+
+    // Handle CSP nonce if needed
     const csp = response.headers.get('Content-Security-Policy');
     if (csp) {
       response.headers.set(
