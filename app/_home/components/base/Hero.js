@@ -186,7 +186,7 @@ const Hero = () => {
           Collect symptoms with one click, saving clinician time
         </p>
 
-        <div className="relative inline-block">
+        {/* <div className="relative inline-block">
           <button
             ref={buttonRef}
             style={{
@@ -291,7 +291,7 @@ const Hero = () => {
               </div>
             </div>
           </button>
-        </div>
+        </div> */}
 
         <style jsx>{`
           @keyframes pulseSlightly {
