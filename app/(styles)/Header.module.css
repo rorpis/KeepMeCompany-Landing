@@ -38,17 +38,28 @@
 .navLink {
   color: var(--gray-text);
   text-decoration: none;
-  transition: color var(--transition-speed) ease, 
-              font-weight var(--transition-speed) ease;
+  transition: color var(--transition-speed) ease;
   padding: 0.5rem 0;
+  position: relative;
 }
 
 .header.hovered .navLink {
   color: var(--white-text);
 }
 
-.navLink:hover {
-  font-weight: bold;
+.navLink::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 1px;
+  bottom: 0;
+  left: 0;
+  background-color: var(--white-text);
+  transition: width var(--transition-speed) ease;
+}
+
+.navLink:hover::after {
+  width: 100%;
 }
 
 .platformButton {
