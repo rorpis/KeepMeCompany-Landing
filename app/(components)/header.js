@@ -194,6 +194,14 @@ const Header = ({ locale }) => {
           </div>
 
           <Link 
+            href={`/${locale}/pricing`}
+            className={styles.mobileNavLink}
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            {t('common.header.pricing')}
+          </Link>
+
+          <Link 
             href={`/${locale}/contact-sales`}
             className={styles.mobileNavLink}
             onClick={() => setIsMobileMenuOpen(false)}

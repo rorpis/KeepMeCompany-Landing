@@ -32,17 +32,17 @@ const Hero = () => {
   return (
     <div className="min-h-[92vh] flex flex-col justify-center items-center bg-background relative px-4 py-8 md:py-12">
       <div className="text-center w-full max-w-4xl">
-        <div className="text-2xl md:text-4xl lg:text-5xl font-bold leading-tight mb-4 md:mb-6">
+        <div className="text-base md:text-3xl lg:text-4xl font-semibold leading-relaxed mb-4 md:mb-6">
           <div className="text-white">
             Help your{' '}
             <span className="text-[var(--color-company-blue)]">
               senior patients
             </span>{' '}
-            articulate their symptoms over the phone
+            articulate<br/> their symptoms over the phone
           </div>
         </div>
 
-        <p className="text-lg md:text-xl text-white mb-8 md:mb-12 italic max-w-2xl mx-auto">
+        <p className="text-sm md:text-xl lg:text-2xl text-white mb-8 md:mb-12 italic max-w-2xl mx-auto">
           Collect symptoms with one click, saving clinician time
         </p>
 
