@@ -1,37 +1,15 @@
 import React, { useState, useRef, useEffect } from 'react';
 import AudioControls from './demo_components/AudioControls';
 import ConversationDisplay from './demo_components/ConversationDisplay';
+import DemoTranscription from './demo_components/DemoTranscription';
+import { transcriptionData, timestamps } from './demo_components/demoData';
 
 const ANIMATION_DURATION = 700;
+
 
 const styles = {
   section: "backdrop-blur-md bg-white/5 rounded-2xl border border-white/10 shadow-lg",
   sectionHeader: "text-white/60 mb-2",
-};
-
-const timestamps = {
-  patient: {
-    info: 23
-  },
-  condition: {
-    main: 35
-  },
-  symptoms: {
-    weightLoss: 37,
-    anxiety: 37,
-    jitteriness: 40,
-    nervousness: 55,
-    irritability: 57,
-    insomnia: 65
-  },
-  pattern: {
-    duration: 47
-  },
-  others: {
-    appetite: 97,
-    headaches: 90,
-    changes: 80
-  }
 };
 
 const AnimatedLine = ({ show, content, onRender, timestamp }) => {
@@ -69,6 +47,8 @@ const DemoSection = () => {
   const [duration, setDuration] = useState(0);
   const [renderedLines, setRenderedLines] = useState(new Set());
   const [playbackSpeed, setPlaybackSpeed] = useState(1);
+  const [messages, setMessages] = useState([]);
+  const [activeMessageIds, setActiveMessageIds] = useState([]);
   const audioRef = useRef(null);
   const progressRef = useRef(null);
 
@@ -92,6 +72,18 @@ const DemoSection = () => {
       });
     }
   }, []);
+
+  useEffect(() => {
+    const newMessages = transcriptionData
+      .filter(msg => msg.timestamp <= currentTime);
+
+    if (JSON.stringify(newMessages) !== JSON.stringify(messages)) {
+      // Get the last two message IDs
+      const newActiveMessageIds = newMessages.slice(-2).map(msg => msg.id);
+      setMessages(newMessages);
+      setActiveMessageIds(newActiveMessageIds);
+    }
+  }, [currentTime, messages]);
 
   const shouldShow = (timestamp) => currentTime >= timestamp;
 
@@ -136,17 +128,17 @@ const DemoSection = () => {
   };
 
   return (
-    <div className="min-h-[92vh] flex flex-col justify-center items-center bg-background">
+    <div className="min-h-[92vh] flex flex-col justify-center items-center bg-background px-4 py-8">
       {/* Title section */}
       <div className={`
         text-center mb-8
         transition-opacity duration-700
         ${isPlaying ? 'opacity-30' : 'opacity-100'}
       `}>
-        <h2 className="text-3xl font-semibold mb-2">
+        <h2 className="text-3xl md:text-3xl text-2xl font-semibold mb-2">
           Listen to your future assistant
         </h2>
-        <p className="text-xl italic text-gray-300">
+        <p className="md:text-xl text-lg italic text-gray-300">
           Give ample time to your patients to explain their symptoms
         </p>
       </div>
@@ -158,29 +150,47 @@ const DemoSection = () => {
         duration-${ANIMATION_DURATION}
         ease-in-out
         ${hasStartedPlaying 
-          ? 'flex-row gap-8 w-full max-w-[80vw]' 
-          : 'flex-col gap-8 w-[32rem]'}
+          ? 'md:flex-row flex-col gap-8 w-full max-w-[80vw]' 
+          : 'flex-col gap-8 w-full md:w-[32rem]'}
       `}>
-        <AudioControls 
-          audioRef={audioRef}
-          progressRef={progressRef}
-          isPlaying={isPlaying}
-          hasStartedPlaying={hasStartedPlaying}
-          currentTime={currentTime}
-          duration={duration}
-          audioUrl={audioUrl}
-          handlePlayPause={handlePlayPause}
-          handleProgressClick={handleProgressClick}
-          formatTime={formatTime}
-          styles={styles}
-          animationDuration={ANIMATION_DURATION}
-          onAudioEnd={handleAudioEnd}
-          playbackSpeed={playbackSpeed}
-          onSpeedChange={handleSpeedChange}
-        />
+        {/* Audio and Transcription Container */}
+        <div className="flex flex-col items-center flex-1">
+          {/* Container for consistent width */}
+          <div className={`w-full md:w-96 flex flex-col ${styles.section}`}>
+            <AudioControls 
+              audioRef={audioRef}
+              progressRef={progressRef}
+              isPlaying={isPlaying}
+              hasStartedPlaying={hasStartedPlaying}
+              currentTime={currentTime}
+              duration={duration}
+              audioUrl={audioUrl}
+              handlePlayPause={handlePlayPause}
+              handleProgressClick={handleProgressClick}
+              formatTime={formatTime}
+              styles={styles}
+              animationDuration={ANIMATION_DURATION}
+              onAudioEnd={handleAudioEnd}
+              playbackSpeed={playbackSpeed}
+              onSpeedChange={handleSpeedChange}
+            />
+          </div>
+
+          {/* Separate container for Transcription with padding */}
+          {hasStartedPlaying && (
+            <div className={`w-full md:w-96 mt-4 p-4 ${styles.section}`}>
+              <DemoTranscription
+                messages={messages}
+                isPlaying={isPlaying}
+                animationDuration={ANIMATION_DURATION}
+                activeMessageIds={activeMessageIds}
+              />
+            </div>
+          )}
+        </div>
 
         {hasStartedPlaying && (
-          <div className="animate-fadeIn">
+          <div className="animate-fadeIn flex-1">
             <ConversationDisplay 
               hasStartedPlaying={hasStartedPlaying}
               timestamps={timestamps}
@@ -189,6 +199,7 @@ const DemoSection = () => {
               styles={styles}
               AnimatedLine={AnimatedLine}
               currentTime={currentTime}
+              isPlaying={isPlaying}
             />
           </div>
         )}

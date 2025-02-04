@@ -2,7 +2,8 @@
   "header": {
     "contactSales": "Contact Sales",
     "openPlatform": "Open Platform",
-    "languageSelector": "Select Language"
+    "languageSelector": "Select Language",
+    "pricing": "Pricing"
   },
   "footer": {
     "privacyNotice": "Privacy Notice",

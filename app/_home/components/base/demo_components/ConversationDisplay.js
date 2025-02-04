@@ -7,14 +7,15 @@ const ConversationDisplay = ({
     handleNewLine,
     styles,
     AnimatedLine,
-    currentTime
+    currentTime,
+    isPlaying
   }) => {
-    const isLoading = hasStartedPlaying && currentTime < timestamps.patient.info;
+    const isLoading = hasStartedPlaying && currentTime < timestamps.patient.info && isPlaying;
 
     return (
       <div className={`
         ${styles.section}
-        p-6
+        p-4
         text-white
         transition-all
         duration-${styles.animationDuration}
@@ -25,8 +26,8 @@ const ConversationDisplay = ({
         {/* Loading Spinner */}
         <div className={`
           absolute
-          top-6
-          right-6
+          top-4
+          right-4
           transition-opacity
           duration-300
           ${isLoading ? 'opacity-100' : 'opacity-0 pointer-events-none'}
@@ -35,9 +36,9 @@ const ConversationDisplay = ({
           <Loader2 className="w-6 h-6 animate-spin text-white/60" />
         </div>
 
-        <h3 className="text-xl font-semibold mb-4">Conversation Summary</h3>
+        <h3 className="text-xl font-semibold mb-3">Conversation Summary</h3>
         
-        <div className="space-y-4">
+        <div className="space-y-3">
           {/* Patient Section */}
           <div className="flex items-baseline">
             <p className={styles.sectionHeader}>Patient:</p>
@@ -53,7 +54,7 @@ const ConversationDisplay = ({
   
           {/* Primary Condition Section */}
           <div>
-            <p className={`${styles.sectionHeader} mb-2`}>Primary Condition or Complaint</p>
+            <p className={`${styles.sectionHeader} mb-1.5`}>Primary Condition or Complaint</p>
             <AnimatedLine 
               show={shouldShow(timestamps.condition.main)}
               content={<p className="text-sm">Weight loss and anxiety</p>}
@@ -64,7 +65,7 @@ const ConversationDisplay = ({
   
           {/* Symptoms Section */}
           <div>
-            <p className={`${styles.sectionHeader} mb-2`}>Primary Symptoms</p>
+            <p className={`${styles.sectionHeader} mb-1.5`}>Primary Symptoms</p>
             <ul className="list-disc list-inside text-sm">
               <AnimatedLine 
                 show={shouldShow(timestamps.symptoms.weightLoss)}
@@ -107,7 +108,7 @@ const ConversationDisplay = ({
   
           {/* Pattern Section */}
           <div>
-            <p className={`${styles.sectionHeader} mb-2`}>Pattern</p>
+            <p className={`${styles.sectionHeader} mb-1.5`}>Pattern</p>
             <ul className="list-disc list-inside text-sm">
               <AnimatedLine 
                 show={shouldShow(timestamps.pattern.duration)}
@@ -120,7 +121,7 @@ const ConversationDisplay = ({
   
           {/* Others Section */}
           <div>
-            <p className={`${styles.sectionHeader} mb-2`}>Others</p>
+            <p className={`${styles.sectionHeader} mb-1.5`}>Others</p>
             <ul className="list-disc list-inside text-sm">
               <AnimatedLine 
                 show={shouldShow(timestamps.others.appetite)}
