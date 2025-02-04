@@ -2,7 +2,8 @@
   "header": {
     "contactSales": "Contactar Ventas",
     "openPlatform": "Abrir Plataforma",
-    "languageSelector": "Seleccionar Idioma"
+    "languageSelector": "Seleccionar Idioma",
+    "pricing": "Precios"
   },
   "footer": {
     "privacyNotice": "Política de Privacidad",
