@@ -10,8 +10,14 @@ const PhoneInput = ({ isCountingDown, setIsCountingDown, countdown, setCountdown
   };
 
   const WIDTHS = {
-    collapsed: '180px',
-    expanded: '400px'
+    collapsed: {
+      mobile: '160px',
+      desktop: '180px'
+    },
+    expanded: {
+      mobile: '280px',
+      desktop: '400px'
+    }
   };
 
   // Phone utilities
@@ -59,6 +65,17 @@ const PhoneInput = ({ isCountingDown, setIsCountingDown, countdown, setCountdown
     expand: null,
     collapse: null
   });
+
+  // Add mobile detection after phoneUtils
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Event handlers
   const updateState = (newState) => setState(prev => ({ ...prev, ...newState }));
@@ -166,6 +183,13 @@ const PhoneInput = ({ isCountingDown, setIsCountingDown, countdown, setCountdown
     };
   }, []);
 
+  // Add handleButtonClick before handleCallClick
+  const handleButtonClick = () => {
+    if (isMobile && !state.isExpanded) {
+      handleExpand();
+    }
+  };
+
   // Modify the onClick handler in the Call now button
   const handleCallClick = () => {
     if (phoneUtils.isValid(state.phoneNumber, state.selectedCountry) && !state.isCalling) {
@@ -185,27 +209,30 @@ const PhoneInput = ({ isCountingDown, setIsCountingDown, countdown, setCountdown
     <div className="flex flex-col items-center">
       <button
         ref={buttonRef}
+        onClick={handleButtonClick}
         style={{
-          width: state.isExpanded ? WIDTHS.expanded : WIDTHS.collapsed,
+          width: state.isExpanded 
+            ? (isMobile ? WIDTHS.expanded.mobile : WIDTHS.expanded.desktop)
+            : (isMobile ? WIDTHS.collapsed.mobile : WIDTHS.collapsed.desktop),
           height: '50px',
           transition: 'width 300ms ease-in-out',
         }}
         className={`
           relative bg-white text-black rounded-full
           overflow-hidden
-          ${!state.isHovered && !state.isEditing ? 'animate-pulse-slight' : ''}
+          ${!state.isHovered && !state.isEditing && !isMobile ? 'animate-pulse-slight' : ''}
         `}
-        onMouseEnter={handleExpand}
-        onMouseLeave={handleCollapse}
+        onMouseEnter={isMobile ? undefined : handleExpand}
+        onMouseLeave={isMobile ? undefined : handleCollapse}
         aria-expanded={state.isFullyExpanded}
         aria-busy={state.isExpanding || state.isCollapsing}
         disabled={state.isExpanding || state.isCollapsing}
         aria-label={state.isCalling ? 'Currently calling' : 'Enter phone number'}
       >
-        <div className="flex items-center px-6 w-full">
+        <div className="flex items-center px-4 md:px-6 w-full">
           <svg 
             viewBox="0 0 24 24"
-            className="w-7 h-7 mr-4 flex-shrink-0"
+            className="w-6 h-6 md:w-7 md:h-7 mr-2 md:mr-4 flex-shrink-0"
             fill="none"
             stroke="currentColor"
             strokeWidth="2"
@@ -253,12 +280,13 @@ const PhoneInput = ({ isCountingDown, setIsCountingDown, countdown, setCountdown
                         type="tel"
                         value={state.phoneNumber}
                         onChange={(e) => updateState({ phoneNumber: phoneUtils.format(e.target.value, state.selectedCountry) })}
-                        className="bg-transparent border-none outline-none w-full placeholder-black/40 m-0 p-0 [appearance:textfield]"
+                        className="bg-transparent border-none outline-none w-full placeholder-black/40 m-0 p-0 text-sm md:text-base [appearance:textfield]"
                         placeholder={phoneUtils.getPlaceholder(state.selectedCountry)}
                         onClick={e => e.stopPropagation()}
+                        inputMode="numeric"
                       />
                     ) : (
-                      <span className="cursor-text whitespace-nowrap">
+                      <span className="cursor-text whitespace-nowrap text-sm md:text-base">
                         {state.phoneNumber || (state.isExpanded && !state.isCalling ? phoneUtils.getPlaceholder(state.selectedCountry) : '')}
                       </span>
                     )}
@@ -283,7 +311,7 @@ const PhoneInput = ({ isCountingDown, setIsCountingDown, countdown, setCountdown
 
       {/* Countdown display */}
       {isCountingDown && (
-        <div className="mt-4 text-white text-base animate-fade-in">
+        <div className="mt-4 text-white text-sm md:text-base animate-fade-in">
           Calling in {countdown}
         </div>
       )}

@@ -30,20 +30,28 @@ const Hero = () => {
   }, [isCountingDown, countdown]);
 
   return (
-    <div className="min-h-[92vh] flex justify-center items-center bg-background relative">
-      <div className="text-center px-4 w-full max-w-4xl">
-        <div className="text-5xl font-bold leading-tight mb-6">
+    <div className="min-h-[92vh] flex flex-col justify-center items-center bg-background relative px-4 py-8 md:py-12">
+      <div className="text-center w-full max-w-4xl">
+        <div className="text-2xl md:text-4xl lg:text-5xl font-bold leading-tight mb-4 md:mb-6">
           <div className="text-white">
-            Help your <span className="text-[var(--color-company-blue)]">senior patients</span> articulate their symptoms over the phone
+            Help your{' '}
+            <span className="text-[var(--color-company-blue)]">
+              senior patients
+            </span>{' '}
+            articulate their symptoms over the phone
           </div>
         </div>
 
-        <p className="text-xl text-white mb-12 italic max-w-2xl mx-auto">
+        <p className="text-lg md:text-xl text-white mb-8 md:mb-12 italic max-w-2xl mx-auto">
           Collect symptoms with one click, saving clinician time
         </p>
 
-        <div className={`relative inline-block transition-opacity duration-1000 ${showPhoneInput ? 'opacity-100' : 'opacity-0'}`}>
-          <PhoneInput 
+        <div
+          className={`relative inline-block transition-opacity duration-1000 ${
+            showPhoneInput ? 'opacity-100' : 'opacity-0'
+          }`}
+        >
+          <PhoneInput
             isCountingDown={isCountingDown}
             setIsCountingDown={setIsCountingDown}
             countdown={countdown}
@@ -51,7 +59,9 @@ const Hero = () => {
           />
         </div>
       </div>
-      <div className="absolute bottom-10 right-12">
+      
+      {/* Certifications positioned differently on mobile */}
+      <div className="mt-8 md:mt-0 md:absolute md:bottom-10 md:right-12 w-full md:w-auto flex justify-center md:justify-end">
         <Certifications />
       </div>
     </div>

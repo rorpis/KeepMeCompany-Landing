@@ -128,17 +128,17 @@ const DemoSection = () => {
   };
 
   return (
-    <div className="min-h-[92vh] flex flex-col justify-center items-center bg-background">
+    <div className="min-h-[92vh] flex flex-col justify-center items-center bg-background px-4 py-8">
       {/* Title section */}
       <div className={`
         text-center mb-8
         transition-opacity duration-700
         ${isPlaying ? 'opacity-30' : 'opacity-100'}
       `}>
-        <h2 className="text-3xl font-semibold mb-2">
+        <h2 className="text-3xl md:text-3xl text-2xl font-semibold mb-2">
           Listen to your future assistant
         </h2>
-        <p className="text-xl italic text-gray-300">
+        <p className="md:text-xl text-lg italic text-gray-300">
           Give ample time to your patients to explain their symptoms
         </p>
       </div>
@@ -150,13 +150,13 @@ const DemoSection = () => {
         duration-${ANIMATION_DURATION}
         ease-in-out
         ${hasStartedPlaying 
-          ? 'flex-row gap-8 w-full max-w-[80vw]' 
-          : 'flex-col gap-8 w-[32rem]'}
+          ? 'md:flex-row flex-col gap-8 w-full max-w-[80vw]' 
+          : 'flex-col gap-8 w-full md:w-[32rem]'}
       `}>
         {/* Audio and Transcription Container */}
         <div className="flex flex-col items-center flex-1">
           {/* Container for consistent width */}
-          <div className={`w-96 flex flex-col ${styles.section}`}>
+          <div className={`w-full md:w-96 flex flex-col ${styles.section}`}>
             <AudioControls 
               audioRef={audioRef}
               progressRef={progressRef}
@@ -178,7 +178,7 @@ const DemoSection = () => {
 
           {/* Separate container for Transcription with padding */}
           {hasStartedPlaying && (
-            <div className={`w-96 mt-4 p-4 ${styles.section}`}>
+            <div className={`w-full md:w-96 mt-4 p-4 ${styles.section}`}>
               <DemoTranscription
                 messages={messages}
                 isPlaying={isPlaying}
