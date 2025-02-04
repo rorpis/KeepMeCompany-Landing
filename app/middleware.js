@@ -36,7 +36,6 @@ async function getCountryFromIP(ip) {
     }
 
     const data = await response.json();
-    console.log('IP to Earth Response:', data);
 
     if (!data.country_code) {
       throw new Error('No country code in response');

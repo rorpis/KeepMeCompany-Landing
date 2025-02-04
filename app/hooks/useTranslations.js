@@ -43,7 +43,6 @@ export function useTranslations() {
         if (current && typeof current === 'object' && part in current) {
           current = current[part];
         } else {
-          console.log(`Missing translation for path: ${parts.join('.')}`);
           return key;
         }
       }
