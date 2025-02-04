@@ -1,37 +1,36 @@
-import { useState, useRef } from 'react';
-import { ChevronDownIcon } from '@heroicons/react/24/outline';
+import { useState, useRef, useEffect } from 'react';
+import { ChevronDownCircle } from 'lucide-react';
 
 const FAQBase = ({ faqItems }) => {
   const [openIndex, setOpenIndex] = useState(null);
 
   const FAQItem = ({ item, isOpen, index, onClick }) => {
     const contentRef = useRef(null);
+    const [contentHeight, setContentHeight] = useState(0);
     
+    useEffect(() => {
+      if (contentRef.current) {
+        setContentHeight(contentRef.current.scrollHeight);
+      }
+    }, [isOpen]);
+
     return (
-      <div 
-        className={`
-          rounded-3xl bg-[#1a1a1a] hover:bg-[#242424] 
-          transition-all duration-300 overflow-hidden
-        `}
-      >
+      <div className="rounded-3xl bg-neutral-900 hover:bg-neutral-800 transition-all duration-300">
         <button
           onClick={onClick}
           className="w-full text-left px-6 py-4 flex items-center justify-between"
         >
           <span className="font-semibold">{item.question}</span>
-          <ChevronDownIcon 
-            className={`w-5 h-5 transition-transform duration-500 ease-out
-              ${isOpen ? 'rotate-180' : 'rotate-0'}
-            `}
+          <ChevronDownCircle
+            className={`w-6 h-6 transition-transform duration-500 ease-out
+              ${isOpen ? 'rotate-180' : 'rotate-0'}`}
+            strokeWidth={1.5}
           />
         </button>
-        <div
-          className={`
-            overflow-hidden transition-all duration-500 ease-out
-            ${isOpen ? 'max-h-96' : 'max-h-0'}
-          `}
+        <div 
+          className="overflow-hidden transition-all duration-500 ease-out"
           style={{
-            transitionDelay: isOpen ? '150ms' : '0ms'
+            maxHeight: isOpen ? `${contentHeight}px` : '0',
           }}
         >
           <div 
@@ -51,7 +50,7 @@ const FAQBase = ({ faqItems }) => {
 
   return (
     <section className="py-16">
-      <div className="w-[50vw] mx-auto px-4">
+      <div className="w-full max-w-3xl mx-auto px-4">
         <h2 className="text-3xl font-bold text-center mb-8">
           Frequently Asked Questions
         </h2>
@@ -71,4 +70,4 @@ const FAQBase = ({ faqItems }) => {
   );
 };
 
-export default FAQBase; 
+export default FAQBase;

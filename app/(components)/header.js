@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import styles from '../(styles)/Header.module.css';
@@ -9,9 +9,29 @@ import { useTranslations } from '../hooks/useTranslations';
 
 const Header = ({ locale }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const [isSelectOpen, setIsSelectOpen] = useState(false);
   const router = useRouter();
   const { t } = useTranslations();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // Check if page is scrolled more than 0 pixels
+      const scrolled = window.scrollY > 0;
+      setIsScrolled(scrolled);
+    };
+
+    // Add scroll event listener
+    window.addEventListener('scroll', handleScroll);
+    
+    // Initial check
+    handleScroll();
+
+    // Cleanup
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -36,7 +56,7 @@ const Header = ({ locale }) => {
 
   return (
     <header 
-      className={`${styles.header} ${isHovered ? styles.hovered : ''}`}
+      className={`${styles.header} ${isHovered || isScrolled ? styles.hovered : ''}`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >

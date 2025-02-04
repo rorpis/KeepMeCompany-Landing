@@ -4,15 +4,15 @@ import React from 'react';
 
 const Solution = () => {
   return (
-    <div className="h-screen flex justify-center items-center bg-background">
+    <div className="min-h-[70vh] flex justify-center items-center bg-background">
       <div className="text-center max-w-4xl px-4">
-        <h1 className="text-4xl font-normal mb-2">
+        <h1 className="text-4xl font-normal mb-1">
           What if you could manage more patients
         </h1>
-        <h2 className="text-5xl font-normal italic mb-8">
+        <h2 className="text-5xl font-normal italic mb-6">
           without increasing headcount?
         </h2>
-        <p className="text-2xl mb-10 max width = ">
+        <p className="text-2xl mb-8 max width = ">
         Make your team more productive and your patients happier.
         </p>
         <a 

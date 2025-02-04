@@ -1,10 +1,10 @@
 import React from 'react';
-import { Users, Accessibility, ClipboardCheck, Timer } from 'lucide-react';
+import { Clock, Accessibility, ClipboardCheck, Timer } from 'lucide-react';
 
 const Benefits = () => {
   const benefits = [
     {
-      icon: <Users className="w-8 h-8 text-blue-500" />,
+      icon: <Clock className="w-8 h-8 text-blue-500" />,
       title: "No more 8am rush",
       description: "If your patient chooses to speak with the AI"
     },
@@ -29,14 +29,15 @@ const Benefits = () => {
     <section className="py-16 px-4">
       <div className="max-w-6xl mx-auto">
         <div className="flex gap-8 justify-center">
-          <div className="w-[42.5%] grid grid-cols-2 gap-6 bg-white rounded-lg shadow-lg p-6">
+          <div className="w-5/12 grid grid-cols-2 gap-6 bg-white/95 rounded-lg shadow-lg p-5">
             {benefits.map((benefit, index) => (
-              <div key={index} className="flex flex-col gap-2">
+              <div key={index} className="flex flex-col items-center gap-0.5 text-center">
                 <div className="w-12 h-12 flex items-center justify-center">
                   {benefit.icon}
                 </div>
-                <h3 className="text-base font-medium text-gray-900">{benefit.title}</h3>
-                <p className="text-sm text-gray-600">
+                <h3 className="text-lg font-medium text-gray-900">{benefit.title}</h3>
+                <div className="w-4/6 border-b border-gray-300 my-0.5"></div>
+                <p className="text-xs text-gray-600 bg-gray-20 rounded-md p-2">
                   {benefit.description}
                 </p>
               </div>

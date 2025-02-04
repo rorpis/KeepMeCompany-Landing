@@ -17,12 +17,10 @@ const AudioControls = ({
 }) => {
   return (
     <div className={`
-      ${styles.section}
       transition-all
       duration-${animationDuration}
       ease-in-out
       h-[110px]
-      ${hasStartedPlaying ? 'w-96 self-start' : 'w-full'}
     `}>
       <audio 
         ref={audioRef}

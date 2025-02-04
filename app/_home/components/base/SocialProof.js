@@ -13,7 +13,7 @@ const SocialProof = () => {
   ];
 
   return (
-    <div className="w-full space-y-6">
+    <div className="w-full space-y-6 mt-16">
       <h2 className="text-white text-center font-mono text-1xl tracking-wider">
         Seamlessly integrated with your EHR
       </h2>
