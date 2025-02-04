@@ -3,6 +3,7 @@ import "../globals.css";
 import Header from '@/app/(components)/header';
 import Footer from '@/app/(components)/footer';
 import { i18nConfig } from '../config/i18n';
+import Analytics from '@/app/components/Analytics';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -13,6 +14,7 @@ export async function generateStaticParams() {
 export default function LocaleLayout({ children, params: { locale } }) {
   return (
     <>
+      <Analytics />
       <Header locale={locale} />
       <main style={{ paddingTop: '8vh' }}>{children}</main>
       <Footer locale={locale} />
