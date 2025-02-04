@@ -9,9 +9,7 @@ export function generateCSPHash(content) {
 
 // Helper to print hashes during development
 export function logScriptHashes(scripts) {
-  console.log('CSP Hashes for inline scripts:');
   scripts.forEach((script, index) => {
     const hash = generateCSPHash(script);
-    console.log(`Script ${index + 1}: ${hash}`);
   });
 } 
