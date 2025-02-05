@@ -1,12 +1,13 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
+import { scheduleFollowUpCall } from '@/app/_utils/api';
 
 const PhoneInput = ({ isCountingDown, setIsCountingDown, countdown, setCountdown }) => {
   const COUNTRY_CONFIG = {
-    ES: ['+34', '000-000-000'],
-    UK: ['+44', '000-0000-0000'],
-    FR: ['+33', '000-000-000']
+    // ES: ['+34', '000-000-000'],
+    UK: ['+44', '0000-000000'],  // this should match the number of format 
+    // FR: ['+33', '000-000-000']
   };
 
   const WIDTHS = {
@@ -23,25 +24,32 @@ const PhoneInput = ({ isCountingDown, setIsCountingDown, countdown, setCountdown
   // Phone utilities
   const phoneUtils = {
     format: (value, country) => {
-      const numbers = value.replace(/\D/g, '');
+      // Remove all non-digits and any leading zeros
+      let numbers = value.replace(/\D/g, '').replace(/^0+/, '');
       const format = COUNTRY_CONFIG[country][1];
       const maxLength = format.replace(/[^0]/g, '').length;
+      
+      // Truncate to max length
       const truncated = numbers.substring(0, maxLength);
       
       let formatted = truncated;
-      if (truncated.length > 3) {
-        formatted = truncated.length > 6 
-          ? `${truncated.slice(0, 3)}-${truncated.slice(3, 6)}-${truncated.slice(6)}`
-          : `${truncated.slice(0, 3)}-${truncated.slice(3)}`;
+      if (truncated.length > 4) {
+        formatted = `${truncated.slice(0, 4)}-${truncated.slice(4)}`;
       }
       return formatted;
     },
     isValid: (value, country) => {
-      const numbers = value.replace(/\D/g, '');
-      const format = COUNTRY_CONFIG[country][1];
-      return numbers.length === format.replace(/[^0]/g, '').length;
+      // Remove all non-digits and any leading zeros
+      const numbers = value.replace(/\D/g, '').replace(/^0+/, '');
+      
+      // For UK mobile numbers, expect 10 digits (without leading 0)
+      // Example: 7379873007
+      return numbers.length === 10;
     },
-    getPlaceholder: (country) => COUNTRY_CONFIG[country][1]
+    getPlaceholder: (country) => {
+      // Show placeholder without leading 0
+      return COUNTRY_CONFIG[country][1].substring(1);
+    }
   };
 
   // State management
@@ -51,7 +59,7 @@ const PhoneInput = ({ isCountingDown, setIsCountingDown, countdown, setCountdown
     isEditing: false,
     isCalling: false,
     phoneNumber: '',
-    selectedCountry: 'ES',
+    selectedCountry: 'UK',
     // Animation states
     isExpanding: false,
     isCollapsing: false,
@@ -191,17 +199,33 @@ const PhoneInput = ({ isCountingDown, setIsCountingDown, countdown, setCountdown
   };
 
   // Modify the onClick handler in the Call now button
-  const handleCallClick = () => {
+  const handleCallClick = async () => {
     if (phoneUtils.isValid(state.phoneNumber, state.selectedCountry) && !state.isCalling) {
       updateState({ isCalling: true, isEditing: false });
       setIsCountingDown(true);
       setCountdown(6);
-      
-      // Make the call immediately, but keep the UI feedback for 6 seconds
-      setTimeout(() => {
-        updateState({ isCalling: false, isHovered: false });
-        setIsCountingDown(false);
-      }, 6000);
+
+      try {
+        // Format phone number with country code
+        const fullPhoneNumber = `${COUNTRY_CONFIG[state.selectedCountry][0]}${state.phoneNumber.replace(/\D/g, '')}`;
+        
+        const result = await scheduleFollowUpCall({
+          phoneNumber: fullPhoneNumber,
+          country: 'UK'
+        });
+
+        if (!result.success) {
+          console.error('Call scheduling failed:', result.message);
+        }
+      } catch (error) {
+        console.error('Error scheduling call:', error);
+      } finally {
+        // Keep the UI feedback for 6 seconds regardless of API result
+        setTimeout(() => {
+          updateState({ isCalling: false, isHovered: false });
+          setIsCountingDown(false);
+        }, 6000);
+      }
     }
   };
 
@@ -253,7 +277,7 @@ const PhoneInput = ({ isCountingDown, setIsCountingDown, countdown, setCountdown
             >
               {state.isContentVisible && (
                 <>
-                  <select
+                  {/* <select
                     value={state.selectedCountry}
                     onChange={(e) => updateState({ selectedCountry: e.target.value, phoneNumber: '' })}
                     className="bg-transparent border-none outline-none cursor-pointer pr-2 mr-2 border-r border-black/30"
@@ -263,7 +287,10 @@ const PhoneInput = ({ isCountingDown, setIsCountingDown, countdown, setCountdown
                         {dialCode}
                       </option>
                     ))}
-                  </select>
+                  </select> */}
+                  <div className="bg-transparent border-none outline-none pr-2 mr-2 border-r border-black/30">
+                    +44
+                  </div>
                   
                   <div 
                     className="flex-1 transition-opacity duration-300 opacity-100"
