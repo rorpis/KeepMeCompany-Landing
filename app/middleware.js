@@ -36,7 +36,6 @@ async function getCountryFromIP(ip) {
     }
 
     const data = await response.json();
-    console.log('IP to Earth Response:', data);
 
     if (!data.country_code) {
       throw new Error('No country code in response');
@@ -115,6 +114,17 @@ export async function middleware(request) {
       `locale=${locale}; ${Object.entries(cookieOptions)
         .map(([key, value]) => `${key}=${value}`)
         .join('; ')}`
+    );
+
+    // Add this to your middleware before the response
+    const hashedIP = crypto.createHash('sha256')
+      .update(clientIP || 'unknown')
+      .digest('hex');
+
+    // Add to your response cookies
+    response.headers.set(
+      'Set-Cookie',
+      `visitor=${hashedIP}; Path=/; SameSite=Strict; Secure; HttpOnly; Max-Age=${60 * 60 * 24 * 365}`
     );
 
     // Handle CSP nonce if needed

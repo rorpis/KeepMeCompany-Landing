@@ -56,7 +56,6 @@ const DemoSection = () => {
 
   const handleNewLine = (timestamp, content) => {
     if (!renderedLines.has(timestamp)) {
-      console.log(`Rendering at ${timestamp}s:`, content);
       setRenderedLines(prev => new Set([...prev, timestamp]));
     }
   };
