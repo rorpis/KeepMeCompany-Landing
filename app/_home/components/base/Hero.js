@@ -46,7 +46,7 @@ const Hero = () => {
           Collect symptoms with one click, saving clinician time
         </p>
 
-        {/* <div
+        <div
           className={`relative inline-block transition-opacity duration-1000 ${
             showPhoneInput ? 'opacity-100' : 'opacity-0'
           }`}
@@ -57,7 +57,7 @@ const Hero = () => {
             countdown={countdown}
             setCountdown={setCountdown}
           />
-        </div> */}
+        </div>
       </div>
       
       {/* Certifications positioned differently on mobile */}
