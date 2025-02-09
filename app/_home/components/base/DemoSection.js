@@ -135,11 +135,8 @@ const DemoSection = () => {
         ${isPlaying ? 'opacity-30' : 'opacity-100'}
       `}>
         <h2 className="text-3xl md:text-3xl text-2xl font-semibold mb-2">
-          Listen to your future assistant
+          Your future assistant.
         </h2>
-        <p className="md:text-xl text-lg italic text-gray-300">
-          Give ample time to your patients to explain their symptoms
-        </p>
       </div>
       
       {/* Main content wrapper */}
