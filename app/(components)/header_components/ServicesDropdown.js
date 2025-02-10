@@ -1,19 +1,29 @@
 'use client';
 
 import React from 'react';
+import { useRouter } from 'next/navigation';
 
 export const ServicesDropdown = ({ 
     className = '',
     t,
     getServices 
   }) => {
+    const router = useRouter();
+
+    const handlePublicCareClick = () => {
+      router.push('/public-care');
+    };
+
     return (
       <div className={`bg-[rgb(23,23,23)] rounded-lg p-6 shadow-lg min-w-[480px] ${className}`}>
         <div className="space-y-8">
           {/* Public Care Section */}
           <div className="flex">
             <div className="w-32">
-              <h3 className="text-white text-sm font-medium">
+              <h3 
+                className="text-white text-sm font-medium cursor-pointer hover:text-gray-300"
+                onClick={handlePublicCareClick}
+              >
                 {t('common.header.services.publicCare.title')}
               </h3>
             </div>
@@ -23,6 +33,7 @@ export const ServicesDropdown = ({
                 <div
                   key={index}
                   className="text-gray-400 text-[0.8rem] hover:text-white cursor-pointer group"
+                  onClick={handlePublicCareClick}
                 >
                   <span className="relative py-1 inline-block">
                     {service}

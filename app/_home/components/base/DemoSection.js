@@ -3,6 +3,7 @@ import AudioControls from './demo_components/AudioControls';
 import ConversationDisplay from './demo_components/ConversationDisplay';
 import DemoTranscription from './demo_components/DemoTranscription';
 import { transcriptionData, timestamps } from './demo_components/demoData';
+import { Bot } from 'lucide-react';
 
 const ANIMATION_DURATION = 700;
 
@@ -51,6 +52,8 @@ const DemoSection = () => {
   const [activeMessageIds, setActiveMessageIds] = useState([]);
   const audioRef = useRef(null);
   const progressRef = useRef(null);
+  const [isAliciaVisible, setIsAliciaVisible] = useState(false);
+  const aliciaSectionRef = useRef(null);
 
   const audioUrl = '/videos-and-audios/Demo.wav';
 
@@ -126,17 +129,60 @@ const DemoSection = () => {
     }
   };
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsAliciaVisible(true);
+          observer.disconnect(); // Only trigger once
+        }
+      },
+      {
+        threshold: 0.3
+      }
+    );
+
+    if (aliciaSectionRef.current) {
+      observer.observe(aliciaSectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <div className="min-h-[92vh] flex flex-col justify-center items-center bg-background px-4 py-8">
+    <div ref={aliciaSectionRef} className="min-h-[92vh] flex flex-col justify-center items-center bg-background px-4 py-8">
       {/* Title section */}
       <div className={`
         text-center mb-8
         transition-opacity duration-700
         ${isPlaying ? 'opacity-30' : 'opacity-100'}
       `}>
-        <h2 className="text-3xl md:text-3xl text-2xl font-semibold mb-2">
-          Your future assistant.
-        </h2>
+        <div className={`
+          transition-all duration-1000 transform
+          ${isAliciaVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}
+        `}>
+          <div className="w-full flex justify-center">
+            <div className="inline-block">
+              <div className="flex items-center gap-3 text-left">
+                <div className="w-10 h-10 rounded-full bg-gray-100/10 flex items-center justify-center">
+                  <Bot
+                    className="w-7 h-7"
+                    color="var(--color-company-blue)"
+                    strokeWidth={2}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </div>
+                <h2 className="text-xl md:text-3xl font-bold">Meet Alicia</h2>
+              </div>
+              <div className="mt-4 text-center">
+                <p className="text-lg md:text-xl text-gray-400">
+                  Your AI Assistant
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       
       {/* Main content wrapper */}
