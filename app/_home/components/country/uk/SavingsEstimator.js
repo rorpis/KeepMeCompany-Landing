@@ -211,7 +211,7 @@ const SavingsEstimator = () => {
 
               {/* New Sales Button - Always present */}
               <button
-                onClick={() => window.location.href = '/contact'}
+                onClick={() => window.location.href = '/contact-sales'}
                 className={`
                   absolute bottom-8 right-8 
                   px-4 py-2 
