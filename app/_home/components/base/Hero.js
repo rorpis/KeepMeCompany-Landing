@@ -14,7 +14,7 @@ const Hero = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowPhoneInput(true);
-    }, 1000);
+    }, 3000);
 
     return () => clearTimeout(timer);
   }, []);

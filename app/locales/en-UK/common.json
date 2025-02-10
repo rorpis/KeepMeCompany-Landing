@@ -3,7 +3,27 @@
     "contactSales": "Contact Sales",
     "openPlatform": "Open Platform",
     "languageSelector": "Select Language",
-    "pricing": "Pricing"
+    "pricing": "Pricing",
+    "services": {
+      "title": "Services",
+      "publicCare": {
+        "title": "Public Care",
+        "services": [
+          "Anamnesis Calls",
+          "8am Rush",
+          "Quality of Outcomes Framework (QOF)",
+          "Patient Follow Up"
+        ]
+      },
+      "privateCare": {
+        "title": "Private Care",
+        "services": [
+          "Anamnesis Calls",
+          "Patient Follow Up",
+          "Patient Engagement Calls"
+        ]
+      }
+    }
   },
   "footer": {
     "privacyNotice": "Privacy Notice",

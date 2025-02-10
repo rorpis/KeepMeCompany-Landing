@@ -39,6 +39,8 @@ const SocialProof = () => {
             </div>
           </div>
         </div>
+        
+        <div className="absolute -bottom-16 left-0 w-full h-16"></div>
       </div>
 
       <style jsx>{`

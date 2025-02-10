@@ -1,7 +1,30 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Clock, Accessibility, ClipboardCheck, Timer } from 'lucide-react';
 
 const Benefits = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  const textRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      {
+        threshold: 0.2
+      }
+    );
+
+    if (textRef.current) {
+      observer.observe(textRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   const benefits = [
     {
       icon: <Clock className="w-8 h-8 text-blue-500" />,
@@ -44,7 +67,12 @@ const Benefits = () => {
             ))}
           </div>
 
-          <div className="w-full md:w-1/3 flex items-center text-center md:text-left">
+          <div 
+            ref={textRef}
+            className={`w-full md:w-1/3 flex items-center text-center md:text-left transition-all duration-1000 transform ${
+              isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-20'
+            }`}
+          >
             <div>
               <h3 className="text-blue-500 mb-4 text-lg md:text-base">Smart Patient Communications</h3>
               <h2 className="text-3xl md:text-4xl mb-4">

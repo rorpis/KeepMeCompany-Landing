@@ -3,70 +3,58 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import styles from '../(styles)/Header.module.css';
+import { Dancing_Script } from 'next/font/google';
 import { COUNTRIES } from '../config/countries';
 import { useTranslations } from '../hooks/useTranslations';
-import { Menu, X } from 'lucide-react';
+import MainNav from './header_components/MainNav';
+import MobileNavigation from './header_components/MobileNavigation';
+
+const handwriting = Dancing_Script({ 
+  subsets: ['latin'],
+  weight: '400'
+});
 
 const Header = ({ locale }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isSelectOpen, setIsSelectOpen] = useState(false);
+  const [isServicesOpen, setIsServicesOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMobileServicesOpen, setIsMobileServicesOpen] = useState(false);
   const router = useRouter();
   const { t } = useTranslations();
 
+  // Helper function to safely get services arrays
+  const getServices = (path) => {
+    const result = t(`common.${path}`);
+    return Array.isArray(result) ? result : [];
+  };
+
   useEffect(() => {
     const handleScroll = () => {
-      // Check if page is scrolled more than 0 pixels
-      const scrolled = window.scrollY > 0;
-      setIsScrolled(scrolled);
+      setIsScrolled(window.scrollY > 0);
     };
-
-    // Add scroll event listener
     window.addEventListener('scroll', handleScroll);
-    
-    // Initial check
     handleScroll();
-
-    // Cleanup
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Add new useEffect for body scroll lock
   useEffect(() => {
-    if (isMobileMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
+    document.body.style.overflow = isMobileMenuOpen ? 'hidden' : 'unset';
+    return () => { document.body.style.overflow = 'unset'; };
   }, [isMobileMenuOpen]);
 
-  // Add escape key handler
   useEffect(() => {
     const handleEscape = (e) => {
       if (e.key === 'Escape') {
         setIsMobileMenuOpen(false);
         setIsSelectOpen(false);
+        setIsServicesOpen(false);
       }
     };
-
     window.addEventListener('keydown', handleEscape);
     return () => window.removeEventListener('keydown', handleEscape);
   }, []);
-
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-  };
 
   const handleCountryChange = (countryCode) => {
     const country = COUNTRIES[countryCode];
@@ -77,151 +65,52 @@ const Header = ({ locale }) => {
     setIsMobileMenuOpen(false);
   };
 
-  // Determine current country from locale
   const currentCountry = Object.values(COUNTRIES).find(
     country => country.locale === locale
   ) || COUNTRIES.UK;
 
+  const sharedProps = {
+    isHovered,
+    isScrolled,
+    locale,
+    currentCountry,
+    isSelectOpen,
+    setIsSelectOpen,
+    handleCountryChange,
+    t,
+    COUNTRIES,
+    getServices
+  };
+
   return (
     <header 
-      className={`${styles.header} ${isHovered || isScrolled ? styles.hovered : ''}`}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+      className={`fixed top-0 left-0 right-0 flex justify-between items-center px-8 h-[8vh] transition-all duration-300 z-50
+        ${isHovered || isScrolled ? 'bg-[rgba(23,23,23,0.85)]' : 'bg-transparent'}`}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
       <Link 
         href="/" 
-        className={styles.logo}
+        className={`text-[2.0rem] transition-colors duration-300 cursor-pointer
+          ${isHovered || isScrolled ? 'text-white' : 'text-gray-400'}
+          ${handwriting.className}`}
       >
-        KeepMeCompany
+        <span className="inline-block">KeepmeCompany</span>
       </Link>
       
-      {/* Desktop Navigation */}
-      <nav className={`${styles.nav} ${styles.desktopNav}`}>
-        <div className={styles.countrySelector}>
-          <button
-            className={styles.selectorButton}
-            onClick={() => setIsSelectOpen(!isSelectOpen)}
-            aria-label={t('common.header.languageSelector')}
-          >
-            <span>{currentCountry.flag}</span>
-          </button>
-          
-          {isSelectOpen && (
-            <div className={styles.dropdown}>
-              {Object.entries(COUNTRIES).map(([code, country]) => (
-                <button
-                  key={code}
-                  className={styles.countryOption}
-                  onClick={() => handleCountryChange(code)}
-                >
-                  <span>{country.flag}</span>
-                  <span>{country.name}</span>
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
-
-        <Link 
-          href={`/${locale}/pricing`} 
-          className={styles.navLink}
-        >
-          {t('common.header.pricing')}
-        </Link>
-
-        <Link 
-          href={`/${locale}/contact-sales`} 
-          className={styles.navLink}
-        >
-          {t('common.header.contactSales')}
-        </Link>
-
-        <a 
-          href="https://app.keepmecompanyai.com" 
-          className={styles.platformButton}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {t('common.header.openPlatform')}
-        </a>
-      </nav>
-
-      {/* Mobile Menu Button */}
-      <button
-        className={styles.mobileMenuButton}
-        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
-      >
-        {isMobileMenuOpen ? (
-          <X className={styles.menuIcon} />
-        ) : (
-          <Menu className={styles.menuIcon} />
-        )}
-      </button>
-
-      {/* Mobile Menu Overlay */}
-      <div
-        className={`${styles.mobileOverlay} ${isMobileMenuOpen ? styles.active : ''}`}
-        onClick={() => setIsMobileMenuOpen(false)}
+      <MainNav 
+        {...sharedProps}
+        isServicesOpen={isServicesOpen}
+        setIsServicesOpen={setIsServicesOpen}
       />
-
-      {/* Mobile Menu Panel */}
-      <div className={`${styles.mobileMenu} ${isMobileMenuOpen ? styles.active : ''}`}>
-        <div className={styles.mobileMenuContent}>
-          <div className={styles.mobileSelectorWrapper}>
-            <button
-              className={styles.mobileSelectorButton}
-              onClick={() => setIsSelectOpen(!isSelectOpen)}
-            >
-              <span>{currentCountry.flag}</span>
-              <span>Select Country</span>
-            </button>
-            
-            {isSelectOpen && (
-              <div className={styles.mobileDropdown}>
-                {Object.entries(COUNTRIES).map(([code, country]) => (
-                  <button
-                    key={code}
-                    className={styles.mobileCountryOption}
-                    onClick={() => handleCountryChange(code)}
-                  >
-                    <span>{country.flag}</span>
-                    <span>{country.name}</span>
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-
-          <Link 
-            href={`/${locale}/pricing`}
-            className={styles.mobileNavLink}
-            onClick={() => setIsMobileMenuOpen(false)}
-          >
-            {t('common.header.pricing')}
-          </Link>
-
-          <Link 
-            href={`/${locale}/contact-sales`}
-            className={styles.mobileNavLink}
-            onClick={() => setIsMobileMenuOpen(false)}
-          >
-            {t('common.header.contactSales')}
-          </Link>
-
-          <div className={styles.mobilePlatformWrapper}>
-            <a 
-              href="https://app.keepmecompanyai.com"
-              className={styles.mobilePlatformButton}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              {t('common.header.openPlatform')}
-            </a>
-          </div>
-        </div>
-      </div>
+      
+      <MobileNavigation 
+        {...sharedProps}
+        isMobileMenuOpen={isMobileMenuOpen}
+        setIsMobileMenuOpen={setIsMobileMenuOpen}
+        isMobileServicesOpen={isMobileServicesOpen}
+        setIsMobileServicesOpen={setIsMobileServicesOpen}
+      />
     </header>
   );
 };
