@@ -142,7 +142,7 @@ export const MainNav = ({
           {t('common.header.pricing')}
         </NavLink>
 
-        <NavLink href={`/${locale}/contact`} isHovered={isHovered} isScrolled={isScrolled}>
+        <NavLink href={`/${locale}/contact-sales`} isHovered={isHovered} isScrolled={isScrolled}>
           {t('common.header.contactSales')}
         </NavLink>
       </div>
