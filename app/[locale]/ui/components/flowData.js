@@ -1,5 +1,3 @@
-import { Trash2 } from 'lucide-react';
-
 export const initialNodes = [
   {
     id: '1',
@@ -43,19 +41,9 @@ export const initialNodes = [
     }
   },
   {
-    id: '5',
-    type: 'conversation',
-    position: { x: 400, y: 350 },
-    data: { 
-      label: 'Medical Consultation Request',
-      description: 'Process request to see a doctor',
-      nodeType: 'regular'
-    }
-  },
-  {
     id: '6',
     type: 'conversation',
-    position: { x: 400, y: 450 },
+    position: { x: 400, y: 350 },
     data: { 
       label: 'Patient Intake',
       description: 'Gather basic information about symptoms and urgency',
@@ -69,6 +57,26 @@ export const initialNodes = [
     data: { 
       label: 'Finish call',
       description: 'Thank the patient and end the call',
+      nodeType: 'regular'
+    }
+  },
+  {
+    id: '8',
+    type: 'conversation',
+    position: { x: 50, y: 450 },
+    data: { 
+      label: 'Prescription Ready for Pickup',
+      description: 'Inform patient their prescription can be picked up',
+      nodeType: 'regular'
+    }
+  },
+  {
+    id: '9',
+    type: 'conversation',
+    position: { x: 150, y: 450 },
+    data: { 
+      label: 'Prescription Needs Prior Authorization',
+      description: 'Inform patient that prior authorization is required',
       nodeType: 'regular'
     }
   }
@@ -103,19 +111,10 @@ export const initialEdges = [
     style: { stroke: '#666', strokeWidth: 2, strokeDasharray: '5,5' }
   },
   {
-    id: 'e3-5',
+    id: 'e3-6',
     source: '3',
-    target: '5',
-    label: 'Patient needs to see a doctor',
-    type: 'custom',
-    animated: true,
-    style: { stroke: '#666', strokeWidth: 2, strokeDasharray: '5,5' }
-  },
-  {
-    id: 'e5-6',
-    source: '5',
     target: '6',
-    label: '',
+    label: 'Need to see a doctor',
     type: 'custom',
     animated: true,
     style: { stroke: '#666', strokeWidth: 2, strokeDasharray: '5,5' }
@@ -130,8 +129,26 @@ export const initialEdges = [
     style: { stroke: '#666', strokeWidth: 2, strokeDasharray: '5,5' }
   },
   {
-    id: 'e4-7',
+    id: 'e4-8',
     source: '4',
+    target: '8',
+    label: 'Prescription is available',
+    type: 'custom',
+    animated: true,
+    style: { stroke: '#666', strokeWidth: 2, strokeDasharray: '5,5' }
+  },
+  {
+    id: 'e4-9',
+    source: '4',
+    target: '9',
+    label: 'Authorization needed',
+    type: 'custom',
+    animated: true,
+    style: { stroke: '#666', strokeWidth: 2, strokeDasharray: '5,5' }
+  },
+  {
+    id: 'e8-7',
+    source: '8',
     target: '7',
     label: '',
     type: 'custom',
@@ -140,7 +157,6 @@ export const initialEdges = [
   }
 ];
 
-// Template nodes for the sidebar – only one template now
 export const nodeTemplates = [
   {
     type: 'conversation',
@@ -152,7 +168,6 @@ export const nodeTemplates = [
   }
 ];
 
-// Function to create a new node from template
 export const createNodeFromTemplate = (template, position) => {
   return {
     id: `node_${Date.now()}`,
@@ -162,13 +177,13 @@ export const createNodeFromTemplate = (template, position) => {
   };
 };
 
-// Default edge labels based on source-target pairs
 export const defaultEdgeLabels = {
   "1-2": "Verify ID",
   "2-3": "Get reason for the call",
   "3-4": "Need prescription refill",
-  "3-5": "Need to see a doctor",
-  "5-6": "Assess",
+  "3-6": "Need to see a doctor",
   "6-7": "Finish call",
-  "4-7": "Finish call"
+  "4-8": "Prescription is available",
+  "4-9": "Authorization needed",
+  "8-7": "Finish call"
 };

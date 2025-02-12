@@ -1,4 +1,4 @@
-import HomeComponent from '@/app/_home/page';
+import HomeComponent from '../_home/page';
 
 export default function LocalePage({ params }) {
   return <HomeComponent />;
