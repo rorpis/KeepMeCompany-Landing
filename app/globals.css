@@ -229,3 +229,7 @@ body {
   border-color: var(--color-company-blue);
 }
 
+.logo-font {
+  font-family: var(--font-dancing-script);
+}
+

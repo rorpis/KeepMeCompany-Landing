@@ -3,12 +3,12 @@ import { Suspense } from 'react';
 
 import "../globals.css";
 
-import Header from '@/app/(components)/header';
-import Footer from '@/app/(components)/footer';
-import SplashScreen from '@/app/(components)/splashScreen';
+import Header from '../(components)/header';
+import Footer from '../(components)/footer';
+import SplashScreen from '../(components)/splashScreen';
+import { Analytics } from '@vercel/analytics/react';
 
 import { i18nConfig } from '../config/i18n';
-import Analytics from '@/app/components/Analytics';
 
 const inter = Inter({ subsets: ["latin"] });
 

@@ -91,9 +91,8 @@ const Header = ({ locale }) => {
     >
       <Link 
         href="/" 
-        className={`text-[2.0rem] transition-colors duration-300 cursor-pointer
-          ${isHovered || isScrolled ? 'text-white' : 'text-gray-400'}
-          ${handwriting.className}`}
+        className={`text-[2.0rem] transition-colors duration-300 cursor-pointer logo-font ${handwriting.className}
+          ${isHovered || isScrolled ? 'text-white' : 'text-gray-400'}`}
       >
         <span className="inline-block">KeepmeCompany</span>
       </Link>

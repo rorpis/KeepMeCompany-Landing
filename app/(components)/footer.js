@@ -3,6 +3,12 @@
 import React from 'react';
 import Link from 'next/link';
 import { useTranslations } from '../hooks/useTranslations';
+import { Dancing_Script } from 'next/font/google';
+
+const handwriting = Dancing_Script({ 
+  subsets: ['latin'],
+  weight: '400'
+});
 
 const Footer = () => {
   const { t } = useTranslations();
@@ -21,9 +27,9 @@ const Footer = () => {
           <div className="flex flex-col gap-6">
             <Link 
               href="/" 
-              className="text-2xl font-bold text-[var(--color-text-white)] hover:text-[var(--color-text-white)] transition-colors duration-300 ease-in-out"
+              className={`text-2xl text-[var(--color-text-white)] hover:text-[var(--color-text-white)] transition-colors duration-300 ease-in-out ${handwriting.className}`}
             >
-              KeepMeCompany
+              KeepmeCompany
             </Link>
             <p className="text-[var(--color-text-gray)] leading-relaxed">
               86-90, Paul Street,<br />

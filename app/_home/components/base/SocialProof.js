@@ -18,8 +18,8 @@ const SocialProof = () => {
         Seamlessly integrated with your EHR
       </h2>
       
-      <div className="w-full flex justify-center">
-        <div className="py-6 md:py-12 px-4 md:px-8 bg-white flex flex-col justify-center items-center rounded-3xl w-full max-w-[95%] md:max-w-[85%]">
+      <div className="w-full flex justify-center overflow-x-hidden">
+        <div className="py-6 md:py-12 px-4 md:px-8 bg-white flex flex-col justify-center items-center rounded-3xl w-[95%] md:max-w-[85%]">
           <div className="overflow-hidden w-full relative">
             {/* Left fade gradient */}
             <div className="absolute left-0 top-0 w-12 md:w-24 h-full bg-gradient-to-r from-white to-transparent z-10"></div>
@@ -39,8 +39,6 @@ const SocialProof = () => {
             </div>
           </div>
         </div>
-        
-        <div className="absolute -bottom-16 left-0 w-full h-16"></div>
       </div>
 
       <style jsx>{`

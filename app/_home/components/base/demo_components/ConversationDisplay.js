@@ -36,7 +36,7 @@ const ConversationDisplay = ({
           <Loader2 className="w-6 h-6 animate-spin text-white/60" />
         </div>
 
-        <h3 className="text-xl font-semibold mb-3">Conversation Summary</h3>
+        <h3 className="text-xl font-semibold mb-4">Conversation Summary</h3>
         
         <div className="space-y-3">
           {/* Patient Section */}

@@ -52,7 +52,6 @@ const DemoSection = () => {
   const [activeMessageIds, setActiveMessageIds] = useState([]);
   const audioRef = useRef(null);
   const progressRef = useRef(null);
-  const [isAliciaVisible, setIsAliciaVisible] = useState(false);
   const aliciaSectionRef = useRef(null);
 
   const audioUrl = '/videos-and-audios/Demo.wav';
@@ -129,55 +128,31 @@ const DemoSection = () => {
     }
   };
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsAliciaVisible(true);
-          observer.disconnect(); // Only trigger once
-        }
-      },
-      {
-        threshold: 0.3
-      }
-    );
-
-    if (aliciaSectionRef.current) {
-      observer.observe(aliciaSectionRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
   return (
-    <div ref={aliciaSectionRef} className="min-h-[92vh] flex flex-col justify-center items-center bg-background px-4 py-8">
+    <div ref={aliciaSectionRef} className="min-h-[101.2vh] flex flex-col justify-center items-center bg-background px-4 py-8 -mt-[7vh]">
       {/* Title section */}
       <div className={`
         text-center mb-8
-        transition-opacity duration-700
         ${isPlaying ? 'opacity-30' : 'opacity-100'}
       `}>
-        <div className={`
-          transition-all duration-1000 transform
-          ${isAliciaVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}
-        `}>
+        <div>
           <div className="w-full flex justify-center">
             <div className="inline-block">
               <div className="flex items-center gap-3 text-left">
-                <div className="w-10 h-10 rounded-full bg-gray-100/10 flex items-center justify-center">
+                <div className="w-12 h-12 rounded-full bg-gray-100/10 flex items-center justify-center">
                   <Bot
-                    className="w-7 h-7"
+                    className="w-8 h-8"
                     color="var(--color-company-blue)"
                     strokeWidth={2}
                     strokeLinecap="round"
                     strokeLinejoin="round"
                   />
                 </div>
-                <h2 className="text-xl md:text-3xl font-bold">Meet Alicia</h2>
+                <h2 className="text-2xl md:text-4xl font-bold">Meet Alicia</h2>
               </div>
               <div className="mt-4 text-center">
                 <p className="text-lg md:text-xl text-gray-400">
-                  Your AI Assistant
+                  Your healthcare assistant 
                 </p>
               </div>
             </div>
