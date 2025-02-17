@@ -12,7 +12,7 @@ export default function HomeComponent() {
     if (!locale) return;
 
     const loadComponents = async () => {
-      const componentList = ['Hero', 'SocialProof', 'Solution', 'DemoSection', 'Benefits', 'Security', 'FAQ'];
+      const componentList = ['DemoSection', 'Hero', 'SocialProof', 'Solution', 'TreeOverview', 'Benefits', 'Security', 'FAQ'];
       const loadedComponents = {};
 
       for (const name of componentList) {
