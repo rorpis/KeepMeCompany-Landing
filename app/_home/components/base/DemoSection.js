@@ -11,6 +11,11 @@ const ANIMATION_DURATION = 700;
 const styles = {
   section: "backdrop-blur-md bg-white/5 rounded-2xl border border-white/10 shadow-lg",
   sectionHeader: "text-white/60 mb-2",
+  botContainer: `
+    w-10 h-10 rounded-full bg-gray-100/10 
+    flex items-center justify-center 
+    animate-[pulse_3s_cubic-bezier(0.4,0,0.6,1)_infinite]
+  `,
 };
 
 const AnimatedLine = ({ show, content, onRender, timestamp }) => {
@@ -54,8 +59,9 @@ const DemoSection = () => {
   const progressRef = useRef(null);
   const [isAliciaVisible, setIsAliciaVisible] = useState(false);
   const aliciaSectionRef = useRef(null);
+  const conversationRef = useRef(null);
 
-  const audioUrl = '/videos-and-audios/Demo.wav';
+  const audioUrl = '/videos-and-audios/DemoIntake.wav';
 
   const handleNewLine = (timestamp, content) => {
     if (!renderedLines.has(timestamp)) {
@@ -89,6 +95,26 @@ const DemoSection = () => {
 
   const shouldShow = (timestamp) => currentTime >= timestamp;
 
+  const scrollToConversation = () => {
+    if (conversationRef.current) {
+      // Adjust offset to account for viewport height and element height
+      const viewportHeight = window.innerHeight;
+      const elementHeight = conversationRef.current.getBoundingClientRect().height;
+      const yOffset = -(viewportHeight - elementHeight) / 2; // This will position it roughly at the upper third
+      
+      const element = conversationRef.current;
+      const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      
+      // Add a slight delay to ensure animations have started
+      setTimeout(() => {
+        window.scrollTo({
+          top: y,
+          behavior: 'smooth'
+        });
+      }, 500); // Increased delay for smoother transition
+    }
+  };
+
   const handlePlayPause = () => {
     if (audioRef.current) {
       if (isPlaying) {
@@ -97,6 +123,8 @@ const DemoSection = () => {
         audioRef.current.play();
         if (!hasStartedPlaying) {
           setHasStartedPlaying(true);
+          // Increased delay to allow for initial animations
+          setTimeout(scrollToConversation, 500);
         }
       }
       setIsPlaying(!isPlaying);
@@ -150,7 +178,7 @@ const DemoSection = () => {
   }, []);
 
   return (
-    <div ref={aliciaSectionRef} className="min-h-[92vh] flex flex-col justify-center items-center bg-background px-4 py-8">
+    <div ref={aliciaSectionRef} className="min-h-[78vh] flex flex-col justify-center items-center bg-background px-4 py-8">
       {/* Title section */}
       <div className={`
         text-center mb-8
@@ -164,7 +192,7 @@ const DemoSection = () => {
           <div className="w-full flex justify-center">
             <div className="inline-block">
               <div className="flex items-center gap-3 text-left">
-                <div className="w-10 h-10 rounded-full bg-gray-100/10 flex items-center justify-center">
+                <div className={styles.botContainer}>
                   <Bot
                     className="w-7 h-7"
                     color="var(--color-company-blue)"
@@ -173,7 +201,7 @@ const DemoSection = () => {
                     strokeLinejoin="round"
                   />
                 </div>
-                <h2 className="text-xl md:text-3xl font-bold">Meet Alicia</h2>
+                <h2 className="text-xl md:text-4xl font-bold">Meet Alicia</h2>
               </div>
               <div className="mt-4 text-center">
                 <p className="text-lg md:text-xl text-gray-400">
@@ -218,6 +246,14 @@ const DemoSection = () => {
             />
           </div>
 
+          <div className={`
+            text-center text-sm text-gray-400 mt-2
+            transition-opacity duration-500
+            ${hasStartedPlaying ? 'opacity-0' : 'opacity-100'}
+          `}>
+            (Patient Intake)
+          </div>
+
           {/* Separate container for Transcription with padding */}
           {hasStartedPlaying && (
             <div className={`w-full md:w-96 mt-4 p-4 ${styles.section}`}>
@@ -232,7 +268,7 @@ const DemoSection = () => {
         </div>
 
         {hasStartedPlaying && (
-          <div className="animate-fadeIn flex-1">
+          <div ref={conversationRef} className="animate-fadeIn flex-1">
             <ConversationDisplay 
               hasStartedPlaying={hasStartedPlaying}
               timestamps={timestamps}

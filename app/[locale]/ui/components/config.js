@@ -100,6 +100,39 @@ export const initialNodes = [
       nodeType: 'last',
       group: 'Intake'
     }
+  },
+  {
+    id: '12',
+    type: 'conversation',
+    position: { x: 700, y: 350 },
+    data: {
+      label: 'Handle Patient Query',
+      description: 'Process general patient enquiry',
+      nodeType: 'regular',
+      group: 'General Enquiry'
+    }
+  },
+  {
+    id: '13',
+    type: 'conversation',
+    position: { x: 650, y: 450 },
+    data: {
+      label: 'Answer Query',
+      description: 'Provide available information to patient',
+      nodeType: 'regular',
+      group: 'General Enquiry'
+    }
+  },
+  {
+    id: '14',
+    type: 'conversation',
+    position: { x: 750, y: 450 },
+    data: {
+      label: 'Leave Comment for Reception',
+      description: 'Record query for reception team follow-up',
+      nodeType: 'regular',
+      group: 'General Enquiry'
+    }
   }
 ];
 
@@ -115,5 +148,9 @@ export const initialEdges = [
   { id: 'e4-8', source: '4', target: '8', data: { label: 'Prescription ready' }, type: 'custom', animated: true },
   { id: 'e4-9', source: '4', target: '9', data: { label: 'Authorization needed' }, type: 'custom', animated: true },
   { id: 'e8-11', source: '8', target: '11', data: { label: 'Finish call' }, type: 'custom', animated: true },
-  { id: 'e9-11', source: '9', target: '11', data: { label: 'Finish call' }, type: 'custom', animated: true }
+  { id: 'e9-11', source: '9', target: '11', data: { label: 'Finish call' }, type: 'custom', animated: true },
+
+  { id: 'e3-12', source: '3', target: '12', data: { label: 'General enquiry' }, type: 'custom', animated: true },
+  { id: 'e12-13', source: '12', target: '13', data: { label: 'Information available' }, type: 'custom', animated: true },
+  { id: 'e12-14', source: '12', target: '14', data: { label: 'Information unavailable' }, type: 'custom', animated: true }
 ];

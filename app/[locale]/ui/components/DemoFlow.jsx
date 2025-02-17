@@ -1,19 +1,15 @@
-// File: DemoFlow.jsx
 'use client';
 
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { ReactFlowProvider, useReactFlow } from 'reactflow';
 import dynamic from 'next/dynamic';
 
-// 1) Dynamically import your production FlowEditor
 const ConversationFlowEditor = dynamic(
   () => import('./FlowEditor'),
   { ssr: false }
 );
 
-/** 
- * 2) The full multi-step sequence 
- */
+//Original demo for Receptionist Inbound Call
 const demoSequence = [
   {
     nodeId: '1',
@@ -46,12 +42,41 @@ const demoSequence = [
   }
 ];
 
-/**
- * 3) The "useFlowDemo" hook: manages timed steps, 
- * highlights, and offsets.
- */
+//Demo for QOF Vaccination Call
+// const demoSequence = [
+//   {
+//     nodeId: '1',
+//     duration: 2710,  // 4210 - 1500 transition time
+//     pathToNext: { edgeId: 'e1-2', duration: 1500 }
+//   },
+//   {
+//     nodeId: '2',
+//     duration: 6590,  // 8090 - 1500 transition time
+//     pathToNext: { edgeId: 'e2-3', duration: 1500 }
+//   },
+//   {
+//     nodeId: '3',
+//     duration: 8120,  // 8120 - 1500 transition time
+//     pathToNext: { edgeId: 'e3-5', duration: 1500 }
+//   },
+//   {
+//     nodeId: '5',
+//     duration: 10470,  // Brief question about vaccines
+//     pathToNext: { edgeId: 'e5-4', duration: 1500 }
+//   },
+//   {
+//     nodeId: '4',
+//     duration: 2660,  // 4160 - 1500 transition time
+//     pathToNext: { edgeId: 'e4-7', duration: 1500 }
+//   },
+//   {
+//     nodeId: '7',
+//     duration: 3500  // Final node, no transition needed
+//   }
+// ];
+
 function useFlowDemo(sequence) {
-  const { getNode, getViewport, setViewport } = useReactFlow();
+  const { getNode, setViewport } = useReactFlow();
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [activeNodeId, setActiveNodeId] = useState(null);
@@ -60,7 +85,6 @@ function useFlowDemo(sequence) {
 
   const timeoutRef = useRef(null);
 
-  // Clear timeouts on unmount
   const clearAllTimeouts = useCallback(() => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
@@ -70,33 +94,6 @@ function useFlowDemo(sequence) {
 
   useEffect(() => () => clearAllTimeouts(), [clearAllTimeouts]);
 
-  // 4) Center on node with offsets for the sidebar
-  const centerOnNode = useCallback((nodeId) => {
-    const node = getNode(nodeId);
-    if (!node) return;
-
-    // Example logic adjusting for a ~272px sidebar
-    const sidebarOffset = 272 / 2;
-    const adjustedX = node.position.x + sidebarOffset;
-
-    // Choose a zoom level
-    const zoomLevel = 0.75;
-
-    // Shift slightly up/left so the node is more central
-    const xOffset = -window.innerWidth * 0.2;
-    const yOffset = -window.innerHeight * 0.15;
-
-    setViewport(
-      {
-        x: -adjustedX * zoomLevel + window.innerWidth / 2 + xOffset,
-        y: -node.position.y * zoomLevel + window.innerHeight / 2 + yOffset,
-        zoom: zoomLevel
-      },
-      { duration: 1200 }
-    );
-  }, [getNode, getViewport, setViewport]);
-
-  // 5) Step through the sequence
   const processStep = useCallback(
     (index) => {
       if (index >= sequence.length) {
@@ -108,33 +105,40 @@ function useFlowDemo(sequence) {
 
       setCurrentStepIndex(index);
       const step = sequence[index];
-
-      centerOnNode(step.nodeId);
-
-      // Delay before highlighting the node
-      timeoutRef.current = setTimeout(() => {
+      const node = getNode(step.nodeId);
+      
+      if (node) {
+        setViewport(
+          {
+            x: -node.position.x + (window.innerWidth / 2) - 210,
+            y: -node.position.y + (window.innerHeight / 2) - 160,
+            zoom: 0.8
+          },
+          {
+            duration: 1000,
+            easing: (t) => t * (2 - t)
+          }
+        );
+        
         setActiveNodeId(step.nodeId);
 
         if (step.pathToNext) {
-          // After node highlight, highlight the edge
           timeoutRef.current = setTimeout(() => {
             setActivePathId(step.pathToNext.edgeId);
 
-            // Then move on
             timeoutRef.current = setTimeout(() => {
               setActivePathId(null);
               processStep(index + 1);
             }, step.pathToNext.duration);
           }, step.duration);
         } else {
-          // No path? Move directly on
           timeoutRef.current = setTimeout(() => {
             processStep(index + 1);
           }, step.duration);
         }
-      }, 300);
+      }
     },
-    [centerOnNode, sequence]
+    [getNode, sequence, setViewport]
   );
 
   const startDemo = useCallback(() => {
@@ -163,9 +167,6 @@ function useFlowDemo(sequence) {
   };
 }
 
-/**
- * 6) The DemoFlow component with Start/Stop buttons
- */
 export default function DemoFlow() {
   return (
     <div className="min-h-screen bg-black p-8">
@@ -186,7 +187,7 @@ function DemoContainer() {
   } = useFlowDemo(demoSequence);
 
   return (
-    <>
+    <div>
       <h2 className="text-2xl font-semibold mb-4 text-white">
         Conversation Flow Editor Demo
       </h2>
@@ -212,6 +213,6 @@ function DemoContainer() {
         activeNodeId={activeNodeId}
         activePathId={activePathId}
       />
-    </>
+    </div>
   );
 }
