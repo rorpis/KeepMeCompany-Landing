@@ -5,11 +5,12 @@ const TreeOverview = () => {
     {
       src: "/videos-and-audios/DemoVaccinesQOF.mp4",
       title: "Boost your QOF points (VI001) with scalable outreach"
-    },
-    {
-      src: "/videos-and-audios/DemoVaccinesQOF.mp4",
-      title: "Boost your QOF points with scalable outreach2"
     }
+    // ,
+    // {
+    //   src: "/videos-and-audios/DemoVaccinesQOF.mp4",
+    //   title: "Boost your QOF points with scalable outreach2"
+    // }
   ];
 
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
