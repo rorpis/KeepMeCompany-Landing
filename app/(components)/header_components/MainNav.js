@@ -17,7 +17,15 @@ const NavLink = ({ href, children, isHovered, isScrolled }) => (
 );
 
 // Services dropdown wrapper component
-const ServicesDropdownWrapper = ({ isHovered, isScrolled, isServicesOpen, setIsServicesOpen, t, getServices }) => (
+const ServicesDropdownWrapper = ({ 
+  isHovered, 
+  isScrolled, 
+  isServicesOpen, 
+  setIsServicesOpen, 
+  t, 
+  getServices,
+  isCollapsed
+}) => (
   <div className="relative">
     <div
       onMouseEnter={() => setIsServicesOpen(true)}
@@ -35,7 +43,8 @@ const ServicesDropdownWrapper = ({ isHovered, isScrolled, isServicesOpen, setIsS
       {isServicesOpen && <div className="absolute top-full left-0 w-full h-4" />}
     </div>
 
-    {isServicesOpen && (
+    {/* Simply add !isCollapsed condition here */}
+    {isServicesOpen && !isCollapsed && (
       <div 
         className="absolute top-[calc(100%+1rem)] left-0 z-50"
         onMouseEnter={() => setIsServicesOpen(true)}
@@ -56,7 +65,8 @@ const ElegantCountrySelector = ({
   isSelectOpen,
   setIsSelectOpen,
   isHovered,
-  isScrolled
+  isScrolled,
+  isCollapsed
 }) => {
   const selectCountry = (countryCode) => {
     handleCountryChange(countryCode);
@@ -80,8 +90,8 @@ const ElegantCountrySelector = ({
         />
       </button>
       
-      {/* Elegant Dropdown */}
-      {isSelectOpen && (
+      {/* Simply add !isCollapsed condition here */}
+      {isSelectOpen && !isCollapsed && (
         <div className="absolute top-full right-0 bg-[rgba(23,23,23,0.95)] rounded-lg p-2 mt-2 min-w-[200px] shadow-lg backdrop-blur-md z-50">
           <div className="text-xs text-gray-400 px-2 py-1 border-b border-gray-700 mb-2">
             Select Country
@@ -123,12 +133,17 @@ export const MainNav = ({
   handleCountryChange,
   t,
   COUNTRIES,
-  getServices
+  getServices,
+  isCollapsed // Simply accept the isCollapsed prop
 }) => {
   return (
     <nav className="hidden md:flex w-full items-center">
       {/* Center - Navigation Items with auto margins */}
       <div className="flex gap-8 items-center mx-auto">
+        <NavLink href={`/${locale}/pricing`} isHovered={isHovered} isScrolled={isScrolled}>
+          {t('common.header.pricing')}
+        </NavLink>
+        
         <ServicesDropdownWrapper 
           isHovered={isHovered}
           isScrolled={isScrolled}
@@ -136,11 +151,8 @@ export const MainNav = ({
           setIsServicesOpen={setIsServicesOpen}
           t={t}
           getServices={getServices}
+          isCollapsed={isCollapsed} // Pass isCollapsed to the dropdown wrapper
         />
-
-        <NavLink href={`/${locale}/pricing`} isHovered={isHovered} isScrolled={isScrolled}>
-          {t('common.header.pricing')}
-        </NavLink>
 
         <NavLink href={`/${locale}/contact-sales`} isHovered={isHovered} isScrolled={isScrolled}>
           {t('common.header.contactSales')}
@@ -158,11 +170,12 @@ export const MainNav = ({
           t={t}
           isHovered={isHovered}
           isScrolled={isScrolled}
+          isCollapsed={isCollapsed} // Pass isCollapsed to the country selector
         />
 
         <a 
           href="https://app.keepmecompanyai.com" 
-          className="bg-white text-black px-6 py-2 rounded-full font-bold text-[0.9rem] transition-transform duration-100 hover:scale-104 inline-flex items-center"
+          className="bg-white text-black px-6 py-2 rounded-full font-bold text-[0.9rem] transition-transform duration-300 hover:scale-104 inline-flex items-center"
           target="_blank"
           rel="noopener noreferrer"
         >

@@ -37,7 +37,7 @@ export const chapters = [
   },
   {
     title: "Ongoing care (QOF)",
-    subtitle: "Massive calls to help you reach your Quality of Outcomes Framework",
+    subtitle: "Massive calls to help you reach your Quality Outcomes Framework",
     problem: "Today, there's 259 points (£56.980/yr for a 10.000 patient practice) in tasks that require bringing patients to the consult (vaccination campaigns) or gathering information over the phone. These equal to ~8.000 calls you need to make over the year to achieve those points. It's hard and tedious.",
     solution: "You can call hundreds of patients in a single day to get the information you need or to invite them to the consult, boosting dramatically your compliance with the QOF with minimal effort.",
     benefits: "Increased revenue for your practice. For every £1 you spend you get £8 equivalent to the points in the QOF.",
