@@ -14,6 +14,10 @@ export const ServicesDropdown = ({
       router.push('/public-care');
     };
 
+    const handlePrivateCareClick = () => {
+      router.push('/private-care');
+    };
+
     return (
       <div className={`bg-[rgb(23,23,23)] rounded-lg p-6 shadow-lg min-w-[480px] ${className}`}>
         <div className="space-y-8">
@@ -47,7 +51,10 @@ export const ServicesDropdown = ({
           {/* Private Care Section */}
           <div className="flex">
             <div className="w-32">
-              <h3 className="text-white text-sm font-medium">
+              <h3 
+                className="text-white text-sm font-medium cursor-pointer hover:text-gray-300"
+                onClick={handlePrivateCareClick}
+              >
                 {t('common.header.services.privateCare.title')}
               </h3>
             </div>
@@ -57,6 +64,7 @@ export const ServicesDropdown = ({
                 <div
                   key={index}
                   className="text-gray-400 text-sm hover:text-white cursor-pointer group"
+                  onClick={handlePrivateCareClick}
                 >
                   <span className="relative py-1 inline-block">
                     {service}

@@ -21,6 +21,8 @@ const Header = ({ locale }) => {
   const [isServicesOpen, setIsServicesOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobileServicesOpen, setIsMobileServicesOpen] = useState(false);
+  // Add a state to control content visibility
+  const [contentVisible, setContentVisible] = useState(true);
   const router = useRouter();
   const { t } = useTranslations();
 
@@ -30,9 +32,32 @@ const Header = ({ locale }) => {
     return Array.isArray(result) ? result : [];
   };
 
+  // Handle transition timing
+  useEffect(() => {
+    const shouldBeCollapsed = isScrolled && !isHovered;
+    let timer;
+    
+    if (shouldBeCollapsed) {
+      // First hide content, then collapse
+      setContentVisible(false);
+    } else {
+      // First expand, then show content
+      if (isScrolled) {
+        // Only manage content visibility when scrolled
+        timer = setTimeout(() => {
+          setContentVisible(true);
+        }, 250); // Delayed to match expansion timing
+      } else {
+        setContentVisible(true);
+      }
+    }
+    
+    return () => clearTimeout(timer);
+  }, [isScrolled, isHovered]);
+
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 0);
+      setIsScrolled(window.scrollY > 20);
     };
     window.addEventListener('scroll', handleScroll);
     handleScroll();
@@ -69,6 +94,9 @@ const Header = ({ locale }) => {
     country => country.locale === locale
   ) || COUNTRIES.UK;
 
+  // Combined state for the header - collapsed when scrolled and not hovered
+  const isCollapsed = isScrolled && !isHovered;
+
   const sharedProps = {
     isHovered,
     isScrolled,
@@ -79,38 +107,80 @@ const Header = ({ locale }) => {
     handleCountryChange,
     t,
     COUNTRIES,
-    getServices
+    getServices,
+    isCollapsed  // Simply pass the isCollapsed state to child components
   };
 
   return (
     <header 
-      className={`fixed top-0 left-0 right-0 flex justify-between items-center px-8 h-[8vh] transition-all duration-300 z-50
-        ${isHovered || isScrolled ? 'bg-[rgba(23,23,23,0.85)]' : 'bg-transparent'}`}
+      className={`fixed transition-all duration-700 ease-in-out z-50 flex items-center
+        ${isHovered || isScrolled ? 'bg-[#1e1e1e]' : 'bg-transparent'}
+        ${isCollapsed 
+          ? 'w-[40%] left-1/2 -translate-x-1/2 top-2 rounded-full h-[6vh] border border-white/30' 
+          : 'w-full left-0 top-0 h-[8vh]'}
+      `}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <Link 
-        href="/" 
-        className={`text-[2.0rem] transition-colors duration-300 cursor-pointer
-          ${isHovered || isScrolled ? 'text-white' : 'text-gray-400'}
-          ${handwriting.className}`}
-      >
-        <span className="inline-block">KeepmeCompany</span>
-      </Link>
+      {/* Collapsed state - absolutely positioned elements with consistent styling */}
+      <div className={`absolute inset-0 flex justify-between items-center transition-opacity duration-300 ease-in-out
+                      ${isCollapsed ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+        <div className="flex justify-between items-center w-full px-8">
+          <Link 
+            href="/" 
+            className={`text-white ${handwriting.className}`}
+            style={{ fontSize: '2rem' }}
+          >
+            KC
+          </Link>
+          
+          <button
+            className="relative text-[0.9rem] py-2 transition-colors duration-300 group flex items-center text-white"
+          >
+            {t('common.header.services.title')}
+            <span className="absolute bottom-0 left-0 w-0 h-px bg-white transition-all duration-300 group-hover:w-full" />
+          </button>
+          
+          {/* Using text styling to match Services for visual balance */}
+          <a 
+            href="https://app.keepmecompanyai.com" 
+            className="relative text-[0.9rem] py-2 transition-colors duration-300 group flex items-center text-white"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Platform
+            <span className="absolute bottom-0 left-0 w-0 h-px bg-white transition-all duration-300 group-hover:w-full" />
+          </a>
+        </div>
+      </div>
       
-      <MainNav 
-        {...sharedProps}
-        isServicesOpen={isServicesOpen}
-        setIsServicesOpen={setIsServicesOpen}
-      />
-      
-      <MobileNavigation 
-        {...sharedProps}
-        isMobileMenuOpen={isMobileMenuOpen}
-        setIsMobileMenuOpen={setIsMobileMenuOpen}
-        isMobileServicesOpen={isMobileServicesOpen}
-        setIsMobileServicesOpen={setIsMobileServicesOpen}
-      />
+      {/* Original uncollapsed state */}
+      <div className={`w-full flex justify-between items-center px-8 transition-opacity duration-500 ease-in-out
+                       ${contentVisible && !isCollapsed ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+        <Link 
+          href="/" 
+          className={`transition-colors duration-300 cursor-pointer
+            ${isHovered || isScrolled ? 'text-white' : 'text-gray-400'}
+            ${handwriting.className}`}
+          style={{ fontSize: '2rem' }}
+        >
+          KeepmeCompany
+        </Link>
+        
+        <MainNav 
+          {...sharedProps}
+          isServicesOpen={isServicesOpen}
+          setIsServicesOpen={setIsServicesOpen}
+        />
+        
+        <MobileNavigation 
+          {...sharedProps}
+          isMobileMenuOpen={isMobileMenuOpen}
+          setIsMobileMenuOpen={setIsMobileMenuOpen}
+          isMobileServicesOpen={isMobileServicesOpen}
+          setIsMobileServicesOpen={setIsMobileServicesOpen}
+        />
+      </div>
     </header>
   );
 };
