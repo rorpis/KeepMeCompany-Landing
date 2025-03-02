@@ -4,12 +4,13 @@ import React from 'react';
 import Link from 'next/link';
 import ServicesDropdown from './ServicesDropdown';
 
-// Reusable NavLink component
-const NavLink = ({ href, children, isHovered, isScrolled }) => (
+// Reusable NavLink component with fade-in animation
+const NavLink = ({ href, children, isHovered, isScrolled, contentVisible }) => (
   <Link 
     href={href} 
-    className={`relative text-[0.9rem] py-2 transition-colors duration-300 group
-      ${isHovered || isScrolled ? 'text-white' : 'text-gray-400'}`}
+    className={`relative text-[0.9rem] py-2 transition-all duration-300 group
+      ${isHovered || isScrolled ? 'text-white' : 'text-gray-400'}
+      ${contentVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}
   >
     {children}
     <span className="absolute bottom-0 left-0 w-0 h-px bg-white transition-all duration-300 group-hover:w-full" />
@@ -24,17 +25,19 @@ const ServicesDropdownWrapper = ({
   setIsServicesOpen, 
   t, 
   getServices,
-  isCollapsed
+  isCollapsed,
+  contentVisible,
+  canOpenDropdowns
 }) => (
   <div className="relative">
     <div
-      onMouseEnter={() => setIsServicesOpen(true)}
+      onMouseEnter={() => canOpenDropdowns && setIsServicesOpen(true)}
       onMouseLeave={() => setIsServicesOpen(false)}
     >
       <button
-        className={`relative text-[0.9rem] py-2 transition-colors duration-300 group flex items-center ${
-          isHovered || isScrolled ? 'text-white' : 'text-gray-400'
-        }`}
+        className={`relative text-[0.9rem] py-2 transition-all duration-300 group flex items-center 
+          ${isHovered || isScrolled ? 'text-white' : 'text-gray-400'}
+          ${contentVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}
       >
         {t('common.header.services.title')}
         <span className="absolute bottom-0 left-0 w-0 h-px bg-white transition-all duration-300 group-hover:w-full" />
@@ -43,11 +46,11 @@ const ServicesDropdownWrapper = ({
       {isServicesOpen && <div className="absolute top-full left-0 w-full h-4" />}
     </div>
 
-    {/* Simply add !isCollapsed condition here */}
-    {isServicesOpen && !isCollapsed && (
+    {/* Only show dropdown when fully uncollapsed and content is visible */}
+    {isServicesOpen && canOpenDropdowns && (
       <div 
-        className="absolute top-[calc(100%+1rem)] left-0 z-50"
-        onMouseEnter={() => setIsServicesOpen(true)}
+        className="absolute top-[calc(100%+1rem)] left-0 z-50 transition-opacity duration-300"
+        onMouseEnter={() => canOpenDropdowns && setIsServicesOpen(true)}
         onMouseLeave={() => setIsServicesOpen(false)}
       >
         <ServicesDropdown t={t} getServices={getServices} />
@@ -56,7 +59,7 @@ const ServicesDropdownWrapper = ({
   </div>
 );
 
-// Elegant Country Selector
+// Elegant Country Selector with animation
 const ElegantCountrySelector = ({ 
   currentCountry, 
   COUNTRIES, 
@@ -66,7 +69,8 @@ const ElegantCountrySelector = ({
   setIsSelectOpen,
   isHovered,
   isScrolled,
-  isCollapsed
+  contentVisible,
+  canOpenDropdowns
 }) => {
   const selectCountry = (countryCode) => {
     handleCountryChange(countryCode);
@@ -75,10 +79,11 @@ const ElegantCountrySelector = ({
 
   return (
     <div className="relative">
-      {/* Minimalist Trigger */}
+      {/* Minimalist Trigger with fade-in */}
       <button
-        onClick={() => setIsSelectOpen(!isSelectOpen)}
-        className="bg-transparent border-none cursor-pointer p-2 flex items-center transition-transform duration-200 hover:scale-110"
+        onClick={() => canOpenDropdowns && setIsSelectOpen(!isSelectOpen)}
+        className={`bg-transparent border-none cursor-pointer p-2 flex items-center transition-all duration-300 hover:scale-110
+          ${contentVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}
         aria-label={t('common.header.languageSelector')}
       >
         <img 
@@ -90,9 +95,9 @@ const ElegantCountrySelector = ({
         />
       </button>
       
-      {/* Simply add !isCollapsed condition here */}
-      {isSelectOpen && !isCollapsed && (
-        <div className="absolute top-full right-0 bg-[rgba(23,23,23,0.95)] rounded-lg p-2 mt-2 min-w-[200px] shadow-lg backdrop-blur-md z-50">
+      {/* Only show dropdown when fully uncollapsed and content is visible */}
+      {isSelectOpen && canOpenDropdowns && (
+        <div className="absolute top-full right-0 bg-[rgba(23,23,23,0.95)] rounded-lg p-2 mt-2 min-w-[200px] shadow-lg backdrop-blur-md z-50 transition-opacity duration-300">
           <div className="text-xs text-gray-400 px-2 py-1 border-b border-gray-700 mb-2">
             Select Country
           </div>
@@ -134,54 +139,58 @@ export const MainNav = ({
   t,
   COUNTRIES,
   getServices,
-  isCollapsed // Simply accept the isCollapsed prop
+  isCollapsed,
+  contentVisible,
+  canOpenDropdowns
 }) => {
+  // Staggered animation delays for each nav item
+  const navItemClasses = (index) => `
+    transition-all duration-300 delay-${index * 100}
+    ${contentVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}
+  `;
+
   return (
     <nav className="hidden md:flex w-full items-center">
       {/* Center - Navigation Items with auto margins */}
       <div className="flex gap-8 items-center mx-auto">
-        <NavLink href={`/${locale}/pricing`} isHovered={isHovered} isScrolled={isScrolled}>
-          {t('common.header.pricing')}
-        </NavLink>
+        <div className={navItemClasses(0)}>
+          <NavLink 
+            href={`/${locale}/pricing`} 
+            isHovered={isHovered} 
+            isScrolled={isScrolled}
+            contentVisible={contentVisible}
+          >
+            {t('common.header.pricing')}
+          </NavLink>
+        </div>
         
-        <ServicesDropdownWrapper 
-          isHovered={isHovered}
-          isScrolled={isScrolled}
-          isServicesOpen={isServicesOpen}
-          setIsServicesOpen={setIsServicesOpen}
-          t={t}
-          getServices={getServices}
-          isCollapsed={isCollapsed} // Pass isCollapsed to the dropdown wrapper
-        />
+        <div className={navItemClasses(1)}>
+          <ServicesDropdownWrapper 
+            isHovered={isHovered}
+            isScrolled={isScrolled}
+            isServicesOpen={isServicesOpen}
+            setIsServicesOpen={setIsServicesOpen}
+            t={t}
+            getServices={getServices}
+            isCollapsed={isCollapsed}
+            contentVisible={contentVisible}
+            canOpenDropdowns={canOpenDropdowns}
+          />
+        </div>
 
-        <NavLink href={`/${locale}/contact-sales`} isHovered={isHovered} isScrolled={isScrolled}>
-          {t('common.header.contactSales')}
-        </NavLink>
+        <div className={navItemClasses(2)}>
+          <NavLink 
+            href={`/${locale}/contact-sales`} 
+            isHovered={isHovered} 
+            isScrolled={isScrolled}
+            contentVisible={contentVisible}
+          >
+            {t('common.header.contactSales')}
+          </NavLink>
+        </div>
       </div>
-
-      {/* Right - Country Selector and CTA */}
-      <div className="flex items-center gap-4">
-        <ElegantCountrySelector 
-          isSelectOpen={isSelectOpen}
-          setIsSelectOpen={setIsSelectOpen}
-          currentCountry={currentCountry}
-          COUNTRIES={COUNTRIES}
-          handleCountryChange={handleCountryChange}
-          t={t}
-          isHovered={isHovered}
-          isScrolled={isScrolled}
-          isCollapsed={isCollapsed} // Pass isCollapsed to the country selector
-        />
-
-        <a 
-          href="https://app.keepmecompanyai.com" 
-          className="bg-white text-black px-6 py-2 rounded-full font-bold text-[0.9rem] transition-transform duration-300 hover:scale-104 inline-flex items-center"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {t('common.header.openPlatform')}
-        </a>
-      </div>
+      
+      {/* Remove the country selector from here as it's now in the Header component */}
     </nav>
   );
 };
